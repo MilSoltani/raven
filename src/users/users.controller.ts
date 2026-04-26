@@ -13,7 +13,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Prisma, User } from 'src/generated/prisma/client';
-import { ParseOrderByPipe } from 'src/common/pipes/parse-orderby.pipe';
+import { PrismaQueryPipe } from 'src/common/pipes/parse-where.pipe';
 
 @Controller('users')
 export class UsersController {
@@ -40,10 +40,13 @@ export class UsersController {
 
   @Get()
   findAll(
-    @Query('orderBy', ParseOrderByPipe)
-    orderBy: Prisma.UserOrderByWithRelationInput,
+    @Query('where', PrismaQueryPipe)
+    where?: Prisma.UserWhereInput,
+    @Query('orderBy', PrismaQueryPipe)
+    orderBy?: Prisma.UserOrderByWithRelationInput,
   ) {
     return this.usersService.findMany({
+      where,
       include: {
         assignedTickets: true,
         createdTickets: true,
