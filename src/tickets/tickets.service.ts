@@ -20,14 +20,16 @@ export class TicketsService {
     cursor?: Prisma.TicketWhereUniqueInput;
     where?: Prisma.TicketWhereInput;
     orderBy?: Prisma.TicketOrderByWithRelationInput;
+    include?: Prisma.TicketInclude;
   }): Promise<Ticket[]> {
-    const { skip, take, cursor, where, orderBy } = params;
+    const { skip, take, cursor, where, orderBy, include } = params;
     return this.prisma.ticket.findMany({
       skip,
       take,
       cursor,
       where,
       orderBy,
+      include,
     });
   }
 

@@ -37,7 +37,20 @@ export class TicketsController {
 
   @Get()
   findAll() {
-    return this.ticketsService.findMany({});
+    return this.ticketsService.findMany({
+      include: {
+        creator: {
+          omit: {
+            password: true,
+          },
+        },
+        agent: {
+          omit: {
+            password: true,
+          },
+        },
+      },
+    });
   }
 
   @Get(':id')

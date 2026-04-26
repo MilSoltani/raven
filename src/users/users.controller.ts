@@ -32,7 +32,12 @@ export class UsersController {
 
   @Get()
   findAll() {
-    return this.usersService.findMany({});
+    return this.usersService.findMany({
+      include: {
+        assignedTickets: true,
+        createdTickets: true,
+      },
+    });
   }
 
   @Get(':id')
