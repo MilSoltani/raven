@@ -7,11 +7,13 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Prisma, User } from 'src/generated/prisma/client';
+import { ParseOrderByPipe } from 'src/common/pipes/parse-orderby.pipe';
 
 @Controller('users')
 export class UsersController {
@@ -37,12 +39,16 @@ export class UsersController {
   }
 
   @Get()
-  findAll() {
+  findAll(
+    @Query('orderBy', ParseOrderByPipe)
+    orderBy: Prisma.UserOrderByWithRelationInput,
+  ) {
     return this.usersService.findMany({
       include: {
         assignedTickets: true,
         createdTickets: true,
       },
+      orderBy,
     });
   }
 
