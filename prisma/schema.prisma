@@ -1,0 +1,59 @@
+generator client {
+  provider        = "prisma-client"
+  output          = "../src/generated/prisma"
+  moduleFormat    = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        Int @id @default(autoincrement())
+  firstName String? @db.VarChar(100)
+  lastName  String? @db.VarChar(100)
+  username  String @unique @db.VarChar(50)
+  password  String? @db.VarChar(255)
+  email     String @unique @db.VarChar(255)
+  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime @default(now())
+
+  createdTickets Ticket[] @relation("TicketCreator")
+  assignedTickets Ticket[] @relation("TicketAgent")
+
+  @@index([username])
+}
+
+enum TicketStatus {
+  OPEN
+  PENDING
+  WORKING
+  RESOLVED
+  CLOSED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+model Ticket {
+  id          Int @id @default(autoincrement())
+  creatorId   Int
+  agentId     Int?
+  subject     String @db.VarChar(512)
+  description String @db.Text
+  status      TicketStatus @default(OPEN)
+  priority    TicketPriority @default(LOW)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  creator User @relation("TicketCreator", fields: [creatorId], references: [id])
+  agent   User? @relation("TicketAgent", fields: [agentId], references: [id])
+
+  @@index([creatorId])
+  @@index([agentId])
+  @@index([status])
+}
