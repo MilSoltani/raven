@@ -32,30 +32,34 @@ export class TicketsController {
         : undefined,
     };
 
-    return this.ticketsService.create(data);
+    return this.ticketsService.create({
+      data,
+      include: {
+        creator: { omit: { password: true } },
+        agent: { omit: { password: true } },
+      },
+    });
   }
 
   @Get()
   findAll() {
     return this.ticketsService.findMany({
       include: {
-        creator: {
-          omit: {
-            password: true,
-          },
-        },
-        agent: {
-          omit: {
-            password: true,
-          },
-        },
+        creator: { omit: { password: true } },
+        agent: { omit: { password: true } },
       },
     });
   }
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.ticketsService.findOne({ id });
+    return this.ticketsService.findOne({
+      where: { id },
+      include: {
+        creator: { omit: { password: true } },
+        agent: { omit: { password: true } },
+      },
+    });
   }
 
   @Patch(':id')
@@ -76,6 +80,10 @@ export class TicketsController {
     return this.ticketsService.update({
       where: { id },
       data,
+      include: {
+        creator: { omit: { password: true } },
+        agent: { omit: { password: true } },
+      },
     });
   }
 

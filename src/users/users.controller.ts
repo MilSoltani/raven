@@ -27,7 +27,13 @@ export class UsersController {
       password: createUserDto.password,
     };
 
-    return this.usersService.create(data);
+    return this.usersService.create({
+      data,
+      include: {
+        assignedTickets: true,
+        createdTickets: true,
+      },
+    });
   }
 
   @Get()
@@ -42,7 +48,13 @@ export class UsersController {
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.findOne({ id: +id });
+    return this.usersService.findOne({
+      userWhereUniqueInput: { id },
+      include: {
+        assignedTickets: true,
+        createdTickets: true,
+      },
+    });
   }
 
   @Patch(':id')
@@ -61,6 +73,10 @@ export class UsersController {
     return this.usersService.update({
       where: { id },
       data,
+      include: {
+        assignedTickets: true,
+        createdTickets: true,
+      },
     });
   }
 

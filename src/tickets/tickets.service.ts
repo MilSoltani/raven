@@ -6,11 +6,14 @@ import { PrismaService } from 'src/prisma.service';
 export class TicketsService {
   constructor(private prisma: PrismaService) {}
 
-  async findOne(
-    ticketWhereUniqueInput: Prisma.TicketWhereUniqueInput,
-  ): Promise<Ticket | null> {
+  async findOne(params: {
+    where: Prisma.TicketWhereUniqueInput;
+    include?: Prisma.TicketInclude;
+  }): Promise<Ticket | null> {
+    const { where, include } = params;
     return this.prisma.ticket.findUnique({
-      where: ticketWhereUniqueInput,
+      where,
+      include,
     });
   }
 
@@ -33,20 +36,27 @@ export class TicketsService {
     });
   }
 
-  async create(data: Prisma.TicketCreateInput): Promise<Ticket> {
+  async create(params: {
+    data: Prisma.TicketCreateInput;
+    include?: Prisma.TicketInclude;
+  }): Promise<Ticket> {
+    const { data, include } = params;
     return this.prisma.ticket.create({
       data,
+      include,
     });
   }
 
   async update(params: {
     where: Prisma.TicketWhereUniqueInput;
     data: Prisma.TicketUpdateInput;
+    include?: Prisma.TicketInclude;
   }): Promise<Ticket> {
-    const { where, data } = params;
+    const { where, data, include } = params;
     return this.prisma.ticket.update({
       data,
       where,
+      include,
     });
   }
 
