@@ -1,34 +1,73 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { TicketsService } from './tickets.service';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
+import { Prisma, Ticket } from 'src/generated/prisma/client';
 
 @Controller('tickets')
 export class TicketsController {
   constructor(private readonly ticketsService: TicketsService) {}
 
   @Post()
-  create(@Body() createTicketDto: CreateTicketDto) {
-    return this.ticketsService.create(createTicketDto);
+  create(@Body() createTicketDto: CreateTicketDto): Promise<Ticket> {
+    const data: Prisma.TicketCreateInput = {
+      subject: createTicketDto.subject,
+      description: createTicketDto.description,
+      status: createTicketDto.status,
+      priority: createTicketDto.priority,
+      creator: {
+        connect: { id: createTicketDto.creatorId },
+      },
+      agent: createTicketDto.agentId
+        ? { connect: { id: createTicketDto.agentId } }
+        : undefined,
+    };
+
+    return this.ticketsService.create(data);
   }
 
   @Get()
   findAll() {
-    return this.ticketsService.findAll();
+    return this.ticketsService.findMany({});
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.ticketsService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.ticketsService.findOne({ id });
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTicketDto: UpdateTicketDto) {
-    return this.ticketsService.update(+id, updateTicketDto);
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateTicketDto: UpdateTicketDto,
+  ): Promise<Ticket> {
+    const data: Prisma.TicketUpdateInput = {
+      subject: updateTicketDto.subject,
+      description: updateTicketDto.description,
+      status: updateTicketDto.status,
+      priority: updateTicketDto.priority,
+      agent: updateTicketDto.agentId
+        ? { connect: { id: updateTicketDto.agentId } }
+        : undefined,
+    };
+
+    return this.ticketsService.update({
+      where: { id },
+      data,
+    });
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ticketsService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.ticketsService.delete({ id });
   }
 }
