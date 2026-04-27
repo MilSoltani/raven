@@ -12,10 +12,13 @@ import {
 import { TicketsService } from './tickets.service';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
-import { Prisma, Ticket } from 'src/generated/prisma/client';
 import { ParseFilterPipe } from 'src/common/pipes/parse-filter.pipe';
 import { ParseSortPipe } from 'src/common/pipes/parse-sort.pipe';
 import { ParseIncludePipe } from 'src/common/pipes/parse-include.pipe';
+import {
+  Prisma,
+  Ticket,
+} from 'src/infrastructure/database/generated/prisma/client';
 
 @Controller('tickets')
 export class TicketsController {

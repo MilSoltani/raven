@@ -12,10 +12,13 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Prisma, User } from 'src/generated/prisma/client';
 import { ParseSortPipe } from 'src/common/pipes/parse-sort.pipe';
 import { ParseFilterPipe } from 'src/common/pipes/parse-filter.pipe';
 import { ParseIncludePipe } from 'src/common/pipes/parse-include.pipe';
+import {
+  Prisma,
+  User,
+} from 'src/infrastructure/database/generated/prisma/client';
 
 @Controller('users')
 export class UsersController {

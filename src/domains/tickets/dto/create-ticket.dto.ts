@@ -5,7 +5,10 @@ import {
   MaxLength,
   IsEnum,
 } from 'class-validator';
-import { TicketPriority, TicketStatus } from 'src/generated/prisma/enums';
+import {
+  TicketPriority,
+  TicketStatus,
+} from 'src/infrastructure/database/generated/prisma/enums';
 
 export class CreateTicketDto {
   @IsInt()
