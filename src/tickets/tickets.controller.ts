@@ -13,7 +13,7 @@ import { TicketsService } from './tickets.service';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { Prisma, Ticket } from 'src/generated/prisma/client';
-import { PrismaQueryPipe } from 'src/common/pipes/parse-where.pipe';
+import { ParseFilterPipe } from 'src/common/pipes/parse-filter.pipe';
 import { ParseSortPipe } from 'src/common/pipes/parse-sort.pipe';
 
 @Controller('tickets')
@@ -46,8 +46,23 @@ export class TicketsController {
 
   @Get()
   findAll(
-    @Query('where', PrismaQueryPipe)
-    where?: Prisma.TicketWhereInput,
+    @Query(
+      'filter',
+      new ParseFilterPipe({
+        allowedPaths: [
+          'createdAt',
+          'subject',
+          'status',
+          'priority',
+          'creator.username',
+          'creator.id',
+          'agent.username',
+          'agent.id',
+        ],
+        maxDepth: 3,
+      }),
+    )
+    filter: Prisma.TicketWhereInput,
     @Query(
       'sort',
       new ParseSortPipe({
@@ -63,7 +78,7 @@ export class TicketsController {
     sort?: Prisma.TicketOrderByWithRelationInput,
   ) {
     return this.ticketsService.findMany({
-      where,
+      where: filter,
       include: {
         creator: { omit: { password: true } },
         agent: { omit: { password: true } },
