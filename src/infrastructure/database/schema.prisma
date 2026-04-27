@@ -20,6 +20,7 @@ model User {
 
   createdTickets Ticket[] @relation("TicketCreator")
   assignedTickets Ticket[] @relation("TicketAgent")
+  sessions Session[] @relation("UserSessions")
 
   @@index([username])
 }
@@ -56,4 +57,26 @@ model Ticket {
   @@index([creatorId])
   @@index([agentId])
   @@index([status])
+}
+
+
+model Session {
+  id         String   @id @default(cuid())
+
+  userId     Int
+  user       User     @relation("UserSessions", fields: [userId], references: [id], onDelete: Cascade)
+
+  refreshTokenHash  String   @unique
+  familyId   String
+  revoked    Boolean  @default(false)
+  expiresAt  DateTime
+
+  userAgent  String?
+  ip         String?
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([userId, revoked])
+  @@index([expiresAt])
 }
