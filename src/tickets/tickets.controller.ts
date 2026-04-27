@@ -15,6 +15,7 @@ import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { Prisma, Ticket } from 'src/generated/prisma/client';
 import { ParseFilterPipe } from 'src/common/pipes/parse-filter.pipe';
 import { ParseSortPipe } from 'src/common/pipes/parse-sort.pipe';
+import { ParseIncludePipe } from 'src/common/pipes/parse-include.pipe';
 
 @Controller('tickets')
 export class TicketsController {
@@ -76,13 +77,18 @@ export class TicketsController {
       }),
     )
     sort?: Prisma.TicketOrderByWithRelationInput,
+    @Query(
+      'include',
+      new ParseIncludePipe({
+        creator: ['id', 'username'],
+        agent: ['id', 'username'],
+      }),
+    )
+    include?: Prisma.TicketInclude,
   ) {
     return this.ticketsService.findMany({
       where: filter,
-      include: {
-        creator: { omit: { password: true } },
-        agent: { omit: { password: true } },
-      },
+      include,
       orderBy: sort,
     });
   }

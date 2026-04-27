@@ -15,6 +15,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Prisma, User } from 'src/generated/prisma/client';
 import { ParseSortPipe } from 'src/common/pipes/parse-sort.pipe';
 import { ParseFilterPipe } from 'src/common/pipes/parse-filter.pipe';
+import { ParseIncludePipe } from 'src/common/pipes/parse-include.pipe';
 
 @Controller('users')
 export class UsersController {
@@ -57,13 +58,18 @@ export class UsersController {
       }),
     )
     sort?: Prisma.UserOrderByWithRelationInput,
+    @Query(
+      'include',
+      new ParseIncludePipe({
+        createdTickets: ['id', 'subject'],
+        assignedTickets: ['id', 'subject'],
+      }),
+    )
+    include?: Prisma.UserInclude,
   ) {
     return this.usersService.findMany({
       where: filter,
-      include: {
-        assignedTickets: true,
-        createdTickets: true,
-      },
+      include,
       orderBy: sort,
     });
   }
