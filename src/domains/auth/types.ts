@@ -9,7 +9,6 @@ export type TokenType = 'access' | 'refresh';
 export type CreateTokenPlan = {
   token: string;
   expiresIn: number;
-  familyId: string;
 };
 
 import { Request } from 'express';

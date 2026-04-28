@@ -15,18 +15,16 @@ export class AuthService {
 
   async validateUser(username: string, pass: string): Promise<AuthUser | null> {
     const user = await this.authUserService.findUserByUsername(username);
-    if (user === null) throw new UnauthorizedException();
+    if (user === null) return null;
 
     const isMatch = await bcrypt.compare(pass, user.password);
 
-    if (isMatch) {
-      return {
-        id: user.id,
-        username: user.username,
-      };
-    }
-
-    return null;
+    return isMatch
+      ? {
+          id: user.id,
+          username: user.username,
+        }
+      : null;
   }
 
   issueTokens(user: AuthUser) {

@@ -12,25 +12,25 @@ export class TokenService {
   ) {}
 
   createAccessToken(user: AuthUser): CreateTokenPlan {
-    const { secret, expiresIn, familyId } = this.getTokenConfig('access');
+    const { secret, expiresIn } = this.getTokenConfig('access');
 
     const token = this.jwtService.sign(
       { username: user.username, sub: user.id },
       { secret, expiresIn },
     );
 
-    return { token, expiresIn, familyId };
+    return { token, expiresIn };
   }
 
   createRefreshToken(user: AuthUser): CreateTokenPlan {
-    const { secret, expiresIn, familyId } = this.getTokenConfig('refresh');
+    const { secret, expiresIn } = this.getTokenConfig('refresh');
 
     const token = this.jwtService.sign(
       { username: user.username, sub: user.id },
       { secret, expiresIn },
     );
 
-    return { token, expiresIn, familyId };
+    return { token, expiresIn };
   }
 
   getTokenConfig(tokenType: TokenType) {

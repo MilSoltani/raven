@@ -11,6 +11,8 @@ import { AuthController } from './auth.controller';
 import { SessionsService } from './sessions.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { RefreshAuthGuard } from './guards/refresh.guard';
+import { RefreshTokenStrategy } from './strategies/refresh.strategie';
 
 @Module({
   imports: [
@@ -44,6 +46,8 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     JwtService,
     SessionsService,
     JwtStrategy,
+    RefreshAuthGuard,
+    RefreshTokenStrategy,
   ],
   controllers: [AuthController],
 })
