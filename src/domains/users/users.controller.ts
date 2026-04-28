@@ -31,7 +31,6 @@ export class UsersController {
       firstName: createUserDto.firstName,
       lastName: createUserDto.lastName,
       username: createUserDto.username,
-      password: createUserDto.password,
     };
 
     return this.usersService.create({
@@ -98,7 +97,6 @@ export class UsersController {
       firstName: updateUserDto.firstName,
       lastName: updateUserDto.lastName,
       username: updateUserDto.username,
-      password: updateUserDto.password,
     };
 
     return this.usersService.update({

@@ -5,20 +5,26 @@ import {
   Res,
   Req,
   UnauthorizedException,
+  Body,
 } from '@nestjs/common';
 import type { Response } from 'express';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { ConfigService } from '@nestjs/config';
-import { type AuthRequest } from './types';
+import { AuthUser, type AuthRequest } from './types';
 import { SessionsService } from './sessions.service';
 import { RefreshAuthGuard } from './guards/refresh.guard';
 import { JwtService } from '@nestjs/jwt';
+import { SignUpDto } from './dto/signup.dto';
+import { Prisma } from 'src/infrastructure/database/generated/prisma/client';
+import { AuthUserService } from './auth-user.service';
+import bcryptjs from 'bcryptjs';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
+    private readonly authUserService: AuthUserService,
     private readonly configService: ConfigService,
     private readonly sessionsService: SessionsService,
     private jwtService: JwtService,
@@ -126,5 +132,20 @@ export class AuthController {
     });
 
     return { message: 'Refresh successful' };
+  }
+
+  @Post('signup')
+  async create(@Body() signupdto: SignUpDto): Promise<AuthUser> {
+    const hashedPassword = await bcryptjs.hash(signupdto.password, 12);
+
+    const data: Prisma.UserCreateInput = {
+      email: signupdto.email,
+      firstName: signupdto.firstName,
+      lastName: signupdto.lastName,
+      username: signupdto.username,
+      password: hashedPassword,
+    };
+
+    return this.authUserService.create({ data });
   }
 }

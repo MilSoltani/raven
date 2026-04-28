@@ -64,3 +64,6 @@ src/infrastructure/database/migrations/
 
 # vscode rest client file
 requests.http
+
+# notes
+todo.md
