@@ -14,18 +14,29 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ParseSortPipe } from 'src/common/pipes/parse-sort.pipe';
 import { ParseFilterPipe } from 'src/common/pipes/parse-filter.pipe';
-import { ParseIncludePipe } from 'src/common/pipes/parse-include.pipe';
+import { ParseIncludeQueryPipe } from 'src/common/pipes/parse-include-query.pipe';
 import {
   Prisma,
   User,
 } from 'src/infrastructure/database/generated/prisma/client';
+import { ParseIncludeBodyPipe } from 'src/common/pipes/parse-include-body.pipe';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto): Promise<User> {
+  create(
+    @Body() createUserDto: CreateUserDto,
+    @Body(
+      'include',
+      new ParseIncludeBodyPipe({
+        createdTickets: ['id', 'subject'],
+        assignedTickets: ['id', 'subject'],
+      }),
+    )
+    include?: Prisma.UserInclude,
+  ): Promise<User> {
     const data: Prisma.UserCreateInput = {
       email: createUserDto.email,
       firstName: createUserDto.firstName,
@@ -35,10 +46,7 @@ export class UsersController {
 
     return this.usersService.create({
       data,
-      include: {
-        assignedTickets: true,
-        createdTickets: true,
-      },
+      include,
     });
   }
 
@@ -62,7 +70,7 @@ export class UsersController {
     sort?: Prisma.UserOrderByWithRelationInput,
     @Query(
       'include',
-      new ParseIncludePipe({
+      new ParseIncludeQueryPipe({
         createdTickets: ['id', 'subject'],
         assignedTickets: ['id', 'subject'],
       }),
@@ -77,20 +85,35 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  findOne(
+    @Param('id', ParseIntPipe) id: number,
+    @Query(
+      'include',
+      new ParseIncludeBodyPipe({
+        createdTickets: ['id', 'subject'],
+        assignedTickets: ['id', 'subject'],
+      }),
+    )
+    include?: Prisma.UserInclude,
+  ) {
     return this.usersService.findOne({
       userWhereUniqueInput: { id },
-      include: {
-        assignedTickets: true,
-        createdTickets: true,
-      },
+      include,
     });
   }
 
   @Patch(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateUserDto: UpdateUserDto,
+    @Body('data') updateUserDto: UpdateUserDto,
+    @Body(
+      'include',
+      new ParseIncludeBodyPipe({
+        createdTickets: ['id', 'subject'],
+        assignedTickets: ['id', 'subject'],
+      }),
+    )
+    include?: Prisma.UserInclude,
   ): Promise<User> {
     const data: Prisma.UserUpdateInput = {
       email: updateUserDto.email,
@@ -102,10 +125,7 @@ export class UsersController {
     return this.usersService.update({
       where: { id },
       data,
-      include: {
-        assignedTickets: true,
-        createdTickets: true,
-      },
+      include,
     });
   }
 

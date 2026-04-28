@@ -5,7 +5,7 @@ type AllowedRelations = Record<string, readonly string[]>;
 type PrismaInclude = Record<string, { select: Record<string, true> }>;
 
 @Injectable()
-export class ParseIncludePipe implements PipeTransform {
+export class ParseIncludeQueryPipe implements PipeTransform {
   private allowedRelations: AllowedRelations;
 
   constructor(allowedRelations: AllowedRelations) {

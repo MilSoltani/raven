@@ -14,18 +14,29 @@ import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { ParseFilterPipe } from 'src/common/pipes/parse-filter.pipe';
 import { ParseSortPipe } from 'src/common/pipes/parse-sort.pipe';
-import { ParseIncludePipe } from 'src/common/pipes/parse-include.pipe';
+import { ParseIncludeQueryPipe } from 'src/common/pipes/parse-include-query.pipe';
 import {
   Prisma,
   Ticket,
 } from 'src/infrastructure/database/generated/prisma/client';
+import { ParseIncludeBodyPipe } from 'src/common/pipes/parse-include-body.pipe';
 
 @Controller('tickets')
 export class TicketsController {
   constructor(private readonly ticketsService: TicketsService) {}
 
   @Post()
-  create(@Body() createTicketDto: CreateTicketDto): Promise<Ticket> {
+  create(
+    @Body('data') createTicketDto: CreateTicketDto,
+    @Body(
+      'include',
+      new ParseIncludeBodyPipe({
+        creator: ['id', 'username'],
+        agent: ['id', 'username'],
+      }),
+    )
+    include?: Prisma.TicketInclude,
+  ): Promise<Ticket> {
     const data: Prisma.TicketCreateInput = {
       subject: createTicketDto.subject,
       description: createTicketDto.description,
@@ -41,10 +52,7 @@ export class TicketsController {
 
     return this.ticketsService.create({
       data,
-      include: {
-        creator: { omit: { password: true } },
-        agent: { omit: { password: true } },
-      },
+      include,
     });
   }
 
@@ -82,7 +90,7 @@ export class TicketsController {
     sort?: Prisma.TicketOrderByWithRelationInput,
     @Query(
       'include',
-      new ParseIncludePipe({
+      new ParseIncludeQueryPipe({
         creator: ['id', 'username'],
         agent: ['id', 'username'],
       }),
@@ -97,20 +105,35 @@ export class TicketsController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  findOne(
+    @Param('id', ParseIntPipe) id: number,
+    @Query(
+      'include',
+      new ParseIncludeBodyPipe({
+        creator: ['id', 'username'],
+        agent: ['id', 'username'],
+      }),
+    )
+    include?: Prisma.TicketInclude,
+  ) {
     return this.ticketsService.findOne({
       where: { id },
-      include: {
-        creator: { omit: { password: true } },
-        agent: { omit: { password: true } },
-      },
+      include,
     });
   }
 
   @Patch(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateTicketDto: UpdateTicketDto,
+    @Body('data') updateTicketDto: UpdateTicketDto,
+    @Body(
+      'include',
+      new ParseIncludeBodyPipe({
+        creator: ['id', 'username'],
+        agent: ['id', 'username'],
+      }),
+    )
+    include?: Prisma.TicketInclude,
   ): Promise<Ticket> {
     const data: Prisma.TicketUpdateInput = {
       subject: updateTicketDto.subject,
@@ -125,10 +148,7 @@ export class TicketsController {
     return this.ticketsService.update({
       where: { id },
       data,
-      include: {
-        creator: { omit: { password: true } },
-        agent: { omit: { password: true } },
-      },
+      include,
     });
   }
 
