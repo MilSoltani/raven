@@ -85,4 +85,11 @@ export class SessionsService {
 
     return newSession;
   }
+
+  async revoke(sessionId: number) {
+    return await this.prismaService.session.update({
+      where: { id: sessionId },
+      data: { revoked: true },
+    });
+  }
 }

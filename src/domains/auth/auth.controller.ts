@@ -63,7 +63,7 @@ export class AuthController {
       httpOnly: true,
       secure,
       sameSite: 'strict',
-      path: '/auth/refresh',
+      path: '/auth',
       maxAge: refresh.expiresIn,
       priority: 'high',
     });
@@ -126,7 +126,7 @@ export class AuthController {
       httpOnly: true,
       secure,
       sameSite: 'strict',
-      path: '/auth/refresh',
+      path: '/auth',
       maxAge: refresh.expiresIn,
       priority: 'high',
     });
@@ -135,7 +135,11 @@ export class AuthController {
   }
 
   @Post('signup')
-  async create(@Body() signupdto: SignUpDto): Promise<AuthUser> {
+  async create(
+    @Req() req: AuthRequest,
+    @Res({ passthrough: true }) res: Response,
+    @Body() signupdto: SignUpDto,
+  ): Promise<AuthUser> {
     const hashedPassword = await bcryptjs.hash(signupdto.password, 12);
 
     const data: Prisma.UserCreateInput = {
@@ -146,6 +150,73 @@ export class AuthController {
       password: hashedPassword,
     };
 
-    return this.authUserService.create({ data });
+    const createdUser = await this.authUserService.create({ data });
+    const { access, refresh } = this.authService.issueTokens(createdUser);
+
+    const secure = this.configService.get('NODE_ENV') === 'production';
+
+    res.cookie('ACCESS_TOKEN', access.token, {
+      httpOnly: true,
+      secure,
+      sameSite: 'strict',
+      path: '/',
+      maxAge: access.expiresIn,
+      priority: 'high',
+    });
+
+    res.cookie('REFRESH_TOKEN', refresh.token, {
+      httpOnly: true,
+      secure,
+      sameSite: 'strict',
+      path: '/auth',
+      maxAge: refresh.expiresIn,
+      priority: 'high',
+    });
+
+    await this.sessionsService.create({
+      userId: createdUser.id,
+      refreshToken: refresh.token,
+      expiresIn: refresh.expiresIn,
+      userAgent: req.headers['user-agent'],
+      ip: req.ip,
+    });
+
+    return createdUser;
+  }
+
+  @UseGuards(RefreshAuthGuard)
+  @Post('logout')
+  async logout(
+    @Req() req: AuthRequest,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const refreshToken = req.cookies?.REFRESH_TOKEN as string;
+
+    if (refreshToken) {
+      const session =
+        await this.sessionsService.findSessionByToken(refreshToken);
+
+      if (session) {
+        await this.sessionsService.revoke(session.id);
+      }
+    }
+
+    const secure = this.configService.get('NODE_ENV') === 'production';
+
+    res.clearCookie('ACCESS_TOKEN', {
+      httpOnly: true,
+      secure,
+      sameSite: 'strict',
+      path: '/',
+    });
+
+    res.clearCookie('REFRESH_TOKEN', {
+      httpOnly: true,
+      secure,
+      sameSite: 'strict',
+      path: '/auth',
+    });
+
+    return { message: 'Logout successful' };
   }
 }
