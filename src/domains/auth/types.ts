@@ -16,3 +16,13 @@ import { Request } from 'express';
 export interface AuthRequest extends Request {
   user: AuthUser;
 }
+
+export interface AuthCookies {
+  ACCESS_TOKEN?: string;
+  REFRESH_TOKEN?: string;
+}
+
+export type JwtPayload = {
+  sub: string;
+  username: string;
+};

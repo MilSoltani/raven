@@ -35,7 +35,7 @@ export class AuthController {
 
     const secure = this.configService.get('NODE_ENV') === 'production';
 
-    res.cookie('access_token', access.token, {
+    res.cookie('ACCESS_TOKEN', access.token, {
       httpOnly: true,
       secure,
       sameSite: 'strict',
@@ -43,7 +43,7 @@ export class AuthController {
       maxAge: access.expiresIn,
     });
 
-    res.cookie('refresh_token', refresh.token, {
+    res.cookie('REFRESH_TOKEN', refresh.token, {
       httpOnly: true,
       secure,
       sameSite: 'strict',
