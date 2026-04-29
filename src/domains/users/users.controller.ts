@@ -14,7 +14,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ParseSortPipe } from 'src/common/pipes/parse-sort.pipe';
 import { ParseFilterPipe } from 'src/common/pipes/parse-filter.pipe';
-import { ParseIncludeQueryPipe } from 'src/common/pipes/parse-include-query.pipe';
+import { ParseSelectPipe } from 'src/common/pipes/parse-select-query.pipe';
 import {
   Prisma,
   User,
@@ -27,7 +27,7 @@ export class UsersController {
 
   @Post()
   create(
-    @Body() createUserDto: CreateUserDto,
+    @Body('data') createUserDto: CreateUserDto,
     @Body(
       'include',
       new ParseIncludeBodyPipe({
@@ -69,17 +69,29 @@ export class UsersController {
     )
     sort?: Prisma.UserOrderByWithRelationInput,
     @Query(
-      'include',
-      new ParseIncludeQueryPipe({
-        createdTickets: ['id', 'subject'],
-        assignedTickets: ['id', 'subject'],
+      'select',
+      new ParseSelectPipe({
+        allowedColumns: [
+          'id',
+          'firstName',
+          'lastName',
+          'username',
+          'email',
+          'updatedAt',
+          'createdAt',
+        ],
+        allowedRelations: {
+          createdTickets: ['id', 'subject'],
+          assignedTickets: ['id', 'subject'],
+        },
+        requiredColumns: ['id'],
       }),
     )
-    include?: Prisma.UserInclude,
+    select?: Prisma.UserSelect,
   ) {
     return this.usersService.findMany({
       where: filter,
-      include,
+      select,
       orderBy: sort,
     });
   }

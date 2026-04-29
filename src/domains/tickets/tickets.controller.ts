@@ -12,14 +12,14 @@ import {
 import { TicketsService } from './tickets.service';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
-import { ParseFilterPipe } from 'src/common/pipes/parse-filter.pipe';
 import { ParseSortPipe } from 'src/common/pipes/parse-sort.pipe';
-import { ParseIncludeQueryPipe } from 'src/common/pipes/parse-include-query.pipe';
+import { ParseSelectPipe } from 'src/common/pipes/parse-select-query.pipe';
 import {
   Prisma,
   Ticket,
 } from 'src/infrastructure/database/generated/prisma/client';
 import { ParseIncludeBodyPipe } from 'src/common/pipes/parse-include-body.pipe';
+import { ParseFilterPipe } from 'src/common/pipes/parse-filter.pipe';
 
 @Controller('tickets')
 export class TicketsController {
@@ -89,17 +89,31 @@ export class TicketsController {
     )
     sort?: Prisma.TicketOrderByWithRelationInput,
     @Query(
-      'include',
-      new ParseIncludeQueryPipe({
-        creator: ['id', 'username'],
-        agent: ['id', 'username'],
+      'select',
+      new ParseSelectPipe({
+        allowedColumns: [
+          'id',
+          'creatorId',
+          'agentId',
+          'subject',
+          'description',
+          'status',
+          'priority',
+          'createdAt',
+          'updatedAt',
+        ],
+        allowedRelations: {
+          creator: ['id', 'username'],
+          agent: ['id', 'username'],
+        },
+        requiredColumns: ['id'],
       }),
     )
-    include?: Prisma.TicketInclude,
+    select?: Prisma.TicketSelect,
   ) {
     return this.ticketsService.findMany({
       where: filter,
-      include,
+      select,
       orderBy: sort,
     });
   }

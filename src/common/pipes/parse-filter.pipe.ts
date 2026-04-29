@@ -43,14 +43,13 @@ export class ParseFilterPipe implements PipeTransform {
 
         const isOperatorObject = keys.some((k) => OPERATORS.has(k));
 
-        this.validatePath(newPath);
-
-        if (!isOperatorObject) {
-          result[key] = this.parseValues(inner, newPath);
+        if (isOperatorObject) {
+          this.validatePath(newPath);
+          result[key] = this.normalizeOperatorObject(inner);
           continue;
         }
 
-        result[key] = this.normalizeOperatorObject(inner);
+        result[key] = this.parseValues(inner, newPath);
         continue;
       }
 
