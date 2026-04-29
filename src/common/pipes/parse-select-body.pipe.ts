@@ -2,7 +2,7 @@ import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
 
 type AllowedRelations = Record<string, readonly string[]>;
 
-interface ParseSelectOptions {
+interface ParseSelectBodyOptions {
   allowedColumns: string[];
   allowedRelations: AllowedRelations;
   requiredColumns?: string[];
@@ -11,30 +11,29 @@ interface ParseSelectOptions {
 type PrismaSelect = Record<string, true | { select: Record<string, true> }>;
 
 @Injectable()
-export class ParseSelectQueryPipe implements PipeTransform {
+export class ParseSelectBodyPipe implements PipeTransform {
   private allowedColumns: Set<string>;
   private allowedRelations: AllowedRelations;
   private requiredColumns: Set<string>;
 
-  constructor(options: ParseSelectOptions) {
+  constructor(options: ParseSelectBodyOptions) {
     this.allowedColumns = new Set(options.allowedColumns);
     this.allowedRelations = options.allowedRelations;
     this.requiredColumns = new Set(options.requiredColumns ?? []);
   }
 
   transform(value: unknown): PrismaSelect | undefined {
-    if (!value || typeof value !== 'string') {
+    if (!value || !Array.isArray(value)) {
       return this.buildRequiredOnly();
     }
 
-    const parts = value
-      .split(',')
-      .map((v) => v.trim())
-      .filter(Boolean);
-
     const select: PrismaSelect = {};
 
-    for (const part of parts) {
+    for (const part of value) {
+      if (typeof part !== 'string') {
+        throw new BadRequestException('Select values must be strings');
+      }
+
       const isScalar = this.allowedColumns.has(part);
       const relationFields = this.allowedRelations[part];
 
@@ -54,11 +53,6 @@ export class ParseSelectQueryPipe implements PipeTransform {
     }
 
     for (const col of this.requiredColumns) {
-      if (!this.allowedColumns.has(col)) {
-        throw new BadRequestException(
-          `Required column "${col}" is not allowed`,
-        );
-      }
       select[col] = true;
     }
 

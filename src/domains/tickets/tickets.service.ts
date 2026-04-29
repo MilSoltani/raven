@@ -11,12 +11,12 @@ export class TicketsService {
 
   async findOne(params: {
     where: Prisma.TicketWhereUniqueInput;
-    include?: Prisma.TicketInclude;
+    select?: Prisma.TicketSelect;
   }): Promise<Ticket | null> {
-    const { where, include } = params;
+    const { where, select } = params;
     return this.prisma.ticket.findUnique({
       where,
-      include,
+      select,
     });
   }
 
@@ -41,25 +41,25 @@ export class TicketsService {
 
   async create(params: {
     data: Prisma.TicketCreateInput;
-    include?: Prisma.TicketInclude;
+    select?: Prisma.TicketSelect;
   }): Promise<Ticket> {
-    const { data, include } = params;
+    const { data, select } = params;
     return this.prisma.ticket.create({
       data,
-      include,
+      select,
     });
   }
 
   async update(params: {
     where: Prisma.TicketWhereUniqueInput;
     data: Prisma.TicketUpdateInput;
-    include?: Prisma.TicketInclude;
+    select?: Prisma.TicketSelect;
   }): Promise<Ticket> {
-    const { where, data, include } = params;
+    const { where, data, select } = params;
     return this.prisma.ticket.update({
       data,
       where,
-      include,
+      select,
     });
   }
 
