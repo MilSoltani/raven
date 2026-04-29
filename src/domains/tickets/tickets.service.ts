@@ -23,20 +23,35 @@ export class TicketsService {
   async findMany(params: {
     skip?: number;
     take?: number;
-    cursor?: Prisma.TicketWhereUniqueInput;
     where?: Prisma.TicketWhereInput;
     orderBy?: Prisma.TicketOrderByWithRelationInput;
     select?: Prisma.TicketSelect;
-  }): Promise<Ticket[]> {
-    const { skip, take, cursor, where, orderBy, select } = params;
-    return this.prisma.ticket.findMany({
-      skip,
-      take,
-      cursor,
-      where,
-      orderBy,
-      select,
-    });
+  }) {
+    const { skip, take, where, orderBy, select } = params;
+
+    const [data, total] = await this.prisma.$transaction([
+      this.prisma.ticket.findMany({
+        skip,
+        take,
+        where,
+        orderBy,
+        select,
+      }),
+      this.prisma.ticket.count({ where }),
+    ]);
+
+    const limit = take ?? 20;
+    const page = skip ? Math.floor(skip / limit) + 1 : 1;
+
+    return {
+      data,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
   }
 
   async create(params: {

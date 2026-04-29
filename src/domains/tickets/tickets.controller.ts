@@ -22,6 +22,10 @@ import {
   ParseSelectBodyPipe,
   ParseSelectQueryPipe,
 } from 'src/common/pipes/parse-select.pipe';
+import {
+  ParsePaginationPipe,
+  type PrismaPagination,
+} from 'src/common/pipes/parse-pagination.pipe';
 
 @Controller('tickets')
 export class TicketsController {
@@ -72,6 +76,8 @@ export class TicketsController {
 
   @Get()
   findAll(
+    @Query(new ParsePaginationPipe({ defaultLimit: 20, maxLimit: 50 }))
+    pagination: PrismaPagination,
     @Query(
       'filter',
       new ParseFilterPipe({
@@ -129,6 +135,7 @@ export class TicketsController {
       where: filter,
       select,
       orderBy: sort,
+      ...pagination,
     });
   }
 
