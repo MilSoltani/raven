@@ -14,12 +14,14 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ParseSortPipe } from 'src/common/pipes/parse-sort.pipe';
 import { ParseFilterPipe } from 'src/common/pipes/parse-filter.pipe';
-import { ParseSelectQueryPipe } from 'src/common/pipes/parse-select-query.pipe';
 import {
   Prisma,
   User,
 } from 'src/infrastructure/database/generated/prisma/client';
-import { ParseSelectBodyPipe } from 'src/common/pipes/parse-select-body.pipe';
+import {
+  ParseSelectBodyPipe,
+  ParseSelectQueryPipe,
+} from 'src/common/pipes/parse-select.pipe';
 
 @Controller('users')
 export class UsersController {

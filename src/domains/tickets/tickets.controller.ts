@@ -13,13 +13,15 @@ import { TicketsService } from './tickets.service';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { ParseSortPipe } from 'src/common/pipes/parse-sort.pipe';
-import { ParseSelectQueryPipe } from 'src/common/pipes/parse-select-query.pipe';
 import {
   Prisma,
   Ticket,
 } from 'src/infrastructure/database/generated/prisma/client';
 import { ParseFilterPipe } from 'src/common/pipes/parse-filter.pipe';
-import { ParseSelectBodyPipe } from 'src/common/pipes/parse-select-body.pipe';
+import {
+  ParseSelectBodyPipe,
+  ParseSelectQueryPipe,
+} from 'src/common/pipes/parse-select.pipe';
 
 @Controller('tickets')
 export class TicketsController {
