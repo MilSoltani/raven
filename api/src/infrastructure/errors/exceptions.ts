@@ -41,3 +41,11 @@ export class InternalException extends HTTPException {
     super(500, { message: `Internal error processing ${resource}` })
   }
 }
+
+export class InvalidCredentialsException extends HTTPException {
+  constructor(resource: string) {
+    super(401, {
+      message: `Invalid credentials: ${resource}`,
+    })
+  }
+}
