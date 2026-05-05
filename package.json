@@ -5,7 +5,12 @@
   "description": "Ticket System",
   "author": "Milad Soltani",
   "scripts": {
-    "dev:api": "cd ./api && npm run dev",
+    "dev:api": "cd api && npm run dev",
+    "debug:api": "cd api && npm run debug",
+    "generate": "cd api && prisma generate",
+    "migrate:dev": "cd api && prisma migrate dev",
+    "migrate:reset": "cd api && prisma migrate reset",
+    "studio": "cd api && prisma studio",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "prepare": "husky"

@@ -2,8 +2,9 @@
   "name": "api",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/main.ts",
-    "build": "tsc",
+    "dev": "tsx watch --env-file=.env src/main.ts",
+    "debug": "tsx --inspect=9229 --env-file=.env src/main.ts",
+    "build": "tsc --env-file=.env",
     "start": "node dist/main.js",
     "prepare": "husky"
   },

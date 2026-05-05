@@ -1,10 +1,10 @@
-import { config } from '@api/infrastructure/config/config'
 import { defineConfig } from 'prisma/config'
+import { config } from './src/infrastructure/config/config'
 
 export default defineConfig({
-  schema: 'prisma/schema.prisma',
+  schema: 'src/infrastructure/database/schema.prisma',
   migrations: {
-    path: 'prisma/migrations',
+    path: 'src/infrastructure/database/migrations',
   },
   datasource: {
     url: config.DATABASE_URL,
