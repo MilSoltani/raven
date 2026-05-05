@@ -9,38 +9,35 @@ datasource db {
 
 model User {
   id        Int @id @default(autoincrement())
-  name String? @db.VarChar(255)
+  name      String @db.VarChar(255)
   email     String @unique @db.VarChar(255)
   password  String? @db.VarChar(255)
   updatedAt DateTime @default(now()) @updatedAt
   createdAt DateTime @default(now())
 
-//  sessions Session[]
+  sessions Session[]
   createdTickets Ticket[] @relation("TicketCreator")
   assignedTickets Ticket[] @relation("TicketAgent")
 }
 
-// model Session {
-//   id               Int @id @default(autoincrement())
-//   userId           Int
+model Session {
+  id               Int      @id @default(autoincrement())
+  userId           Int
 
-//   familyId         String @db.Uuid
-//   refreshTokenHash String @db.Uuid @unique
-//   isUsed           Boolean @default(false)
-//   isRevoked        Boolean @default(false)
-//   expiresAt        DateTime
-//   revokedAt        DateTime?
-  
-//   userAgent        String?
-//   ipAddress        String?
-//   createdAt        DateTime @default(now())
-//   updatedAt        DateTime @updatedAt
+  familyId         String   @db.Uuid
+  refreshTokenHash String   @unique
 
-//   user User @relation(fields: [userId], references: [id])
+  isUsed           Boolean  @default(false)
+  isRevoked        Boolean  @default(false)
 
-//   @@index([userId])
-//   @@index([familyId])
-// }
+  expiresAt        DateTime
+  createdAt        DateTime @default(now())
+
+  user             User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([familyId])
+}
 
 enum TicketStatus {
   OPEN

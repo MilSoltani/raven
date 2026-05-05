@@ -26,5 +26,8 @@
   },
   "nano-staged": {
     "*.{js,ts,vue,css}": "eslint --fix"
+  },
+  "dependencies": {
+    "@hono/zod-openapi": "^1.3.0"
   }
 }
