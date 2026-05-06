@@ -1,0 +1,30 @@
+# get tickets
+###
+GET http://localhost:3000/tickets
+
+# get ticket
+###
+GET http://localhost:3000/tickets/1
+
+# create ticket
+###
+POST http://localhost:3000/tickets
+Content-Type: application/json
+
+{
+  "subject": "Internet no connection",
+  "description": "I tried restarting"
+}
+
+# update ticket
+###
+PUT http://localhost:3000/tickets/1
+Content-Type: application/json
+
+{
+  "subject": "Internet no connection!"
+}
+
+# delete ticket
+###
+DELETE http://localhost:3000/tickets/1

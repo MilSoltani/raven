@@ -8,10 +8,12 @@ import { OpenAPIHono } from '@hono/zod-openapi'
 import { cors } from 'hono/cors'
 import { jwt } from 'hono/jwt'
 import { logger } from 'hono/logger'
+import { createTicketsModule } from './modules/tickets/tickets.module'
 
-const prisma = createPrismaClient(config.DATABASE_URL)
+const prisma = createPrismaClient(config)
 const authModule = createAuthModule(prisma)
 const usersModule = createUsersModule(prisma)
+const ticketsModule = createTicketsModule(prisma)
 
 const app = new OpenAPIHono<AppEnv>()
   .use('/*', cors())
@@ -30,6 +32,7 @@ const app = new OpenAPIHono<AppEnv>()
     await next()
   })
   .route('/users', usersModule.handler)
+  .route('/tickets', ticketsModule.handler)
 
 serve({
   fetch: app.fetch,

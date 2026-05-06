@@ -1,8 +1,11 @@
+import type { Config } from '../config/config'
 import { PrismaPg } from '@prisma/adapter-pg'
 import { PrismaClient } from './generated/prisma/client'
 
-export function createPrismaClient(databaseUrl: string) {
-  const adapter = new PrismaPg({ connectionString: databaseUrl })
+export function createPrismaClient(
+  config: Config,
+) {
+  const adapter = new PrismaPg({ connectionString: config.DATABASE_URL })
 
   return new PrismaClient({ adapter })
 }
