@@ -11,7 +11,7 @@ export function createCookieUtil(config: Config) {
       httpOnly: true,
       secure,
       sameSite: secure ? 'Strict' : 'Lax',
-      path: '/api',
+      path: '/',
       maxAge: config.JWT_ACCESS_EXPIRY_SECONDS,
     })
   }
@@ -23,7 +23,7 @@ export function createCookieUtil(config: Config) {
       httpOnly: true,
       secure,
       sameSite: secure ? 'Strict' : 'Lax',
-      path: '/api/auth/refresh',
+      path: '/auth',
       maxAge: config.JWT_REFRESH_EXPIRY_SECONDS,
     })
   }

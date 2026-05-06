@@ -21,13 +21,16 @@ export function createAuthHandler(
       return c.json(user, 200)
     })
 
-  // .openapi(AuthRoutes.signup, async (c) => {
-  //   const data = c.req.valid('json')
+    .openapi(AuthRoutes.signup, async (c) => {
+      const data = c.req.valid('json')
 
-  //   const user = await authService.signup(data)
+      const { user, accessToken, refreshToken } = await authService.signup(data)
 
-  //   return c.json(user, 201)
-  // })
+      cookieUtil.createAccessToken(c, accessToken)
+      cookieUtil.createRefreshToken(c, refreshToken)
+
+      return c.json(user, 201)
+    })
 
   // .openapi(AuthRoutes.refresh, async (c) => {
   //   return c.json({ message: 'not implemented' }, 200)

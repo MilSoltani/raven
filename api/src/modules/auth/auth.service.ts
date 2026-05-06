@@ -68,13 +68,7 @@ export function createAuthService(
 
     await persistSession(user.id, tokens.refreshToken)
 
-    return {
-      user: {
-        id: user.id,
-        email: user.email,
-      },
-      ...tokens,
-    }
+    return { user, ...tokens }
   }
 
   const signup = async (data: {
@@ -92,11 +86,9 @@ export function createAuthService(
     if (!user)
       throw new InternalException('User')
 
-    return {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-    }
+    const tokens = await issueTokens(user.id, user.email)
+
+    return { user, ...tokens }
   }
 
   return {
