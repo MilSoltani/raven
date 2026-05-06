@@ -18,3 +18,7 @@ Content-Type: application/json
   "email": "tom@example.com",
   "password": "qwertz1234"
 }
+
+###
+# refresh
+POST http://localhost:3000/auth/refresh

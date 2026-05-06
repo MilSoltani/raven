@@ -9,13 +9,13 @@ import {
 import bcrypt from 'bcrypt'
 
 export function createAuthService(
-  authRepo: AuthRepository,
-  sessions: SessionsService,
+  authRepository: AuthRepository,
+  sessionsService: SessionsService,
   cryptoUtil: CryptoUtil,
   jwtUtil: JwtUtil,
 ) {
   const findUserByEmail = async (email: string) => {
-    const user = await authRepo.getUserByEmail(email)
+    const user = await authRepository.getUserByEmail(email)
 
     if (!user || !user.password)
       throw new InvalidCredentialsException('User')
@@ -38,7 +38,7 @@ export function createAuthService(
   }
 
   const persistSession = async (userId: number, refreshToken: string) => {
-    const { session } = await sessions.createSession({
+    const { session } = await sessionsService.createSession({
       userId,
       familyId: cryptoUtil.uuid(),
       expiresAt: jwtUtil.getRefreshTokenExpiresAt(),
@@ -78,7 +78,7 @@ export function createAuthService(
   }) => {
     const hashed = await bcrypt.hash(data.password, 12)
 
-    const user = await authRepo.signup({
+    const user = await authRepository.signup({
       ...data,
       password: hashed,
     })
@@ -91,9 +91,28 @@ export function createAuthService(
     return { user, ...tokens }
   }
 
+  const refresh = async (refreshToken: string) => {
+    const payload = await jwtUtil.verifyRefreshToken(refreshToken)
+    const user = { id: payload.sub, email: payload.email }
+
+    const newTokens = await issueTokens(user.id, user.email)
+    const newRefreshTokenHash = cryptoUtil.hash(newTokens.refreshToken)
+    const newExpireAt = jwtUtil.getRefreshTokenExpiresAt()
+
+    const refreshTokenHash = cryptoUtil.hash(refreshToken)
+    await sessionsService.rotateSession(
+      refreshTokenHash,
+      newRefreshTokenHash,
+      newExpireAt,
+    )
+
+    return { user, ...newTokens }
+  }
+
   return {
     login,
     signup,
+    refresh,
   }
 }
 

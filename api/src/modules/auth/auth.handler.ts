@@ -32,9 +32,16 @@ export function createAuthHandler(
       return c.json(user, 201)
     })
 
-  // .openapi(AuthRoutes.refresh, async (c) => {
-  //   return c.json({ message: 'not implemented' }, 200)
-  // })
+    .openapi(AuthRoutes.refresh, async (c) => {
+      const tokenToRefresh = cookieUtil.getRefreshToken(c)
+
+      const { user, accessToken, refreshToken } = await authService.refresh(tokenToRefresh)
+
+      cookieUtil.createAccessToken(c, accessToken)
+      cookieUtil.createRefreshToken(c, refreshToken)
+
+      return c.json(user, 200)
+    })
 
   // .openapi(AuthRoutes.logout, async (c) => {
   //   return c.json({ message: 'Logged out successfully' }, 200)

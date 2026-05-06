@@ -8,9 +8,11 @@ import {
   RevokedException,
 } from '@api/infrastructure/errors/exceptions'
 
-export function createSessionsService(repo: SessionsRepository) {
+export function createSessionsService(
+  sessionsRepository: SessionsRepository,
+) {
   const findSession = async (hash: string) => {
-    const result = await repo.findByHash(hash)
+    const result = await sessionsRepository.findByHash(hash)
 
     if (!result)
       throw new NotFoundException('Session')
@@ -19,7 +21,7 @@ export function createSessionsService(repo: SessionsRepository) {
   }
 
   const createSession = async (data: CreateSessionPayload) => {
-    const session = await repo.create(data)
+    const session = await sessionsRepository.create(data)
 
     if (!session)
       throw new InternalException('Session creation')
@@ -27,8 +29,12 @@ export function createSessionsService(repo: SessionsRepository) {
     return { session }
   }
 
-  const rotateSession = async (refreshTokenHash: string) => {
-    const session = await repo.findByHash(refreshTokenHash)
+  const rotateSession = async (
+    refreshTokenHash: string,
+    newRefreshTokenHash: string,
+    expiresAt: Date,
+  ) => {
+    const session = await sessionsRepository.findByHash(refreshTokenHash)
 
     if (!session)
       throw new NotFoundException('Session')
@@ -41,35 +47,33 @@ export function createSessionsService(repo: SessionsRepository) {
     }
 
     if (session.isUsed) {
-      await repo.revokeByFamily(session.familyId)
+      await sessionsRepository.revokeByFamily(session.familyId)
       throw new ReuseDetectedException('Session')
     }
 
-    const updated = await repo.markUsedIfUnused(session.id)
+    const updated = await sessionsRepository.markUsedIfUnused(session.id)
 
     if (!updated) {
-      await repo.revokeByFamily(session.familyId)
+      await sessionsRepository.revokeByFamily(session.familyId)
       throw new ReuseDetectedException('Session')
     }
 
-    // const newToken = await createSession(
-    //   session.userId,
-    //   session.familyId,
-    // )
+    const newSession = await createSession({
+      userId: session.userId,
+      familyId: session.familyId,
+      refreshTokenHash: newRefreshTokenHash,
+      expiresAt,
+    })
 
-    // return {
-    //   userId: session.userId,
-    //   familyId: session.familyId,
-    //   refreshToken: newToken.refreshToken,
-    // }
+    return newSession
   }
 
   function revokeFamily(familyId: string) {
-    return repo.revokeByFamily(familyId)
+    return sessionsRepository.revokeByFamily(familyId)
   }
 
   function revokeAll(userId: number) {
-    return repo.revokeByUser(userId)
+    return sessionsRepository.revokeByUser(userId)
   }
 
   return {

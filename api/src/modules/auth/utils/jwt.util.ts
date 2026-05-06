@@ -3,6 +3,11 @@ import type { JWTPayload } from 'hono/utils/jwt/types'
 import { InvalidOrExpiredTokenException } from '@api/infrastructure/errors/exceptions'
 import { sign, verify } from 'hono/jwt'
 
+type AuthPayload = JWTPayload & {
+  sub: number
+  email: string
+}
+
 export function createJwtUtil(config: Config) {
   async function generateAccessToken(sub: number, email: string): Promise<string> {
     const iat = Math.floor(Date.now() / 1000)
@@ -30,29 +35,29 @@ export function createJwtUtil(config: Config) {
     )
   }
 
-  async function verifyAccessToken(token: string): Promise<JWTPayload> {
+  async function verifyAccessToken(token: string): Promise<AuthPayload> {
     try {
       return await verify(
         token,
         config.JWT_ACCESS_TOKEN_SECRET,
         'HS256',
-      ) as JWTPayload
+      ) as AuthPayload
     }
     catch {
       throw new InvalidOrExpiredTokenException()
     }
   }
 
-  async function verifyRefreshToken(token: string): Promise<JWTPayload> {
+  async function verifyRefreshToken(token: string): Promise<AuthPayload> {
     try {
       return await verify(
         token,
         config.JWT_REFRESH_TOKEN_SECRET,
         'HS256',
-      ) as JWTPayload
+      ) as AuthPayload
     }
     catch {
-      throw new Error('Invalid or expired refresh token')
+      throw new InvalidOrExpiredTokenException()
     }
   }
 
