@@ -1,4 +1,4 @@
-import type { PrismaClient } from '@api/infrastructure/database/generated/prisma/internal/class'
+import type { PrismaClient } from '@api/infrastructure/database/prisma'
 import type { Session } from './sessions.schema'
 
 export function createSessionsRepository(prisma: PrismaClient) {

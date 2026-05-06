@@ -49,3 +49,11 @@ export class InvalidCredentialsException extends HTTPException {
     })
   }
 }
+
+export class InvalidOrExpiredTokenException extends HTTPException {
+  constructor() {
+    super(401, {
+      message: 'Invalid or expired token',
+    })
+  }
+}

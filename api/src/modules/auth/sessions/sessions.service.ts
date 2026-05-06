@@ -1,6 +1,5 @@
-import type { CryptoUtil } from '../utils/crypto.util'
-import type { PolicyUtil } from '../utils/policy.util'
 import type { SessionsRepository } from './sessions.repository'
+import type { CreateSessionPayload } from './sessions.schema'
 import {
   ExpiredException,
   InternalException,
@@ -9,11 +8,7 @@ import {
   RevokedException,
 } from '@api/infrastructure/errors/exceptions'
 
-export function createSessionsService(
-  repo: SessionsRepository,
-  cryptoUtil: CryptoUtil,
-  policyUtil: PolicyUtil,
-) {
+export function createSessionsService(repo: SessionsRepository) {
   const findSession = async (hash: string) => {
     const result = await repo.findByHash(hash)
 
@@ -23,26 +18,17 @@ export function createSessionsService(
     return result
   }
 
-  const createSession = async (userId: number, familyId: string) => {
-    const refreshToken = cryptoUtil.random()
-    const hash = cryptoUtil.hash(refreshToken)
+  const createSession = async (data: CreateSessionPayload) => {
+    const session = await repo.create(data)
 
-    const result = await repo.create({
-      userId,
-      familyId,
-      refreshTokenHash: hash,
-      expiresAt: policyUtil.expiryDate(),
-    })
-
-    if (!result)
+    if (!session)
       throw new InternalException('Session creation')
 
-    return { refreshToken }
+    return { session }
   }
 
-  const rotateSession = async (refreshToken: string) => {
-    const hash = cryptoUtil.hash(refreshToken)
-    const session = await repo.findByHash(hash)
+  const rotateSession = async (refreshTokenHash: string) => {
+    const session = await repo.findByHash(refreshTokenHash)
 
     if (!session)
       throw new NotFoundException('Session')
@@ -66,16 +52,16 @@ export function createSessionsService(
       throw new ReuseDetectedException('Session')
     }
 
-    const newToken = await createSession(
-      session.userId,
-      session.familyId,
-    )
+    // const newToken = await createSession(
+    //   session.userId,
+    //   session.familyId,
+    // )
 
-    return {
-      userId: session.userId,
-      familyId: session.familyId,
-      refreshToken: newToken.refreshToken,
-    }
+    // return {
+    //   userId: session.userId,
+    //   familyId: session.familyId,
+    //   refreshToken: newToken.refreshToken,
+    // }
   }
 
   function revokeFamily(familyId: string) {

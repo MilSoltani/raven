@@ -1,0 +1,108 @@
+import type { AuthRepository } from './auth.repository'
+import type { SessionsService } from './sessions/sessions.service'
+import type { CryptoUtil } from './utils/crypto.util'
+import type { JwtUtil } from './utils/jwt.util'
+import {
+  InternalException,
+  InvalidCredentialsException,
+} from '@api/infrastructure/errors/exceptions'
+import bcrypt from 'bcrypt'
+
+export function createAuthService(
+  authRepo: AuthRepository,
+  sessions: SessionsService,
+  cryptoUtil: CryptoUtil,
+  jwtUtil: JwtUtil,
+) {
+  const findUserByEmail = async (email: string) => {
+    const user = await authRepo.getUserByEmail(email)
+
+    if (!user || !user.password)
+      throw new InvalidCredentialsException('User')
+
+    return user
+  }
+
+  const verifyPassword = async (plain: string, hash: string) => {
+    const ok = await bcrypt.compare(plain, hash)
+
+    if (!ok)
+      throw new InvalidCredentialsException('User')
+  }
+
+  const issueTokens = async (userId: number, email: string) => {
+    const accessToken = await jwtUtil.generateAccessToken(userId, email)
+    const refreshToken = await jwtUtil.generateRefreshToken(userId, email)
+
+    return { accessToken, refreshToken }
+  }
+
+  const persistSession = async (userId: number, refreshToken: string) => {
+    const { session } = await sessions.createSession({
+      userId,
+      familyId: cryptoUtil.uuid(),
+      expiresAt: jwtUtil.getRefreshTokenExpiresAt(),
+      refreshTokenHash: cryptoUtil.hash(refreshToken),
+    })
+
+    if (!session)
+      throw new InternalException('Session')
+
+    return session
+  }
+
+  const login = async (email: string, password: string) => {
+    const user = await findUserByEmail(email)
+
+    if (!user) {
+      throw new InvalidCredentialsException('User')
+    }
+
+    if (!user.password) {
+      throw new InvalidCredentialsException('User')
+    }
+
+    await verifyPassword(password, user.password)
+
+    const tokens = await issueTokens(user.id, user.email)
+
+    await persistSession(user.id, tokens.refreshToken)
+
+    return {
+      user: {
+        id: user.id,
+        email: user.email,
+      },
+      ...tokens,
+    }
+  }
+
+  const signup = async (data: {
+    email: string
+    name: string
+    password: string
+  }) => {
+    const hashed = await bcrypt.hash(data.password, 12)
+
+    const user = await authRepo.signup({
+      ...data,
+      password: hashed,
+    })
+
+    if (!user)
+      throw new InternalException('User')
+
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    }
+  }
+
+  return {
+    login,
+    signup,
+  }
+}
+
+export type AuthService = ReturnType<typeof createAuthService>

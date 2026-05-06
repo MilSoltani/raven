@@ -1,15 +1,15 @@
-import type { PrismaClient } from '@api/infrastructure/database/generated/prisma/internal/class'
-import type { User } from '../users/users.schema'
-import type { SignupPayload } from './auth.schema'
+import type { PrismaClient } from '@api/infrastructure/database/prisma'
+import type { AuthUser, SignupPayload } from './auth.schema'
 
 export function createAuthRepository(prisma: PrismaClient) {
-  const getUserByEmail = async (email: string): Promise<User | null> => {
+  const getUserByEmail = async (email: string): Promise<AuthUser | null> => {
     return prisma.user.findUnique({
+      select: { id: true, name: true, email: true, password: true },
       where: { email },
     })
   }
 
-  const signup = async (data: SignupPayload): Promise<User | null> => {
+  const signup = async (data: SignupPayload): Promise<AuthUser | null> => {
     return prisma.user.create({
       data,
       omit: { password: true },

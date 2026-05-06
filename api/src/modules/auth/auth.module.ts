@@ -1,18 +1,32 @@
-import type { PrismaClient } from '@api/infrastructure/database/generated/prisma/internal/class'
+import type { PrismaClient } from '@api/infrastructure/database/prisma'
 import { config } from '@api/infrastructure/config/config'
+import { createAuthHandler } from './auth.handler'
+import { createAuthRepository } from './auth.repository'
+import { createAuthService } from './auth.service'
 import { createSessionsRepository } from './sessions/sessions.repository'
 import { createSessionsService } from './sessions/sessions.service'
+import { createCookieUtil } from './utils/cookie.util'
 import { createCryptoUtil } from './utils/crypto.util'
-import { createPolicyUtil } from './utils/policy.util'
+import { createJwtUtil } from './utils/jwt.util'
 
 const cryptoUtil = createCryptoUtil(config.JWT_REFRESH_TOKEN_SECRET)
-const policyUtil = createPolicyUtil(config.JWT_REFRESH_EXPIRY_SECONDS)
+const cookieUtil = createCookieUtil(config)
+const jwtUtil = createJwtUtil(config)
 
 export function createAuthModule(prisma: PrismaClient) {
   const sessionRepository = createSessionsRepository(prisma)
-  const _sessionService = createSessionsService(sessionRepository, cryptoUtil, policyUtil)
+  const sessionService = createSessionsService(sessionRepository)
 
-  return {}
+  const authRepository = createAuthRepository(prisma)
+  const authService = createAuthService(
+    authRepository,
+    sessionService,
+    cryptoUtil,
+    jwtUtil,
+  )
+  const authHandler = createAuthHandler(authService, cookieUtil)
+
+  return { authHandler }
 }
 
 export type AuthModule = ReturnType<typeof createAuthModule>
