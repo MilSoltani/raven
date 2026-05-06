@@ -24,9 +24,9 @@ export function createAuthModule(prisma: PrismaClient) {
     cryptoUtil,
     jwtUtil,
   )
-  const authHandler = createAuthHandler(authService, cookieUtil)
+  const handler = createAuthHandler(authService, cookieUtil)
 
-  return { authHandler }
+  return { handler }
 }
 
 export type AuthModule = ReturnType<typeof createAuthModule>

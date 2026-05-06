@@ -1,9 +1,10 @@
+import type { AppEnv } from '@api/common/types'
 import type { UsersService } from './users.service'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { UsersRoutes } from './users.routes'
 
 export function createUsersHandler(usersService: UsersService) {
-  return new OpenAPIHono()
+  return new OpenAPIHono<AppEnv>()
 
     .openapi(UsersRoutes.getAll, async (c) => {
       const data = await usersService.getAll()

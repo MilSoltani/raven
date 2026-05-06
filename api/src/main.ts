@@ -1,18 +1,35 @@
+import type { AppEnv, AuthPayload } from './common/types'
+import { config } from '@api/infrastructure/config/config'
+import { createPrismaClient } from '@api/infrastructure/database/prisma'
+import { createAuthModule } from '@api/modules/auth/auth.module'
+import { createUsersModule } from '@api/modules/users'
 import { serve } from '@hono/node-server'
-import { Hono } from 'hono'
+import { OpenAPIHono } from '@hono/zod-openapi'
 import { cors } from 'hono/cors'
+import { jwt } from 'hono/jwt'
 import { logger } from 'hono/logger'
-import { config } from './infrastructure/config/config'
-import { createPrismaClient } from './infrastructure/database/prisma'
-import { createAuthModule } from './modules/auth/auth.module'
 
 const prisma = createPrismaClient(config.DATABASE_URL)
 const authModule = createAuthModule(prisma)
+const usersModule = createUsersModule(prisma)
 
-const app = new Hono()
+const app = new OpenAPIHono<AppEnv>()
   .use('/*', cors())
   .use(logger())
-  .route('/auth', authModule.authHandler)
+  .route('/auth', authModule.handler)
+  .use(jwt({
+    secret: config.JWT_ACCESS_TOKEN_SECRET,
+    cookie: 'accessToken',
+    alg: 'HS256',
+  }))
+  .use(async (c, next) => {
+    const payload = c.get('jwtPayload') as AuthPayload
+    if (payload?.sub) {
+      c.set('userId', payload.sub)
+    }
+    await next()
+  })
+  .route('/users', usersModule.handler)
 
 serve({
   fetch: app.fetch,

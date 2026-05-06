@@ -4,25 +4,24 @@ import { InvalidOrExpiredTokenException } from '@api/infrastructure/errors/excep
 import { getCookie, setCookie } from 'hono/cookie'
 
 export function createCookieUtil(config: Config) {
-  async function createAccessToken(c: Context, token: string) {
-    const secure = config.NODE_ENV === 'production'
+  const secure = config.NODE_ENV === 'production'
+  const sameSite = secure ? 'Strict' : 'Lax'
 
+  async function createAccessToken(c: Context, token: string) {
     setCookie(c, 'accessToken', token, {
       httpOnly: true,
       secure,
-      sameSite: secure ? 'Strict' : 'Lax',
+      sameSite,
       path: '/',
       maxAge: config.JWT_ACCESS_EXPIRY_SECONDS,
     })
   }
 
   async function createRefreshToken(c: Context, token: string) {
-    const secure = config.NODE_ENV === 'production'
-
     setCookie(c, 'refreshToken', token, {
       httpOnly: true,
       secure,
-      sameSite: secure ? 'Strict' : 'Lax',
+      sameSite,
       path: '/auth',
       maxAge: config.JWT_REFRESH_EXPIRY_SECONDS,
     })
@@ -42,10 +41,28 @@ export function createCookieUtil(config: Config) {
     const refreshToken = getCookie(c, 'refreshToken')
 
     if (!refreshToken) {
-      throw new Error('Invalid or expired refresh token')
+      throw new InvalidOrExpiredTokenException()
     }
 
     return refreshToken
+  }
+
+  function clearTokens(c: Context) {
+    setCookie(c, 'accessToken', '', {
+      httpOnly: true,
+      secure,
+      sameSite,
+      path: '/',
+      maxAge: 0,
+    })
+
+    setCookie(c, 'refreshToken', '', {
+      httpOnly: true,
+      secure,
+      sameSite,
+      path: '/auth',
+      maxAge: 0,
+    })
   }
 
   return {
@@ -53,6 +70,7 @@ export function createCookieUtil(config: Config) {
     createRefreshToken,
     getAccessToken,
     getRefreshToken,
+    clearTokens,
   }
 }
 

@@ -1,4 +1,4 @@
-import type { PrismaClient } from '@api/infrastructure/database/generated/prisma/internal/class'
+import type { PrismaClient } from '@api/infrastructure/database/prisma'
 import { createUsersHandler } from './users.handler'
 import { createUsersRepository } from './users.repository'
 import { createUsersService } from './users.service'

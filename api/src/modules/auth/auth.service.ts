@@ -87,6 +87,7 @@ export function createAuthService(
       throw new InternalException('User')
 
     const tokens = await issueTokens(user.id, user.email)
+    await persistSession(user.id, tokens.refreshToken)
 
     return { user, ...tokens }
   }
@@ -104,6 +105,7 @@ export function createAuthService(
       refreshTokenHash,
       newRefreshTokenHash,
       newExpireAt,
+      user.id,
     )
 
     return { user, ...newTokens }

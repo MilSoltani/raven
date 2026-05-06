@@ -32,17 +32,17 @@ export function createSessionsService(
     refreshTokenHash: string,
     newRefreshTokenHash: string,
     expiresAt: Date,
+    userId: number,
   ) => {
     const session = await sessionsRepository.findByHash(refreshTokenHash)
 
-    if (!session)
-      throw new NotFoundException('Session')
+    if (!session || session.isRevoked) {
+      await sessionsRepository.revokeAllForUser(userId)
+      throw new RevokedException('Security Alert: Session compromised')
+    }
 
     if (session.expiresAt.getTime() < Date.now())
       throw new ExpiredException('Session')
-
-    if (session.isRevoked)
-      throw new RevokedException('Session')
 
     const updatedSession = await sessionsRepository.update(session.id, {
       refreshTokenHash: newRefreshTokenHash,

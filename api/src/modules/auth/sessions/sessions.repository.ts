@@ -43,11 +43,19 @@ export function createSessionsRepository(prisma: PrismaClient) {
     })
   }
 
+  const revokeAllForUser = async (userId: number): Promise<void> => {
+    await prisma.session.updateMany({
+      where: { userId },
+      data: { isRevoked: true },
+    })
+  }
+
   return {
     findByHash,
     create,
-    revoke,
     update,
+    revoke,
+    revokeAllForUser,
   }
 }
 

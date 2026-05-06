@@ -1,12 +1,7 @@
+import type { AuthPayload } from '@api/common/types'
 import type { Config } from '@api/infrastructure/config/config'
-import type { JWTPayload } from 'hono/utils/jwt/types'
 import { InvalidOrExpiredTokenException } from '@api/infrastructure/errors/exceptions'
 import { sign, verify } from 'hono/jwt'
-
-type AuthPayload = JWTPayload & {
-  sub: number
-  email: string
-}
 
 export function createJwtUtil(config: Config) {
   async function generateAccessToken(sub: number, email: string): Promise<string> {

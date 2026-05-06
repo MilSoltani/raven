@@ -1,4 +1,4 @@
-import type { PrismaClient } from '@api/infrastructure/database/generated/prisma/internal/class'
+import type { PrismaClient } from '@api/infrastructure/database/prisma'
 import type { CreateUserPayload, UpdateUserPayload, User } from './users.schema'
 
 export function createUsersRepository(prisma: PrismaClient) {

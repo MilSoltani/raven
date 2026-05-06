@@ -1,3 +1,4 @@
+import type { AppEnv } from '@api/common/types'
 import type { AuthService } from './auth.service'
 import type { CookieUtil } from './utils/cookie.util'
 import { OpenAPIHono } from '@hono/zod-openapi'
@@ -7,7 +8,7 @@ export function createAuthHandler(
   authService: AuthService,
   cookieUtil: CookieUtil,
 ) {
-  return new OpenAPIHono()
+  return new OpenAPIHono<AppEnv>()
 
     .openapi(AuthRoutes.login, async (c) => {
       const { email, password } = c.req.valid('json')
@@ -47,6 +48,8 @@ export function createAuthHandler(
       const refreshToken = cookieUtil.getRefreshToken(c)
 
       await authService.logout(refreshToken)
+
+      cookieUtil.clearTokens(c)
 
       return c.json({ message: 'Logged out successfully' }, 200)
     })

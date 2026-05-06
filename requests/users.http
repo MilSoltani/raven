@@ -1,0 +1,30 @@
+# get users
+###
+GET http://localhost:3000/users
+
+# get user
+###
+GET http://localhost:3000/users/2
+
+# create user
+###
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "Robin Hood",
+  "email": "rhood@example.com"
+}
+
+# update user
+###
+PUT http://localhost:3000/users/3
+Content-Type: application/json
+
+{
+  "name": "Raynold Hood"
+}
+
+# delete user
+###
+DELETE http://localhost:3000/users/3
