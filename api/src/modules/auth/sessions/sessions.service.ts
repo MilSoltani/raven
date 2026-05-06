@@ -52,15 +52,15 @@ export function createSessionsService(
     return updatedSession
   }
 
-  function revokeAll(userId: number) {
-    return sessionsRepository.revokeByUser(userId)
+  function revoke(refreshTokenHash: string) {
+    return sessionsRepository.revoke(refreshTokenHash)
   }
 
   return {
     findSession,
     createSession,
     rotateSession,
-    revokeAll,
+    revoke,
   }
 }
 

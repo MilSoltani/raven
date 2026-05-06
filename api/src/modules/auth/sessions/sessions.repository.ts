@@ -29,9 +29,16 @@ export function createSessionsRepository(prisma: PrismaClient) {
     })
   }
 
-  const revokeByUser = async (userId: number): Promise<void> => {
-    await prisma.session.updateMany({
-      where: { userId, isRevoked: false },
+  const revoke = async (refreshTokenHash: string): Promise<Session | null> => {
+    const session = await prisma.session.findUnique({
+      where: { refreshTokenHash },
+    })
+
+    if (!session || session.isRevoked)
+      return null
+
+    return await prisma.session.update({
+      where: { refreshTokenHash },
       data: { isRevoked: true },
     })
   }
@@ -39,7 +46,7 @@ export function createSessionsRepository(prisma: PrismaClient) {
   return {
     findByHash,
     create,
-    revokeByUser,
+    revoke,
     update,
   }
 }

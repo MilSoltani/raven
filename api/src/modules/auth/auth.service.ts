@@ -5,6 +5,7 @@ import type { JwtUtil } from './utils/jwt.util'
 import {
   InternalException,
   InvalidCredentialsException,
+  NotFoundException,
 } from '@api/infrastructure/errors/exceptions'
 import bcrypt from 'bcrypt'
 
@@ -108,10 +109,19 @@ export function createAuthService(
     return { user, ...newTokens }
   }
 
+  const logout = async (refreshToken: string) => {
+    const refreshTokenHash = cryptoUtil.hash(refreshToken)
+    const session = await sessionsService.revoke(refreshTokenHash)
+
+    if (!session)
+      throw new NotFoundException('Session')
+  }
+
   return {
     login,
     signup,
     refresh,
+    logout,
   }
 }
 

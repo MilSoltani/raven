@@ -43,7 +43,11 @@ export function createAuthHandler(
       return c.json(user, 200)
     })
 
-  // .openapi(AuthRoutes.logout, async (c) => {
-  //   return c.json({ message: 'Logged out successfully' }, 200)
-  // })
+    .openapi(AuthRoutes.logout, async (c) => {
+      const refreshToken = cookieUtil.getRefreshToken(c)
+
+      await authService.logout(refreshToken)
+
+      return c.json({ message: 'Logged out successfully' }, 200)
+    })
 }
