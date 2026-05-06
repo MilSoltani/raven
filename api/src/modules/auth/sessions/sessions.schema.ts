@@ -4,10 +4,8 @@ export const SessionSchema = z.object({
   id: z.number().int(),
   userId: z.number().int(),
 
-  familyId: z.string().uuid(),
   refreshTokenHash: z.string(),
 
-  isUsed: z.boolean(),
   isRevoked: z.boolean(),
 
   expiresAt: z.date(),
@@ -17,13 +15,12 @@ export const SessionSchema = z.object({
 export const CreateSessionPayloadSchema = SessionSchema.omit({
   id: true,
   createdAt: true,
-  isUsed: true,
   isRevoked: true,
 })
 
 export const UpdateSessionPayloadSchema = SessionSchema
   .pick({
-    isUsed: true,
+    refreshTokenHash: true,
     isRevoked: true,
     expiresAt: true,
   })

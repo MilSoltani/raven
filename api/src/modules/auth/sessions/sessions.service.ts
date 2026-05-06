@@ -4,7 +4,6 @@ import {
   ExpiredException,
   InternalException,
   NotFoundException,
-  ReuseDetectedException,
   RevokedException,
 } from '@api/infrastructure/errors/exceptions'
 
@@ -39,37 +38,18 @@ export function createSessionsService(
     if (!session)
       throw new NotFoundException('Session')
 
+    if (session.expiresAt.getTime() < Date.now())
+      throw new ExpiredException('Session')
+
     if (session.isRevoked)
       throw new RevokedException('Session')
 
-    if (session.expiresAt.getTime() < Date.now()) {
-      throw new ExpiredException('Session')
-    }
-
-    if (session.isUsed) {
-      await sessionsRepository.revokeByFamily(session.familyId)
-      throw new ReuseDetectedException('Session')
-    }
-
-    const updated = await sessionsRepository.markUsedIfUnused(session.id)
-
-    if (!updated) {
-      await sessionsRepository.revokeByFamily(session.familyId)
-      throw new ReuseDetectedException('Session')
-    }
-
-    const newSession = await createSession({
-      userId: session.userId,
-      familyId: session.familyId,
+    const updatedSession = await sessionsRepository.update(session.id, {
       refreshTokenHash: newRefreshTokenHash,
       expiresAt,
     })
 
-    return newSession
-  }
-
-  function revokeFamily(familyId: string) {
-    return sessionsRepository.revokeByFamily(familyId)
+    return updatedSession
   }
 
   function revokeAll(userId: number) {
@@ -80,7 +60,6 @@ export function createSessionsService(
     findSession,
     createSession,
     rotateSession,
-    revokeFamily,
     revokeAll,
   }
 }

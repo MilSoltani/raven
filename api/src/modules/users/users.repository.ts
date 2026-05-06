@@ -15,9 +15,7 @@ export function createUsersRepository(prisma: PrismaClient) {
     })
   }
 
-  const create = async (
-    data: CreateUserPayload,
-  ): Promise<User> => {
+  const create = async (data: CreateUserPayload): Promise<User> => {
     return prisma.user.create({
       data,
       omit: { password: true },
@@ -27,32 +25,22 @@ export function createUsersRepository(prisma: PrismaClient) {
   const update = async (
     id: number,
     data: UpdateUserPayload,
-  ): Promise<User | null> => {
-    try {
-      return await prisma.user.update({
-        where: { id },
-        data: {
-          ...data,
-          updatedAt: new Date(),
-        },
-        omit: { password: true },
-      })
-    }
-    catch {
-      return null
-    }
+  ): Promise<User> => {
+    return prisma.user.update({
+      where: { id },
+      data: {
+        ...data,
+        updatedAt: new Date(),
+      },
+      omit: { password: true },
+    })
   }
 
-  const remove = async (id: number): Promise<User | null> => {
-    try {
-      return await prisma.user.delete({
-        where: { id },
-        omit: { password: true },
-      })
-    }
-    catch {
-      return null
-    }
+  const remove = async (id: number): Promise<User> => {
+    return prisma.user.delete({
+      where: { id },
+      omit: { password: true },
+    })
   }
 
   return {

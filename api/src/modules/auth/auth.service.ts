@@ -40,7 +40,6 @@ export function createAuthService(
   const persistSession = async (userId: number, refreshToken: string) => {
     const { session } = await sessionsService.createSession({
       userId,
-      familyId: cryptoUtil.uuid(),
       expiresAt: jwtUtil.getRefreshTokenExpiresAt(),
       refreshTokenHash: cryptoUtil.hash(refreshToken),
     })

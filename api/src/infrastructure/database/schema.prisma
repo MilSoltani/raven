@@ -24,19 +24,17 @@ model Session {
   id               Int      @id @default(autoincrement())
   userId           Int
 
-  familyId         String   @db.Uuid
   refreshTokenHash String   @unique
 
-  isUsed           Boolean  @default(false)
   isRevoked        Boolean  @default(false)
 
   expiresAt        DateTime
   createdAt        DateTime @default(now())
+  updatedAt        DateTime @default(now())
 
   user             User     @relation(fields: [userId], references: [id])
 
   @@index([userId])
-  @@index([familyId])
 }
 
 enum TicketStatus {
