@@ -57,3 +57,9 @@ export class InvalidOrExpiredTokenException extends HTTPException {
     })
   }
 }
+
+export class BadRequestException extends HTTPException {
+  constructor(message: string) {
+    super(401, { message })
+  }
+}

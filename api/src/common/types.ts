@@ -1,8 +1,11 @@
 import type { JWTPayload } from 'hono/utils/jwt/types'
+import type { ParsedQs } from 'qs'
 
 export interface AppEnv {
   Variables: {
     userId: number
+    query: ParsedQs
+
   }
 }
 

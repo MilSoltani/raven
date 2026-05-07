@@ -15,22 +15,6 @@ export function createAuthService(
   cryptoUtil: CryptoUtil,
   jwtUtil: JwtUtil,
 ) {
-  const findUserByEmail = async (email: string) => {
-    const user = await authRepository.getUserByEmail(email)
-
-    if (!user || !user.password)
-      throw new InvalidCredentialsException('User')
-
-    return user
-  }
-
-  const verifyPassword = async (plain: string, hash: string) => {
-    const ok = await bcrypt.compare(plain, hash)
-
-    if (!ok)
-      throw new InvalidCredentialsException('User')
-  }
-
   const issueTokens = async (userId: number, email: string) => {
     const accessToken = await jwtUtil.generateAccessToken(userId, email)
     const refreshToken = await jwtUtil.generateRefreshToken(userId, email)
@@ -51,22 +35,29 @@ export function createAuthService(
     return session
   }
 
-  const login = async (email: string, password: string) => {
-    const user = await findUserByEmail(email)
+  const verifyPassword = async (plain: string, hash: string) => {
+    const ok = await bcrypt.compare(plain, hash)
 
-    if (!user) {
+    if (!ok)
       throw new InvalidCredentialsException('User')
-    }
+  }
 
-    if (!user.password) {
+  const login = async (email: string, pass: string) => {
+    const authUser = await authRepository.getUserByEmail(email)
+
+    if (!authUser)
       throw new InvalidCredentialsException('User')
-    }
 
-    await verifyPassword(password, user.password)
+    if (!authUser.password)
+      throw new InvalidCredentialsException('User')
 
-    const tokens = await issueTokens(user.id, user.email)
+    await verifyPassword(pass, authUser.password)
 
-    await persistSession(user.id, tokens.refreshToken)
+    const tokens = await issueTokens(authUser.id, authUser.email)
+
+    await persistSession(authUser.id, tokens.refreshToken)
+
+    const { password, ...user } = authUser
 
     return { user, ...tokens }
   }
@@ -119,12 +110,7 @@ export function createAuthService(
       throw new NotFoundException('Session')
   }
 
-  return {
-    login,
-    signup,
-    refresh,
-    logout,
-  }
+  return { login, signup, refresh, logout }
 }
 
 export type AuthService = ReturnType<typeof createAuthService>

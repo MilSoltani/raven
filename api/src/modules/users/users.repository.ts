@@ -1,9 +1,11 @@
+import type { UserWhereInput } from '@api/infrastructure/database/generated/prisma/models'
 import type { PrismaClient } from '@api/infrastructure/database/prisma'
 import type { CreateUserPayload, UpdateUserPayload, User } from './users.schema'
 
 export function createUsersRepository(prisma: PrismaClient) {
-  const getAll = async (): Promise<User[]> => {
+  const getAll = async (whereInput: UserWhereInput): Promise<User[]> => {
     return prisma.user.findMany({
+      where: whereInput,
       omit: { password: true },
     })
   }

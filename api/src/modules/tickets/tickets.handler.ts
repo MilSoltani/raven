@@ -7,7 +7,7 @@ export function createTicketsHandler(ticketsService: TicketsService) {
   return new OpenAPIHono<AppEnv>()
 
     .openapi(TicketsRoutes.getAll, async (c) => {
-      const data = await ticketsService.getAll()
+      const data = await ticketsService.getAll(c.var.query)
 
       return c.json(data, 200)
     })

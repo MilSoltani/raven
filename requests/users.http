@@ -1,6 +1,6 @@
 # get users
 ###
-GET http://localhost:3000/users
+GET http://localhost:3000/users?filter[name][contains]="smi"
 
 # get user
 ###

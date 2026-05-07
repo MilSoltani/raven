@@ -7,7 +7,7 @@ export function createUsersHandler(usersService: UsersService) {
   return new OpenAPIHono<AppEnv>()
 
     .openapi(UsersRoutes.getAll, async (c) => {
-      const data = await usersService.getAll()
+      const data = await usersService.getAll(c.var.query)
 
       return c.json(data, 200)
     })

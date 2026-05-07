@@ -1,3 +1,6 @@
+import type { TicketWhereInput } from '@api/infrastructure/database/generated/prisma/models'
+import type { FilterTransformer } from '@api/infrastructure/query'
+import type { ParsedQs } from 'qs'
 import type { TicketsRepository } from './tickets.repository'
 import type { CreateTicketPayload, Ticket, UpdateTicketPayload } from './tickets.schema'
 import {
@@ -5,10 +8,15 @@ import {
   NotFoundException,
 } from '@api/infrastructure/errors/exceptions'
 
-export function createTicketsService(ticketsRepository: TicketsRepository) {
+export function createTicketsService(
+  ticketsRepository: TicketsRepository,
+  filterTransformer: FilterTransformer<TicketWhereInput>,
+) {
   return {
-    async getAll(): Promise<Ticket[]> {
-      return await ticketsRepository.getAll()
+    async getAll(query: ParsedQs): Promise<Ticket[]> {
+      const whereInput: TicketWhereInput = filterTransformer.transform(query.filter)
+
+      return await ticketsRepository.getAll(whereInput)
     },
 
     async getById(id: number): Promise<Ticket> {

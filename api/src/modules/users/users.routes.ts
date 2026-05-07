@@ -1,5 +1,6 @@
 import { IdParamSchema } from '@api/common/common.schema'
 import { jsonContent, jsonError } from '@api/common/routes.util'
+import { RestQuerySchema } from '@api/infrastructure/query/query.schema'
 import { createRoute } from '@hono/zod-openapi'
 import z from 'zod'
 import { CreateUserPayloadSchema, UpdateUserPayloadSchema, UserSchema } from './users.schema'
@@ -8,6 +9,9 @@ export const UsersRoutes = {
   getAll: createRoute({
     method: 'get',
     path: '/',
+    request: {
+      query: RestQuerySchema,
+    },
     tags: ['User'],
     responses: {
       200: jsonContent(z.array(UserSchema), 'List of all users'),
