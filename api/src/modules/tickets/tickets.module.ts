@@ -1,6 +1,6 @@
-import type { TicketWhereInput } from '@api/infrastructure/database/generated/prisma/models'
+import type { TicketOrderByWithRelationInput, TicketWhereInput } from '@api/infrastructure/database/generated/prisma/models'
 import type { PrismaClient } from '@api/infrastructure/database/prisma'
-import { createFilterTransformer } from '@api/infrastructure/query'
+import { createFilterTransformer, createSortTransformer } from '@api/infrastructure/query'
 import { createTicketsHandler } from './tickets.handler'
 import { createTicketsRepository } from './tickets.repository'
 import { createTicketsService } from './tickets.service'
@@ -19,8 +19,19 @@ export function createTicketsModule(prisma: PrismaClient) {
     maxDepth: 3,
   })
 
+  const sortTransformer = createSortTransformer<TicketOrderByWithRelationInput>({
+    allowedPaths: [
+      'subject',
+      'status',
+      'priority',
+      'creator.name',
+      'agent.name',
+    ],
+    maxDepth: 2,
+  })
+
   const repository = createTicketsRepository(prisma)
-  const service = createTicketsService(repository, filterTransformer)
+  const service = createTicketsService(repository, filterTransformer, sortTransformer)
   const handler = createTicketsHandler(service)
 
   return { service, handler }

@@ -1,5 +1,5 @@
-import { isPlainObject } from '../shared.utils'
-import { isFilterCondition, validateOperatorObject, validatePath } from './filter.validators'
+import { isPlainObject, validatePath } from '../shared.utils'
+import { isFilterCondition, validateOperatorObject } from './filter.validators'
 import { normalizeOperatorObject } from './value.normalizer'
 
 interface FilterOptions {
@@ -8,14 +8,14 @@ interface FilterOptions {
 }
 
 export interface FilterTransformer<TWhere> {
-  transform: (value: unknown) => TWhere
+  transform: (value: unknown) => TWhere | undefined
 }
 
 export function createFilterTransformer<TWhere>(options: FilterOptions): FilterTransformer<TWhere> {
   return {
-    transform(rawFilterData: unknown): TWhere {
+    transform(rawFilterData: unknown): TWhere | undefined {
       if (!isPlainObject(rawFilterData))
-        return {} as TWhere
+        return undefined
 
       return parseFilterDataObject(rawFilterData, [])
     },

@@ -1,5 +1,5 @@
-import type { UserWhereInput } from '@api/infrastructure/database/generated/prisma/models'
-import type { FilterTransformer } from '@api/infrastructure/query'
+import type { UserOrderByWithRelationInput, UserWhereInput } from '@api/infrastructure/database/generated/prisma/models'
+import type { FilterTransformer, SortTransformer } from '@api/infrastructure/query'
 import type { ParsedQs } from 'qs'
 import type { UsersRepository } from './users.repository'
 import type { CreateUserPayload, UpdateUserPayload, User } from './users.schema'
@@ -8,12 +8,14 @@ import { InternalException, NotFoundException } from '@api/infrastructure/errors
 export function createUsersService(
   usersRepository: UsersRepository,
   filterTransformer: FilterTransformer<UserWhereInput>,
+  sortTransformer: SortTransformer<UserOrderByWithRelationInput>,
 ) {
   return {
     async getAll(query: ParsedQs): Promise<User[]> {
       const whereInput = filterTransformer.transform(query.filter)
+      const orderByInput = sortTransformer.transform(query.sort)
 
-      return await usersRepository.getAll(whereInput)
+      return await usersRepository.getAll(whereInput, orderByInput)
     },
 
     async getById(id: number): Promise<User> {

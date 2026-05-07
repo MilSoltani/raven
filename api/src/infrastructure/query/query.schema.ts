@@ -54,3 +54,4 @@ export const RestQuerySchema = z.object({
 }).openapi('RestQuery')
 
 export type RestQuery = z.infer<typeof RestQuerySchema>
+export type Sort = z.infer<typeof SortSchema>

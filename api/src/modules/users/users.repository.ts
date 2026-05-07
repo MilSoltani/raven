@@ -1,11 +1,15 @@
-import type { UserWhereInput } from '@api/infrastructure/database/generated/prisma/models'
+import type { UserOrderByWithRelationInput, UserWhereInput } from '@api/infrastructure/database/generated/prisma/models'
 import type { PrismaClient } from '@api/infrastructure/database/prisma'
 import type { CreateUserPayload, UpdateUserPayload, User } from './users.schema'
 
 export function createUsersRepository(prisma: PrismaClient) {
-  const getAll = async (whereInput: UserWhereInput): Promise<User[]> => {
+  const getAll = async (
+    whereInput: UserWhereInput | undefined,
+    orderByInput: UserOrderByWithRelationInput | undefined,
+  ): Promise<User[]> => {
     return prisma.user.findMany({
       where: whereInput,
+      orderBy: orderByInput,
       omit: { password: true },
     })
   }

@@ -1,6 +1,6 @@
 # get tickets
 ###
-GET http://localhost:3000/tickets?filter[creator][name][contains]=smi
+GET http://localhost:3000/tickets?sort[creator][name]=asc&filter[creator][name][contains]=smi
 
 # get ticket
 ###
