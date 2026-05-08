@@ -1,5 +1,5 @@
 import type { UserOrderByWithRelationInput, UserWhereInput } from '@api/infrastructure/database/generated/prisma/models'
-import type { FilterTransformer, SortTransformer } from '@api/infrastructure/query'
+import type { FilterTransformer, PaginationTransformer, SortTransformer } from '@api/infrastructure/query'
 import type { ParsedQs } from 'qs'
 import type { UsersRepository } from './users.repository'
 import type { CreateUserPayload, UpdateUserPayload, User } from './users.schema'
@@ -9,13 +9,15 @@ export function createUsersService(
   usersRepository: UsersRepository,
   filterTransformer: FilterTransformer<UserWhereInput>,
   sortTransformer: SortTransformer<UserOrderByWithRelationInput>,
+  paginationTransformer: PaginationTransformer,
 ) {
   return {
     async getAll(query: ParsedQs): Promise<User[]> {
       const whereInput = filterTransformer.transform(query.filter)
       const orderByInput = sortTransformer.transform(query.sort)
+      const paginationInput = paginationTransformer.transform(query.page, query.limit)
 
-      return await usersRepository.getAll(whereInput, orderByInput)
+      return await usersRepository.getAll(whereInput, orderByInput, paginationInput)
     },
 
     async getById(id: number): Promise<User> {

@@ -1,6 +1,6 @@
 # get users
 ###
-GET http://localhost:3000/users?sort[name]=asc
+GET http://localhost:3000/users?page=2&limit=1
 
 # get user
 ###
