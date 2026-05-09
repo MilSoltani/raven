@@ -14,18 +14,21 @@
     "lint:fix": "eslint --fix",
     "prepare": "husky"
   },
+  "nano-staged": {
+    "*.{js,ts,tsx,css}": "eslint --fix"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "dependencies": {
+    "@eslint-react/eslint-plugin": "^3.0.0"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^8.2.0",
     "eslint": "^10.3.0",
     "eslint-plugin-format": "^2.0.1",
     "husky": "^9.1.7",
     "nano-staged": "^1.0.2"
-  },
-  "nano-staged": {
-    "*.{js,ts,vue,css}": "eslint --fix"
-  },
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+  }
 }

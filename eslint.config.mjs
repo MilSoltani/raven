@@ -2,7 +2,8 @@ import antfu from '@antfu/eslint-config'
 
 export default antfu({
   type: 'app',
-  vue: true,
+  vue: false,
+  react: true,
   typescript: true,
   formatters: true,
   stylistic: {
