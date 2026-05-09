@@ -1,7 +1,7 @@
 import type { PrismaSelect, SelectOptions } from './types'
 import { BadRequestException } from '@api/infrastructure/errors/exceptions'
 
-export interface SelectTransformer<TSelect> {
+export type SelectTransformer<TSelect> = {
   transform: (value: unknown) => TSelect | undefined
 }
 

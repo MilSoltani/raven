@@ -1,9 +1,9 @@
-export interface PaginationOptions {
+export type PaginationOptions = {
   defaultLimit?: number
   maxLimit?: number
 }
 
-export interface PrismaPagination {
+export type PrismaPagination = {
   skip: number
   take: number
 }

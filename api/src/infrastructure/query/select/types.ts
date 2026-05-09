@@ -1,6 +1,6 @@
 export type AllowedRelations = Record<string, readonly string[]>
 
-export interface SelectOptions {
+export type SelectOptions = {
   allowedColumns: string[]
   allowedRelations: AllowedRelations
   requiredColumns?: string[]

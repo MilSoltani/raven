@@ -1,6 +1,6 @@
 export type SortDirection = 'asc' | 'desc'
 
-export interface SortOptions {
+export type SortOptions = {
   allowedPaths: string[]
   maxDepth: number
 }

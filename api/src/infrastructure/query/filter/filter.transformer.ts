@@ -2,12 +2,12 @@ import { isPlainObject, validatePath } from '../shared.utils'
 import { isFilterCondition, validateOperatorObject } from './filter.validators'
 import { normalizeOperatorObject } from './value.normalizer'
 
-interface FilterOptions {
+type FilterOptions = {
   allowedPaths: string[]
   maxDepth: number
 }
 
-export interface FilterTransformer<TWhere> {
+export type FilterTransformer<TWhere> = {
   transform: (value: unknown) => TWhere | undefined
 }
 

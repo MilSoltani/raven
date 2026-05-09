@@ -1,7 +1,7 @@
 import type { PaginationOptions, PrismaPagination } from './types'
 import { BadRequestException } from '@api/infrastructure/errors/exceptions'
 
-export interface PaginationTransformer {
+export type PaginationTransformer = {
   transform: (page: unknown, limit: unknown) => PrismaPagination
 }
 

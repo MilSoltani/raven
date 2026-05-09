@@ -2,7 +2,7 @@ import type { SortDirection, SortOptions } from './types'
 import { isPlainObject, validatePath } from '../shared.utils'
 import { normalizeDirection } from './direction.normalizer'
 
-export interface SortTransformer<TOrderBy> {
+export type SortTransformer<TOrderBy> = {
   transform: (value: unknown) => TOrderBy | undefined
 }
 
