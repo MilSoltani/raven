@@ -1,8 +1,17 @@
 {
   "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "paths": {
+      "@raven/schema": ["./packages/schema/src/main.ts"],
+      "@raven/web": ["./packages/database/src/main.ts"],
+      "@raven/api": ["./apps/api/src/main.ts"]
+    },
+    "strict": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
     "skipLibCheck": true
-  },
-  "references": [
-    { "path": "./api" }
-  ]
+  }
 }

@@ -1,29 +1,18 @@
 {
   "name": "raven",
-  "type": "module",
-  "version": "0.0.1",
   "description": "Ticket System",
   "author": "Milad Soltani",
   "scripts": {
-    "dev:api": "cd api && npm run dev",
-    "debug:api": "cd api && npm run debug",
-    "generate": "cd api && prisma generate",
-    "migrate:dev": "cd api && prisma migrate dev",
-    "migrate:reset": "cd api && prisma migrate reset",
-    "studio": "cd api && prisma studio",
+    "dev:web": "cd apps/web && npm run dev",
+    "dev:api": "cd apps/api && npm run dev",
+    "debug:api": "cd apps/api && npm run debug",
+    "generate": "cd apps/api && prisma generate",
+    "migrate:dev": "cd apps/api && prisma migrate dev",
+    "migrate:reset": "cd apps/api && prisma migrate reset",
+    "studio": "cd apps/api && prisma studio",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "prepare": "husky"
-  },
-  "workspaces": [
-    "api",
-    "web"
-  ],
-  "nano-staged": {
-    "*.{js,ts,vue,css}": "eslint --fix"
-  },
-  "dependencies": {
-    "@hono/zod-openapi": "^1.3.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^8.2.0",
@@ -31,5 +20,12 @@
     "eslint-plugin-format": "^2.0.1",
     "husky": "^9.1.7",
     "nano-staged": "^1.0.2"
-  }
+  },
+  "nano-staged": {
+    "*.{js,ts,vue,css}": "eslint --fix"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
 }

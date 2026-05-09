@@ -1,0 +1,33 @@
+{
+  "name": "@raven/api",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --env-file=.env src/main.ts",
+    "debug": "tsx --inspect=9229 --env-file=.env src/main.ts",
+    "build": "tsc --env-file=.env",
+    "start": "node dist/main.js",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.14",
+    "@hono/swagger-ui": "^0.6.1",
+    "@hono/zod-openapi": "^1.3.0",
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^7.8.0",
+    "@raven/schema": "*",
+    "bcrypt": "^6.0.0",
+    "hono": "^4.12.16",
+    "pg": "^8.20.0",
+    "qs": "^6.15.1",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/node": "^20.11.17",
+    "@types/pg": "^8.20.0",
+    "@types/qs": "^6.15.1",
+    "prisma": "^7.8.0",
+    "tsx": "^4.7.1",
+    "typescript": "^5.8.3"
+  }
+}

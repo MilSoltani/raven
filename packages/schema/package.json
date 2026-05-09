@@ -1,0 +1,10 @@
+{
+  "name": "@raven/schema",
+  "type": "module",
+  "exports": {},
+  "scripts": {},
+  "dependencies": {
+    "zod": "^4.3.6"
+  },
+  "typescript": "^6.0.0"
+}
