@@ -10,6 +10,7 @@ export default antfu({
     indent: 2,
     semi: false,
     quotes: 'single',
+    jsx: true,
   },
   ignores: ['**/migrations/*'],
 }, {
@@ -17,5 +18,6 @@ export default antfu({
     'ts/consistent-type-definitions': ['error', 'type'],
     'no-console': ['warn'],
     'antfu/no-top-level-await': ['off'],
+    '@stylistic/jsx-max-props-per-line': ['error', { maximum: 1 }],
   },
 })
