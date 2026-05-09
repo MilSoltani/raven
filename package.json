@@ -16,7 +16,8 @@
     "prepare": "husky"
   },
   "workspaces": [
-    "api"
+    "api",
+    "web"
   ],
   "nano-staged": {
     "*.{js,ts,vue,css}": "eslint --fix"
