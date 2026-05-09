@@ -1,6 +1,6 @@
 # get tickets
 ###
-GET http://localhost:3000/tickets?select=id,subject,creator,agent
+GET http://localhost:3000/tickets?select=id,subject,creator
 
 # get ticket
 ###

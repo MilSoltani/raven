@@ -1,5 +1,5 @@
+import type { CreateSessionPayload } from '@raven/schema/sessions'
 import type { SessionsRepository } from './sessions.repository'
-import type { CreateSessionPayload } from './sessions.schema'
 import {
   ExpiredException,
   InternalException,
