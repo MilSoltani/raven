@@ -1,7 +1,7 @@
 import type { UserOrderByWithRelationInput, UserSelect, UserWhereInput } from '@raven/api/infrastructure/database/generated/prisma/models'
 import type { PrismaClient } from '@raven/api/infrastructure/database/prisma'
 import type { PrismaPagination } from '@raven/api/infrastructure/query'
-import type { CreateUserPayload, UpdateUserPayload, User } from '@raven/schema/users'
+import type { CreateUserPayload, UpdateUserPayload, User } from '@raven/schemas'
 
 export function createUsersRepository(prisma: PrismaClient) {
   const getAll = async (

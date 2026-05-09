@@ -1,5 +1,5 @@
 import type { PrismaClient } from '@raven/api/infrastructure/database/prisma'
-import type { Session, UpdateSessionPayload } from '@raven/schema/sessions'
+import type { Session, UpdateSessionPayload } from '@raven/schemas'
 
 export function createSessionsRepository(prisma: PrismaClient) {
   const findByHash = async (hash: string): Promise<Session | null> => {

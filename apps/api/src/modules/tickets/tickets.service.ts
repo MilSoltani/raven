@@ -1,6 +1,6 @@
 import type { TicketOrderByWithRelationInput, TicketSelect, TicketWhereInput } from '@raven/api/infrastructure/database/generated/prisma/models'
 import type { FilterTransformer, PaginationTransformer, SelectTransformer, SortTransformer } from '@raven/api/infrastructure/query'
-import type { CreateTicketPayload, Ticket, UpdateTicketPayload } from '@raven/schema/tickets'
+import type { CreateTicketPayload, Ticket, UpdateTicketPayload } from '@raven/schemas'
 import type { ParsedQs } from 'qs'
 import type { TicketsRepository } from './tickets.repository'
 import {

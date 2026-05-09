@@ -1,8 +1,7 @@
 import { createRoute } from '@hono/zod-openapi'
 import { IdParamSchema } from '@raven/api/common/common.schema'
 import { jsonContent, jsonError } from '@raven/api/common/routes.util'
-import { CriteriaSchema } from '@raven/schema/criteria'
-import { CreateTicketSchema, TicketSchema, UpdateTicketSchema } from '@raven/schema/tickets'
+import { CreateTicketSchema, CriteriaSchema, TicketSchema, UpdateTicketSchema } from '@raven/schemas'
 import z from 'zod'
 
 export const TicketsRoutes = {
