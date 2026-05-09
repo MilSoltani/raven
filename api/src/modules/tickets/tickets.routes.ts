@@ -1,6 +1,6 @@
 import { IdParamSchema } from '@api/common/common.schema'
 import { jsonContent, jsonError } from '@api/common/routes.util'
-import { RestQuerySchema } from '@api/infrastructure/query/query.schema'
+import { CriteriaSchema } from '@api/infrastructure/query/criteria.schema'
 import { createRoute } from '@hono/zod-openapi'
 import z from 'zod'
 import { CreateTicketSchema, TicketSchema, UpdateTicketSchema } from './tickets.schema'
@@ -11,7 +11,7 @@ export const TicketsRoutes = {
     path: '/',
     tags: ['Ticket'],
     request: {
-      query: RestQuerySchema,
+      query: CriteriaSchema,
     },
     responses: {
       200: jsonContent(z.array(TicketSchema), 'List of all tickets'),

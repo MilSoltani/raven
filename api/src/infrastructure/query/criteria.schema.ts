@@ -50,7 +50,7 @@ const SelectSchema = z.union([
   z.array(z.string()),
 ]).openapi('Select')
 
-export const RestQuerySchema = z.object({
+export const CriteriaSchema = z.object({
   select: SelectSchema.optional(),
   filter: FilterSchema.optional(),
   sort: SortSchema.optional(),
@@ -59,5 +59,5 @@ export const RestQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(100).default(10),
 }).openapi('RestQuery')
 
-export type RestQuery = z.infer<typeof RestQuerySchema>
+export type RestQuery = z.infer<typeof CriteriaSchema>
 export type Sort = z.infer<typeof SortSchema>

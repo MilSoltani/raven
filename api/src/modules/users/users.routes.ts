@@ -1,6 +1,6 @@
 import { IdParamSchema } from '@api/common/common.schema'
 import { jsonContent, jsonError } from '@api/common/routes.util'
-import { RestQuerySchema } from '@api/infrastructure/query/query.schema'
+import { CriteriaSchema } from '@api/infrastructure/query/criteria.schema'
 import { createRoute } from '@hono/zod-openapi'
 import z from 'zod'
 import { CreateUserPayloadSchema, UpdateUserPayloadSchema, UserSchema } from './users.schema'
@@ -10,7 +10,7 @@ export const UsersRoutes = {
     method: 'get',
     path: '/',
     request: {
-      query: RestQuerySchema,
+      query: CriteriaSchema,
     },
     tags: ['User'],
     responses: {
