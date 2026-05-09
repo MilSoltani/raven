@@ -1,5 +1,5 @@
-import type { TicketOrderByWithRelationInput, TicketWhereInput } from '@api/infrastructure/database/generated/prisma/models'
-import type { FilterTransformer, PaginationTransformer, SortTransformer } from '@api/infrastructure/query'
+import type { TicketOrderByWithRelationInput, TicketSelect, TicketWhereInput } from '@api/infrastructure/database/generated/prisma/models'
+import type { FilterTransformer, PaginationTransformer, SelectTransformer, SortTransformer } from '@api/infrastructure/query'
 import type { ParsedQs } from 'qs'
 import type { TicketsRepository } from './tickets.repository'
 import type { CreateTicketPayload, Ticket, UpdateTicketPayload } from './tickets.schema'
@@ -13,14 +13,21 @@ export function createTicketsService(
   filterTransformer: FilterTransformer<TicketWhereInput>,
   sortTransformer: SortTransformer<TicketOrderByWithRelationInput>,
   paginationTransformer: PaginationTransformer,
+  selectTransformer: SelectTransformer<TicketSelect>,
 ) {
   return {
     async getAll(query: ParsedQs): Promise<Ticket[]> {
       const whereInput = filterTransformer.transform(query.filter)
       const orderByInput = sortTransformer.transform(query.sort)
       const paginationInput = paginationTransformer.transform(query.page, query.limit)
+      const selectInput = selectTransformer.transform(query.select)
 
-      return await ticketsRepository.getAll(whereInput, orderByInput, paginationInput)
+      return await ticketsRepository.getAll(
+        whereInput,
+        orderByInput,
+        paginationInput,
+        selectInput,
+      )
     },
 
     async getById(id: number): Promise<Ticket> {

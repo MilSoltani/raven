@@ -1,4 +1,4 @@
-import type { UserOrderByWithRelationInput, UserWhereInput } from '@api/infrastructure/database/generated/prisma/models'
+import type { UserOrderByWithRelationInput, UserSelect, UserWhereInput } from '@api/infrastructure/database/generated/prisma/models'
 import type { PrismaClient } from '@api/infrastructure/database/prisma'
 import type { PrismaPagination } from '@api/infrastructure/query'
 import type { CreateUserPayload, UpdateUserPayload, User } from './users.schema'
@@ -8,11 +8,12 @@ export function createUsersRepository(prisma: PrismaClient) {
     whereInput: UserWhereInput | undefined,
     orderByInput: UserOrderByWithRelationInput | undefined,
     paginationInput: PrismaPagination,
+    selectInput: UserSelect | undefined,
   ): Promise<User[]> => {
     return prisma.user.findMany({
+      select: selectInput,
       where: whereInput,
       orderBy: orderByInput,
-      omit: { password: true },
       ...paginationInput,
     })
   }

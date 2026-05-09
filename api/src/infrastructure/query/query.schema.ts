@@ -45,7 +45,13 @@ const SortSchema = z.record(
   z.enum(['asc', 'desc']),
 ).openapi('Sort')
 
+const SelectSchema = z.union([
+  z.string(),
+  z.array(z.string()),
+]).openapi('Select')
+
 export const RestQuerySchema = z.object({
+  select: SelectSchema.optional(),
   filter: FilterSchema.optional(),
   sort: SortSchema.optional(),
   q: z.string().trim().optional(),

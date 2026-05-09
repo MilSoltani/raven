@@ -1,4 +1,4 @@
-import type { TicketOrderByWithRelationInput, TicketWhereInput } from '@api/infrastructure/database/generated/prisma/models'
+import type { TicketOrderByWithRelationInput, TicketSelect, TicketWhereInput } from '@api/infrastructure/database/generated/prisma/models'
 import type { PrismaClient } from '@api/infrastructure/database/prisma'
 import type { PrismaPagination } from '@api/infrastructure/query'
 import type { CreateTicketPayload, Ticket, UpdateTicketPayload } from './tickets.schema'
@@ -8,8 +8,10 @@ export function createTicketsRepository(prisma: PrismaClient) {
     whereInput: TicketWhereInput | undefined,
     orderByInput: TicketOrderByWithRelationInput | undefined,
     paginationInput: PrismaPagination,
+    selectInput: TicketSelect | undefined,
   ): Promise<Ticket[]> => {
     return prisma.ticket.findMany({
+      select: selectInput,
       where: whereInput,
       orderBy: orderByInput,
       ...paginationInput,
