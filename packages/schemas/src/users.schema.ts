@@ -1,4 +1,6 @@
-import { z } from 'zod'
+import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
+
+extendZodWithOpenApi(z)
 
 export const UserSchema = z.object({
   id: z.number().int(),

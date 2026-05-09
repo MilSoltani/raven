@@ -1,1 +1,1 @@
-export { createUsersModule } from './tickets.module'
+export { createTicketsModule } from './tickets.module'

@@ -1,7 +1,12 @@
-import { z } from 'zod'
+import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
+
+extendZodWithOpenApi(z)
 
 export const TicketStatusEnum = z.enum(['OPEN', 'PENDING', 'WORKING', 'RESOLVED', 'CLOSED'])
+  .openapi('TicketStatus')
+
 export const TicketPriorityEnum = z.enum(['LOW', 'MEDIUM', 'HIGH', 'URGENT'])
+  .openapi('TicketPriority')
 
 export const TicketSchema = z.object({
   id: z.number().int(),
@@ -13,7 +18,7 @@ export const TicketSchema = z.object({
   priority: TicketPriorityEnum,
   createdAt: z.date(),
   updatedAt: z.date(),
-})
+}).openapi('Ticket')
 
 export const CreateTicketSchema = TicketSchema.omit({
   id: true,
@@ -23,9 +28,10 @@ export const CreateTicketSchema = TicketSchema.omit({
 }).extend({
   status: TicketStatusEnum.optional(),
   priority: TicketPriorityEnum.optional(),
-})
+}).openapi('CreateTicket')
 
 export const UpdateTicketSchema = CreateTicketSchema.partial()
+  .openapi('UpdateTicket')
 
 export type Ticket = z.infer<typeof TicketSchema>
 export type CreateTicketPayload = z.infer<typeof CreateTicketSchema>
