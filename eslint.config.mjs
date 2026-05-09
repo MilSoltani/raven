@@ -16,9 +16,5 @@ export default antfu({
     'ts/consistent-type-definitions': ['error', 'type'],
     'no-console': ['warn'],
     'antfu/no-top-level-await': ['off'],
-    'unicorn/filename-case': ['error', {
-      case: 'kebabCase',
-      ignore: ['README.md'],
-    }],
   },
 })
