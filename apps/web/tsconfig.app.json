@@ -11,9 +11,7 @@
     /* Bundler mode */
     "moduleResolution": "bundler",
     "paths": {
-      "@raven/web/*": ["./src/*"],
-      "@raven/schema": ["../../packages/schemas/src/main.ts"],
-      "@raven/schema/*": ["../../packages/schemas/src/*"]
+      "@raven/web/*": ["./src/*"]
     },
     "types": ["vite/client"],
     "allowImportingTsExtensions": true,

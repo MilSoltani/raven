@@ -1,8 +1,9 @@
 import { createRoute } from '@hono/zod-openapi'
 import { IdParamSchema } from '@raven/api/common/common.schema'
 import { jsonContent, jsonError } from '@raven/api/common/routes.util'
-import { CreateUserPayloadSchema, CriteriaSchema, UpdateUserPayloadSchema, UserSchema } from '@raven/schemas'
+import { CriteriaSchema } from '@raven/api/infrastructure/query/criteria.schema'
 import z from 'zod'
+import { CreateUserPayloadSchema, UpdateUserPayloadSchema, UserSchema } from './users.schema'
 
 export const UsersRoutes = {
   getAll: createRoute({

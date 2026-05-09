@@ -10,9 +10,7 @@
     "moduleResolution": "bundler",
 
     "paths": {
-      "@raven/web/*": ["./src/*"],
-      "@raven/schema": ["../../packages/schema/src/main.ts"],
-      "@raven/schema/*": ["../../packages/schema/src/*"]
+      "@raven/web/*": ["./src/*"]
     },
     "types": ["node"],
     "allowImportingTsExtensions": true,

@@ -1,8 +1,8 @@
 import type { UserOrderByWithRelationInput, UserSelect, UserWhereInput } from '@raven/api/infrastructure/database/generated/prisma/models'
 import type { FilterTransformer, PaginationTransformer, SelectTransformer, SortTransformer } from '@raven/api/infrastructure/query'
-import type { CreateUserPayload, UpdateUserPayload, User } from '@raven/schemas'
 import type { ParsedQs } from 'qs'
 import type { UsersRepository } from './users.repository'
+import type { CreateUserPayload, UpdateUserPayload, User } from './users.schema'
 import { InternalException, NotFoundException } from '@raven/api/infrastructure/errors/exceptions'
 
 export function createUsersService(

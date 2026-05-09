@@ -1,5 +1,5 @@
 import type { PrismaClient } from '@raven/api/infrastructure/database/prisma'
-import type { AuthUser, SignupPayload } from '@raven/schemas'
+import type { AuthUser, SignupPayload } from './auth.schema'
 
 export function createAuthRepository(prisma: PrismaClient) {
   const getUserByEmail = async (email: string): Promise<AuthUser | null> => {

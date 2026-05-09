@@ -1,7 +1,7 @@
 import type { TicketOrderByWithRelationInput, TicketSelect, TicketWhereInput } from '@raven/api/infrastructure/database/generated/prisma/models'
 import type { PrismaClient } from '@raven/api/infrastructure/database/prisma'
 import type { PrismaPagination } from '@raven/api/infrastructure/query'
-import type { CreateTicketPayload, Ticket, UpdateTicketPayload } from '@raven/schemas'
+import type { CreateTicketPayload, Ticket, UpdateTicketPayload } from './tickets.schema'
 
 export function createTicketsRepository(prisma: PrismaClient) {
   const getAll = async (
