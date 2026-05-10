@@ -1,6 +1,5 @@
 import { createRoute } from '@hono/zod-openapi'
 import { jsonContent, jsonError } from '@raven/api/common/routes.util'
-import { z } from 'zod'
 import { AuthResponseSchema, LoginPayloadSchema, LogOutResponseSchema, SignupPayloadSchema } from './auth.schema'
 
 export const AuthRoutes = {
@@ -39,14 +38,6 @@ export const AuthRoutes = {
     method: 'post',
     path: '/refresh',
     tags: ['Auth'],
-    request: {
-      headers: z.object({
-        cookie: z.string().openapi({
-          example: 'refreshToken=abc123',
-          description: 'HTTP cookie containing refresh token',
-        }),
-      }),
-    },
     responses: {
       200: jsonContent(AuthResponseSchema, 'Session refreshed'),
       401: jsonError('Unauthorized'),
@@ -58,14 +49,6 @@ export const AuthRoutes = {
     method: 'post',
     path: '/logout',
     tags: ['Auth'],
-    request: {
-      headers: z.object({
-        cookie: z.string().openapi({
-          example: 'refreshToken=abc123',
-          description: 'HTTP cookie containing refresh token',
-        }),
-      }),
-    },
     responses: {
       200: jsonContent(LogOutResponseSchema, 'Logged out successfully'),
       401: jsonError('Unauthorized'),

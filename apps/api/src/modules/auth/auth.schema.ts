@@ -32,3 +32,4 @@ export const LogOutResponseSchema = z.object({
 export type AuthUser = z.infer<typeof AuthUserSchema>
 export type LoginPayload = z.infer<typeof LoginPayloadSchema>
 export type SignupPayload = z.infer<typeof SignupPayloadSchema>
+export type AuthResponse = z.infer<typeof AuthResponseSchema>

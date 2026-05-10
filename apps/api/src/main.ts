@@ -10,6 +10,11 @@ import { jwt } from 'hono/jwt'
 import { logger } from 'hono/logger'
 import { authModule, ticketsModule, usersModule } from './app'
 
+const publicRoutes = [
+  '/auth/login',
+  '/auth/signup',
+]
+
 const app = new OpenAPIHono<AppEnv>()
   .doc('/doc', {
     openapi: '3.0.0',
@@ -19,13 +24,31 @@ const app = new OpenAPIHono<AppEnv>()
     },
   })
   .get('/ui', swaggerUI({ url: '/doc' }))
-  .use('/*', cors())
+  .use(
+    '/*',
+    cors({
+      origin: ['http://localhost:5173'],
+      credentials: true,
+      allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      allowHeaders: ['Content-Type', 'Authorization'],
+      exposeHeaders: ['Content-Length'],
+      maxAge: 600,
+    }),
+  )
   .use(logger())
-  .use(jwt({
-    secret: config.JWT_ACCESS_TOKEN_SECRET,
-    cookie: 'accessToken',
-    alg: 'HS256',
-  }))
+  .use('*', async (c, next) => {
+    const path = c.req.path
+
+    if (publicRoutes.includes(path)) {
+      return next()
+    }
+
+    return jwt({
+      secret: config.JWT_ACCESS_TOKEN_SECRET,
+      cookie: 'accessToken',
+      alg: 'HS256',
+    })(c, next)
+  })
   .use(async (c, next) => {
     const payload = c.get('jwtPayload') as AuthPayload
     if (payload?.sub) {
