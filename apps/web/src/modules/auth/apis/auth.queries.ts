@@ -4,7 +4,7 @@ import type {
   SignupPayload,
 } from '@raven/api/exports'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createAuthApis } from '../apis/auth.apis'
+import { createAuthApis } from './auth.apis'
 
 const auth = createAuthApis()
 

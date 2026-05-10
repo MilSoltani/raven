@@ -2,7 +2,7 @@ import type { User } from '@raven/api/exports'
 import { usersClient } from '@raven/api/exports'
 import { useEffect, useState } from 'react'
 
-export default function Home() {
+export function Home() {
   const [users, setUsers] = useState<User[]>([])
 
   useEffect(() => {

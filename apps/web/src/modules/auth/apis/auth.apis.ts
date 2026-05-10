@@ -5,14 +5,25 @@ import type {
 } from '@raven/api/exports'
 
 import { authClient } from '@raven/api/exports'
+import { parseApiError } from '@raven/web/errors/api-errors'
+import { mapAuthError } from './auth.errors'
 
-export function createAuthApis() {
-  const opts = {
-    init: {
-      credentials: 'include' as const,
-    },
+const opts = {
+  init: {
+    credentials: 'include' as const,
+  },
+}
+
+async function handle<T>(res: Response): Promise<T> {
+  if (!res.ok) {
+    const apiError = await parseApiError(res)
+    throw mapAuthError(apiError)
   }
 
+  return res.json()
+}
+
+export function createAuthApis() {
   return {
     async login(payload: LoginPayload): Promise<AuthResponse> {
       const res = await authClient.login.$post(
@@ -20,11 +31,7 @@ export function createAuthApis() {
         opts,
       )
 
-      if (!res.ok) {
-        throw new Error(res.statusText)
-      }
-
-      return res.json()
+      return handle<AuthResponse>(res)
     },
 
     async signup(payload: SignupPayload): Promise<AuthResponse> {
@@ -33,11 +40,7 @@ export function createAuthApis() {
         opts,
       )
 
-      if (!res.ok) {
-        throw new Error(res.statusText)
-      }
-
-      return res.json()
+      return handle<AuthResponse>(res)
     },
 
     async refresh(): Promise<AuthResponse> {
@@ -46,11 +49,7 @@ export function createAuthApis() {
         opts,
       )
 
-      if (!res.ok) {
-        throw new Error(res.statusText)
-      }
-
-      return res.json()
+      return handle<AuthResponse>(res)
     },
 
     async logout(): Promise<{ message: string }> {
@@ -59,11 +58,7 @@ export function createAuthApis() {
         opts,
       )
 
-      if (!res.ok) {
-        throw new Error(res.statusText)
-      }
-
-      return res.json()
+      return handle<{ message: string }>(res)
     },
   }
 }

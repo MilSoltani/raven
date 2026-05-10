@@ -3,9 +3,9 @@ import type { SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoginPayloadSchema } from '@raven/api/exports'
 import { useForm } from 'react-hook-form'
-import { useLogin } from '../queries/auth.queries'
+import { useLogin } from '../apis/auth.queries'
 
-export default function Login() {
+export function Login() {
   const login = useLogin()
 
   const {
@@ -22,11 +22,13 @@ export default function Login() {
     },
   })
 
-  const onSubmit: SubmitHandler<LoginPayload> = async (data) => {
+  const onSubmit: SubmitHandler<LoginPayload> = (data) => {
     login.mutate(data, {
-      onError: () => {
-        setError('root.server', {
-          message: 'Invalid credentials',
+      onError: (err: any) => {
+        Object.entries(err).forEach(([key, value]) => {
+          setError(key as any, {
+            message: String(value),
+          })
         })
       },
     })
