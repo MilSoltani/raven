@@ -1,1 +1,1 @@
-export { Login } from './views/login.view'
+export { LoginPage } from './login/login.page'

@@ -1,9 +1,4 @@
-import type {
-  AuthUser,
-
-  LoginPayload,
-} from '@raven/api/exports'
-
+import type { AuthUser, LoginPayload } from '@raven/api/exports'
 import { authClient } from '@raven/api/exports'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
