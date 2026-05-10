@@ -9,6 +9,11 @@ export default defineConfig({
     alias: {
       '@raven/web': path.resolve(__dirname, './src'),
       '@raven/api': path.resolve(__dirname, '../api/src'),
+      'components': path.resolve(__dirname, 'src/components'),
+      'ui': path.resolve(__dirname, 'src/components/ui'),
+      'lib': path.resolve(__dirname, 'src/lib'),
+      'hooks': path.resolve(__dirname, 'src/hooks'),
+      'utils': path.resolve(__dirname, 'src/utils'),
     },
   },
 })

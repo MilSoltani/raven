@@ -1,4 +1,15 @@
 {
+  "compilerOptions": {
+    "paths": {
+      "@raven/web": ["./src/"],
+      "@raven/api/*": ["../api/src/*"],
+      "components/*": ["src/components/*"],
+      "ui/*": ["src/components/ui/*"],
+      "lib/*": ["src/lib/*"],
+      "hooks/*": ["src/hooks/*"],
+      "utils/*": ["src/utils/*"]
+    }
+  },
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }

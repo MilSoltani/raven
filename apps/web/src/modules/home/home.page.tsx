@@ -1,9 +1,9 @@
+import { Button } from '@raven/web/components/ui/button'
+
 export function HomePage() {
   return (
     <div>
-      <h1 className="text-3xl font-bold underline">
-        Hello!
-      </h1>
+      <Button>Hello!</Button>
     </div>
   )
 }

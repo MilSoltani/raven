@@ -4,8 +4,8 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "paths": {
-      "@raven/web": ["./packages/database/src/main.ts"],
-      "@raven/api": ["./apps/api/src/main.ts"]
+      "@raven/web": ["./apps/web/src/"],
+      "@raven/api": ["./apps/api/src/"]
     },
     "strict": true,
     "declaration": true,
