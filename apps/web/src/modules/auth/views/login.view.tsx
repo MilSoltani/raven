@@ -3,7 +3,7 @@ import type { SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoginPayloadSchema } from '@raven/api/exports'
 import { useForm } from 'react-hook-form'
-import { useLogin } from '../apis/auth.queries'
+import { useLogin } from '../hooks/use-login'
 
 export function Login() {
   const login = useLogin()
@@ -24,11 +24,9 @@ export function Login() {
 
   const onSubmit: SubmitHandler<LoginPayload> = (data) => {
     login.mutate(data, {
-      onError: (err: any) => {
-        Object.entries(err).forEach(([key, value]) => {
-          setError(key as any, {
-            message: String(value),
-          })
+      onError: (err) => {
+        setError('root.serverError', {
+          message: err.message,
         })
       },
     })
@@ -39,32 +37,38 @@ export function Login() {
       onSubmit={handleSubmit(onSubmit)}
       noValidate
     >
-      <input
-        {...register('email')}
-        type="email"
-        autoComplete="email"
-      />
+      <div>
+        <input
+          {...register('email')}
+          type="email"
+          autoComplete="email"
+          placeholder="Email"
+        />
+        {errors.email && <div style={{ color: 'red' }}>{errors.email.message}</div>}
+      </div>
 
-      {errors.email && <div>{errors.email.message}</div>}
+      <div>
+        <input
+          {...register('password')}
+          type="password"
+          autoComplete="current-password"
+          placeholder="Password"
+        />
+        {errors.password && <div style={{ color: 'red' }}>{errors.password.message}</div>}
+      </div>
 
-      <input
-        {...register('password')}
-        type="password"
-        autoComplete="current-password"
-      />
-
-      {errors.password && <div>{errors.password.message}</div>}
+      {errors.root?.serverError && (
+        <div style={{ color: 'red', fontWeight: 'bold' }}>
+          {errors.root.serverError.message}
+        </div>
+      )}
 
       <button
         type="submit"
         disabled={login.isPending}
       >
-        {login.isPending ? 'Logging in' : 'Login'}
+        {login.isPending ? 'Logging in...' : 'Login'}
       </button>
-
-      {errors.root?.server && (
-        <div>{errors.root.server.message}</div>
-      )}
     </form>
   )
 }
