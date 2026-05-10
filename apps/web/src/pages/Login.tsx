@@ -3,16 +3,16 @@ import type { SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoginPayloadSchema } from '@raven/api/exports'
 import { useForm } from 'react-hook-form'
-import { createAuthApis } from '../apis/auth.apis'
-
-const authApi = createAuthApis()
+import { useLogin } from '../queries/auth.queries'
 
 export default function Login() {
+  const login = useLogin()
+
   const {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<LoginPayload>({
     resolver: zodResolver(LoginPayloadSchema),
     mode: 'onBlur',
@@ -23,14 +23,13 @@ export default function Login() {
   })
 
   const onSubmit: SubmitHandler<LoginPayload> = async (data) => {
-    try {
-      await authApi.login(data)
-    }
-    catch {
-      setError('root.server', {
-        message: 'Invalid credentials',
-      })
-    }
+    login.mutate(data, {
+      onError: () => {
+        setError('root.server', {
+          message: 'Invalid credentials',
+        })
+      },
+    })
   }
 
   return (
@@ -56,9 +55,9 @@ export default function Login() {
 
       <button
         type="submit"
-        disabled={isSubmitting}
+        disabled={login.isPending}
       >
-        {isSubmitting ? 'Logging in' : 'Login'}
+        {login.isPending ? 'Logging in' : 'Login'}
       </button>
 
       {errors.root?.server && (
