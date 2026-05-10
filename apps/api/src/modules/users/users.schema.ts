@@ -7,8 +7,8 @@ export const UserSchema = z.object({
   name: z.string().min(1).max(255),
   email: z.email().max(255),
   password: z.string().min(8).max(255).nullable().optional(),
-  updatedAt: z.date(),
-  createdAt: z.date(),
+  updatedAt: z.string(),
+  createdAt: z.string(),
 })
 
 export const CreateUserPayloadSchema = UserSchema.omit({

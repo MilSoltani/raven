@@ -7,6 +7,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@raven/web': path.resolve(__dirname, './src'),
+      '@raven/api': path.resolve(__dirname, '../api/src'),
     },
   },
 })

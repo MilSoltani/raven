@@ -1,0 +1,14 @@
+import type { authModule, ticketsModule, usersModule } from '@raven/api/app'
+import { hc } from 'hono/client'
+
+// PRC Clients
+
+export const authClient = hc<typeof authModule.handler>('http://localhost:3000/auth')
+export const usersClient = hc<typeof usersModule.handler>('http://localhost:3000/users')
+export const ticketsClient = hc<typeof ticketsModule.handler>('http://localhost:3000/tickets')
+
+// Types
+
+export * from '@raven/api/modules/auth/auth.schema'
+export * from '@raven/api/modules/tickets/tickets.schema'
+export * from '@raven/api/modules/users/users.schema'

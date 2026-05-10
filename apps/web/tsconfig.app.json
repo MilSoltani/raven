@@ -11,7 +11,8 @@
     /* Bundler mode */
     "moduleResolution": "bundler",
     "paths": {
-      "@raven/web/*": ["./src/*"]
+      "@raven/web/*": ["./src/*"],
+      "@raven/api/*": ["../api/src/*"]
     },
     "types": ["vite/client"],
     "allowImportingTsExtensions": true,
