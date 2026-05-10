@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { LoginPage } from './modules/auth'
 import { HomePage } from './modules/home'
+import './main.css'
 
 const queryClient = new QueryClient()
 
