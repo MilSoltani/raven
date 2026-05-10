@@ -23,7 +23,7 @@ export function createTicketsHandler(ticketsService: TicketsService) {
     .openapi(TicketsRoutes.create, async (c) => {
       const json = c.req.valid('json')
 
-      const data = await ticketsService.create(json, c.var.userId)
+      const data = await ticketsService.create(json, c.var.user.id)
 
       return c.json(data, 201)
     })

@@ -51,6 +51,6 @@ export function createAuthHandler(
 
       cookieUtil.clearTokens(c)
 
-      return c.json({ message: 'Logged out successfully' }, 200)
+      return c.json(c.var.user, 200)
     })
 }

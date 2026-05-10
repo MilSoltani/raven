@@ -1,5 +1,6 @@
 import type {
-  AuthResponse,
+  AuthUser,
+
   LoginPayload,
 } from '@raven/api/exports'
 
@@ -19,7 +20,7 @@ const REQUEST_OPTS = {
 
 async function loginRequest(
   payload: LoginPayload,
-): Promise<AuthResponse> {
+): Promise<AuthUser> {
   const res = await authClient.login.$post(
     { json: payload },
     REQUEST_OPTS,

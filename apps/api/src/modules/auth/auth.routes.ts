@@ -1,6 +1,6 @@
 import { createRoute } from '@hono/zod-openapi'
 import { jsonContent, jsonError } from '@raven/api/common/routes.util'
-import { AuthResponseSchema, LoginPayloadSchema, LogOutResponseSchema, SignupPayloadSchema } from './auth.schema'
+import { AuthUserSchema, LoginPayloadSchema, SignupPayloadSchema } from './auth.schema'
 
 export const AuthRoutes = {
   login: createRoute({
@@ -11,7 +11,7 @@ export const AuthRoutes = {
       body: jsonContent(LoginPayloadSchema, 'Login credentials'),
     },
     responses: {
-      200: jsonContent(AuthResponseSchema, 'Authenticated user'),
+      200: jsonContent(AuthUserSchema, 'Authenticated user'),
       401: jsonError('Unauthorized'),
       422: jsonError('Validation error'),
       429: jsonError('Too many requests'),
@@ -27,7 +27,7 @@ export const AuthRoutes = {
       body: jsonContent(SignupPayloadSchema, 'Signup data'),
     },
     responses: {
-      201: jsonContent(AuthResponseSchema, 'User created and authenticated'),
+      201: jsonContent(AuthUserSchema, 'User created and authenticated'),
       409: jsonError('Conflict'),
       422: jsonError('Validation error'),
       500: jsonError('Server error'),
@@ -39,7 +39,7 @@ export const AuthRoutes = {
     path: '/refresh',
     tags: ['Auth'],
     responses: {
-      200: jsonContent(AuthResponseSchema, 'Session refreshed'),
+      200: jsonContent(AuthUserSchema, 'Session refreshed'),
       401: jsonError('Unauthorized'),
       500: jsonError('Server error'),
     },
@@ -50,7 +50,7 @@ export const AuthRoutes = {
     path: '/logout',
     tags: ['Auth'],
     responses: {
-      200: jsonContent(LogOutResponseSchema, 'Logged out successfully'),
+      200: jsonContent(AuthUserSchema, 'Logged out successfully'),
       401: jsonError('Unauthorized'),
       500: jsonError('Server error'),
     },

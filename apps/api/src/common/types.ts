@@ -1,9 +1,10 @@
+import type { AuthUser } from '@raven/api/modules/auth'
 import type { JWTPayload } from 'hono/utils/jwt/types'
 import type { ParsedQs } from 'qs'
 
 export type AppEnv = {
   Variables: {
-    userId: number
+    user: AuthUser
     query: ParsedQs
 
   }

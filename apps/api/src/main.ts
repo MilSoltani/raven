@@ -1,3 +1,4 @@
+import type { AuthUser } from '@raven/api/modules/auth'
 import type { AppEnv, AuthPayload } from './common/types'
 import { serve } from '@hono/node-server'
 import { swaggerUI } from '@hono/swagger-ui'
@@ -52,7 +53,12 @@ const app = new OpenAPIHono<AppEnv>()
   .use(async (c, next) => {
     const payload = c.get('jwtPayload') as AuthPayload
     if (payload?.sub) {
-      c.set('userId', payload.sub)
+      const user: AuthUser = {
+        id: payload.sub,
+        email: payload.email,
+      }
+
+      c.set('user', user)
     }
     await next()
   })

@@ -1,18 +1,18 @@
 import type { PrismaClient } from '@raven/api/infrastructure/database/prisma'
-import type { AuthUser, SignupPayload } from './auth.schema'
+import type { AuthUser, AuthUserInternal, SignupPayload } from './auth.schema'
 
 export function createAuthRepository(prisma: PrismaClient) {
-  const getUserByEmail = async (email: string): Promise<AuthUser | null> => {
+  const getUserByEmail = async (email: string): Promise<AuthUserInternal | null> => {
     return prisma.user.findUnique({
-      select: { id: true, name: true, email: true, password: true },
+      select: { id: true, email: true, password: true },
       where: { email },
     })
   }
 
   const signup = async (data: SignupPayload): Promise<AuthUser | null> => {
     return prisma.user.create({
+      select: { id: true, email: true },
       data,
-      omit: { password: true },
     })
   }
 

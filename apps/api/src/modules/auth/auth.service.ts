@@ -43,21 +43,21 @@ export function createAuthService(
   }
 
   const login = async (email: string, pass: string) => {
-    const authUser = await authRepository.getUserByEmail(email)
+    const authUserInternal = await authRepository.getUserByEmail(email)
 
-    if (!authUser)
+    if (!authUserInternal)
       throw new InvalidCredentialsException('User')
 
-    if (!authUser.password)
+    if (!authUserInternal.password)
       throw new InvalidCredentialsException('User')
 
-    await verifyPassword(pass, authUser.password)
+    await verifyPassword(pass, authUserInternal.password)
 
-    const tokens = await issueTokens(authUser.id, authUser.email)
+    const tokens = await issueTokens(authUserInternal.id, authUserInternal.email)
 
-    await persistSession(authUser.id, tokens.refreshToken)
+    await persistSession(authUserInternal.id, tokens.refreshToken)
 
-    const { password, ...user } = authUser
+    const { password, ...user } = authUserInternal
 
     return { user, ...tokens }
   }
