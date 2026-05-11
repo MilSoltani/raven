@@ -5,8 +5,7 @@ import { usersKeys } from '../users.keys'
 
 const query: Criteria = {
   select: ['id', 'name', 'email'],
-  filter: {},
-  limit: 10,
+  limit: 5,
   page: 1,
 }
 
