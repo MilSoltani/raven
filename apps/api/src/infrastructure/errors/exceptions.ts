@@ -58,6 +58,14 @@ export class InvalidOrExpiredTokenException extends HTTPException {
   }
 }
 
+export class UnauthenticatedException extends HTTPException {
+  constructor() {
+    super(401, {
+      message: 'Unauthenticated',
+    })
+  }
+}
+
 export class BadRequestException extends HTTPException {
   constructor(message: string) {
     super(401, { message })

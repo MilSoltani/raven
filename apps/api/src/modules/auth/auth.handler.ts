@@ -2,6 +2,7 @@ import type { AppEnv } from '@raven/api/common/types'
 import type { AuthService } from './auth.service'
 import type { CookieUtil } from './utils/cookie.util'
 import { OpenAPIHono } from '@hono/zod-openapi'
+import { UnauthenticatedException } from '@raven/api/infrastructure/errors/exceptions'
 import { AuthRoutes } from './auth.routes'
 
 export function createAuthHandler(
@@ -52,5 +53,15 @@ export function createAuthHandler(
       cookieUtil.clearTokens(c)
 
       return c.json(c.var.user, 200)
+    })
+
+    .openapi(AuthRoutes.me, async (c) => {
+      const user = c.var.user
+
+      if (!user) {
+        throw new UnauthenticatedException()
+      }
+
+      return c.json(user, 200)
     })
 }

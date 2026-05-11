@@ -55,4 +55,15 @@ export const AuthRoutes = {
       500: jsonError('Server error'),
     },
   }),
+
+  me: createRoute({
+    method: 'get',
+    path: '/me',
+    tags: ['Auth'],
+    responses: {
+      200: jsonContent(AuthUserSchema, 'Current authenticated user'),
+      401: jsonError('Unauthorized'),
+      500: jsonError('Server error'),
+    },
+  }),
 }
