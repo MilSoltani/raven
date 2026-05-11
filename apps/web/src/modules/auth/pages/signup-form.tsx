@@ -1,4 +1,4 @@
-import type { LoginPayload } from '@raven/api/exports'
+import type { SignupPayload } from '@raven/api/exports'
 import type { FieldErrors, UseFormRegister } from 'react-hook-form'
 import { Alert, AlertDescription, AlertTitle } from '@raven/web/components/ui/alert'
 import { Button } from '@raven/web/components/ui/button'
@@ -18,31 +18,30 @@ import {
 import { Input } from '@raven/web/components/ui/input'
 import { cn } from '@raven/web/lib/utils'
 import { AlertCircleIcon } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 type Props = {
-  register: UseFormRegister<LoginPayload>
-  errors: FieldErrors<LoginPayload>
+  register: UseFormRegister<SignupPayload>
+  errors: FieldErrors<SignupPayload>
   onSubmit: () => void
   isLoading: boolean
 }
 
-export function LoginForm({
+export function SignupForm({
   register,
   errors,
   onSubmit,
   isLoading,
 }: Props) {
   return (
-    <div className={cn('flex flex-col gap-6')}>
+    <div className="flex flex-col gap-6">
       <Card>
         <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
-
+          <CardTitle>Create an account</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Enter your information below to create your account
           </CardDescription>
         </CardHeader>
-
         <CardContent>
           <form
             onSubmit={onSubmit}
@@ -60,20 +59,39 @@ export function LoginForm({
               )}
 
               <Field>
-                <FieldLabel htmlFor="email">
-                  Email
-                </FieldLabel>
+                <FieldLabel htmlFor="name">Full Name</FieldLabel>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="John Doe"
+                  aria-invalid={!!errors.name}
+                  className={cn(
+                    errors.name
+                    && 'border-destructive focus-visible:ring-destructive/50',
+                  )}
+                  {...register('name')}
+                  required
+                />
 
+                {errors.name?.message && (
+                  <FieldDescription className="text-destructive">
+                    {errors.name.message}
+                  </FieldDescription>
+                )}
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="Email"
+                  placeholder="m@example.com"
                   aria-invalid={!!errors.email}
                   className={cn(
                     errors.email
                     && 'border-destructive focus-visible:ring-destructive/50',
                   )}
                   {...register('email')}
+                  required
                 />
 
                 {errors.email?.message && (
@@ -82,21 +100,8 @@ export function LoginForm({
                   </FieldDescription>
                 )}
               </Field>
-
               <Field>
-                <div className="flex items-center">
-                  <FieldLabel htmlFor="password">
-                    Password
-                  </FieldLabel>
-
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
-                </div>
-
+                <FieldLabel htmlFor="password">Password</FieldLabel>
                 <Input
                   id="password"
                   type="password"
@@ -107,6 +112,7 @@ export function LoginForm({
                     && 'border-destructive focus-visible:ring-destructive/50',
                   )}
                   {...register('password')}
+                  required
                 />
 
                 {errors.password?.message && (
@@ -115,24 +121,23 @@ export function LoginForm({
                   </FieldDescription>
                 )}
               </Field>
-
-              <Field>
-                <Button
-                  type="submit"
-                  disabled={isLoading}
-                  className="w-full"
-                >
-                  {isLoading
-                    ? 'Logging in...'
-                    : 'Login'}
-                </Button>
-
-                <FieldDescription className="text-center">
-                  Don&apos;t have an account?
-                  {' '}
-                  <a href="#">Sign up</a>
-                </FieldDescription>
-              </Field>
+              <FieldGroup>
+                <Field>
+                  <Button
+                    type="submit"
+                    disabled={isLoading}
+                  >
+                    {isLoading
+                      ? 'Signing up...'
+                      : 'Sign up'}
+                  </Button>
+                  <FieldDescription className="px-6 text-center">
+                    Already have an account?
+                    {' '}
+                    <Link to="/signin">Sign In</Link>
+                  </FieldDescription>
+                </Field>
+              </FieldGroup>
             </FieldGroup>
           </form>
         </CardContent>

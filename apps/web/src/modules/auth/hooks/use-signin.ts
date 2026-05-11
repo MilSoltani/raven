@@ -3,7 +3,7 @@ import { authClient } from '@raven/api/exports'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { authKeys } from '../auth.keys'
 
-async function loginRequest(
+async function signinRequest(
   payload: LoginPayload,
 ): Promise<AuthUser> {
   const res = await authClient.login.$post({ json: payload })
@@ -24,13 +24,13 @@ async function loginRequest(
   return data
 }
 
-export function useLogin() {
+export function useSignin() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationKey: authKeys.login(),
+    mutationKey: authKeys.signin(),
 
-    mutationFn: loginRequest,
+    mutationFn: signinRequest,
 
     onSuccess: async () => {
       await queryClient.invalidateQueries({

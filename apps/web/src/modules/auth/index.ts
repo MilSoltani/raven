@@ -1,2 +1,3 @@
 export { AuthGate } from './auth-gate'
-export { LoginPage } from './pages/login.page'
+export { SigninPage } from './pages/signin.page'
+export { SignupPage } from './pages/signup.page'

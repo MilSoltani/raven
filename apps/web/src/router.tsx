@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom'
-import { AuthGate, LoginPage } from './modules/auth'
+import { AuthGate, SigninPage, SignupPage } from './modules/auth'
 import { HomePage } from './modules/home'
 
 export const router = createBrowserRouter([
@@ -13,7 +13,11 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: '/login',
-    element: <LoginPage />,
+    path: '/signin',
+    element: <SigninPage />,
+  },
+  {
+    path: '/signup',
+    element: <SignupPage />,
   },
 ])
