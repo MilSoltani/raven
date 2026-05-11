@@ -1,4 +1,5 @@
 export const usersKeys = {
-  users: (query?: Record<string, unknown>) =>
-    ['users', query ?? {}] as const,
+  all: (query?: Record<string, unknown>) =>
+    ['all', query ?? {}] as const,
+  create: () => ['all'],
 }

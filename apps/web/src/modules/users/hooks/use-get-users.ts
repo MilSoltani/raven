@@ -5,7 +5,7 @@ import { usersKeys } from '../users.keys'
 
 const query: Criteria = {
   select: ['id', 'name', 'email'],
-  limit: 5,
+  limit: 25,
   page: 1,
 }
 
@@ -25,7 +25,7 @@ async function getUsers(): Promise<User[]> {
 
 export function useUsers() {
   return useQuery({
-    queryKey: usersKeys.users(query),
+    queryKey: usersKeys.all(query),
     queryFn: getUsers,
     retry: false,
     staleTime: 1000 * 60 * 5,
