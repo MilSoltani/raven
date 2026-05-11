@@ -1,4 +1,9 @@
 import type { User } from '@raven/api/exports'
+import { Button } from '@raven/web/components/ui/button'
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@raven/web/components/ui/dialog'
+import { Field, FieldGroup } from '@raven/web/components/ui/field'
+import { Input } from '@raven/web/components/ui/input'
+import { Label } from '@raven/web/components/ui/label'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@raven/web/components/ui/table'
 
 type UsersFormProps = {
@@ -19,6 +24,45 @@ export function UsersForm({ data, isLoading, isError, error }: UsersFormProps) {
 
   return (
     <div>
+      <Dialog>
+        <form>
+          <DialogTrigger asChild>
+            <Button variant="outline">Open Dialog</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-sm">
+            <DialogHeader>
+              <DialogTitle>New user</DialogTitle>
+              <DialogDescription>
+                Create a new user
+              </DialogDescription>
+            </DialogHeader>
+            <FieldGroup>
+              <Field>
+                <Label htmlFor="name-1">Name</Label>
+                <Input
+                  id="name-1"
+                  name="name"
+                  defaultValue="Pedro Duarte"
+                />
+              </Field>
+              <Field>
+                <Label htmlFor="email">email</Label>
+                <Input
+                  id="email"
+                  name="email"
+                />
+              </Field>
+            </FieldGroup>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </DialogClose>
+              <Button type="submit">Create</Button>
+            </DialogFooter>
+          </DialogContent>
+        </form>
+      </Dialog>
+
       <Table>
         <TableHeader>
           <TableRow>
