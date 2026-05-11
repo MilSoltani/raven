@@ -1,6 +1,6 @@
 import type { AuthUser } from '@raven/api/exports'
-import type { QueryClient } from '@tanstack/react-query'
 import { authClient } from '@raven/api/exports'
+import { queryClient } from '@raven/web/lib/query-client'
 import { authKeys } from '../auth.keys'
 
 let refreshPromise: Promise<AuthUser | null> | null = null
@@ -19,19 +19,19 @@ async function refreshRequest(): Promise<AuthUser | null> {
   return data
 }
 
-export async function refreshSession(queryClient: QueryClient) {
+export async function refreshSession() {
   if (refreshPromise)
     return refreshPromise
 
-  refreshPromise = refreshRequest()
-    .finally(() => {
-      refreshPromise = null
-    })
+  refreshPromise = refreshRequest().finally(() => {
+    refreshPromise = null
+  })
 
   const user = await refreshPromise
 
-  if (user)
+  if (user) {
     queryClient.setQueryData(authKeys.me(), user)
+  }
 
   return user
 }

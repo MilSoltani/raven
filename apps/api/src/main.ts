@@ -14,6 +14,8 @@ import { authModule, ticketsModule, usersModule } from './app'
 const publicRoutes = [
   '/auth/login',
   '/auth/signup',
+  '/auth/refresh',
+  '/auth/logout',
 ]
 
 const app = new OpenAPIHono<AppEnv>()
