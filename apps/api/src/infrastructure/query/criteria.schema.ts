@@ -62,5 +62,5 @@ export const CriteriaSchema = z.object({
   limit: z.coerce.number().int().min(1).max(100).default(10),
 }).openapi('Criteria')
 
-export type RestQuery = z.infer<typeof CriteriaSchema>
+export type Criteria = z.infer<typeof CriteriaSchema>
 export type Sort = z.infer<typeof SortSchema>

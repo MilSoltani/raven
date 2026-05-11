@@ -18,6 +18,7 @@ export const ticketsClient = hc<typeof ticketsModule.handler>(
 
 // Types
 
+export { type Criteria, CriteriaSchema } from '@raven/api/infrastructure/query'
 export * from '@raven/api/modules/auth/auth.schema'
 export * from '@raven/api/modules/tickets/tickets.schema'
 export * from '@raven/api/modules/users/users.schema'
