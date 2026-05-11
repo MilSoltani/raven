@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@rave
 import { Field, FieldDescription, FieldGroup, FieldLabel } from '@raven/web/components/ui/field'
 import { Input } from '@raven/web/components/ui/input'
 import { cn } from '@raven/web/lib/utils'
-import { AlertCircleIcon } from 'lucide-react'
+import { IconAlertCircle } from '@tabler/icons-react'
 import { Link } from 'react-router-dom'
 
 type Props = {
@@ -47,7 +47,7 @@ export function SigninForm({
             <FieldGroup>
               {errors.root?.serverError?.message && (
                 <Alert variant="destructive">
-                  <AlertCircleIcon />
+                  <IconAlertCircle />
                   <AlertTitle>Signin failed</AlertTitle>
                   <AlertDescription>
                     {errors.root.serverError?.message}
