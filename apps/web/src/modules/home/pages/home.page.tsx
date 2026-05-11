@@ -1,9 +1,9 @@
-import { Button } from '@raven/web/components/ui/button'
+import { LoginForm } from '@raven/web/modules/auth/pages/login-form'
 
 export function HomePage() {
   return (
     <div>
-      <Button>Hello!</Button>
+      <LoginForm />
     </div>
   )
 }

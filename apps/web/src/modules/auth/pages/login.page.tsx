@@ -1,9 +1,9 @@
 import type { LoginPayload } from '@raven/api/exports'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoginPayloadSchema } from '@raven/api/exports'
+import { LoginForm } from '@raven/web/modules/auth/pages/login-form'
 import { useForm } from 'react-hook-form'
 import { useLogin } from '../hooks/use-login'
-import { LoginForm } from './login-form'
 
 export function LoginPage() {
   const login = useLogin()
