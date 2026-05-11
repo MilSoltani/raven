@@ -1,19 +1,19 @@
-import type { AuthUser, LoginPayload } from '@raven/api/exports'
+import type { AuthUser, SigninPayload } from '@raven/api/exports'
 import { authClient } from '@raven/api/exports'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { authKeys } from '../auth.keys'
 
 async function signinRequest(
-  payload: LoginPayload,
+  payload: SigninPayload,
 ): Promise<AuthUser> {
-  const res = await authClient.login.$post({ json: payload })
+  const res = await authClient.signin.$post({ json: payload })
 
   const data = await res.json()
 
   if (!res.ok) {
     const message = 'message' in data
       ? data.message
-      : 'Login failed'
+      : 'Signin failed'
 
     throw new Error(message)
   }

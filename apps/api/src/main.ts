@@ -12,7 +12,7 @@ import { logger } from 'hono/logger'
 import { authModule, ticketsModule, usersModule } from './app'
 
 const publicRoutes = [
-  '/auth/login',
+  '/auth/signin',
   '/auth/signup',
   '/auth/refresh',
   '/auth/logout',

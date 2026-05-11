@@ -1,6 +1,6 @@
-import type { LoginPayload } from '@raven/api/exports'
+import type { SigninPayload } from '@raven/api/exports'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { LoginPayloadSchema } from '@raven/api/exports'
+import { SigninPayloadSchema } from '@raven/api/exports'
 import { SigninForm } from '@raven/web/modules/auth/pages/signin-form'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -10,8 +10,8 @@ export function SigninPage() {
   const signin = useSignin()
   const navigate = useNavigate()
 
-  const form = useForm<LoginPayload>({
-    resolver: zodResolver(LoginPayloadSchema),
+  const form = useForm<SigninPayload>({
+    resolver: zodResolver(SigninPayloadSchema),
     mode: 'onBlur',
     defaultValues: {
       email: '',

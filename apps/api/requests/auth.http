@@ -10,8 +10,8 @@ Content-Type: application/json
 }
 
 ###
-# login
-POST http://localhost:3000/auth/login
+# signin
+POST http://localhost:3000/auth/signin
 Content-Type: application/json
 
 {

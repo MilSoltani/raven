@@ -12,10 +12,10 @@ export const AuthUserInternalSchema = AuthUserSchema
     password: z.string().min(8).max(255).nullable(),
   })
 
-export const LoginPayloadSchema = z.object({
+export const SigninPayloadSchema = z.object({
   email: z.email().max(255),
   password: z.string().min(8).max(255),
-}).openapi('LoginPayload')
+}).openapi('SigninPayload')
 
 export const SignupPayloadSchema = z.object({
   name: z.string().min(1).max(255),
@@ -25,5 +25,5 @@ export const SignupPayloadSchema = z.object({
 
 export type AuthUser = z.infer<typeof AuthUserSchema>
 export type AuthUserInternal = z.infer<typeof AuthUserInternalSchema>
-export type LoginPayload = z.infer<typeof LoginPayloadSchema>
+export type SigninPayload = z.infer<typeof SigninPayloadSchema>
 export type SignupPayload = z.infer<typeof SignupPayloadSchema>

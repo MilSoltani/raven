@@ -42,7 +42,7 @@ export function createAuthService(
       throw new InvalidCredentialsException('User')
   }
 
-  const login = async (email: string, pass: string) => {
+  const signin = async (email: string, pass: string) => {
     const authUserInternal = await authRepository.getUserByEmail(email)
 
     if (!authUserInternal)
@@ -110,7 +110,7 @@ export function createAuthService(
       throw new NotFoundException('Session')
   }
 
-  return { login, signup, refresh, logout }
+  return { signin, signup, refresh, logout }
 }
 
 export type AuthService = ReturnType<typeof createAuthService>

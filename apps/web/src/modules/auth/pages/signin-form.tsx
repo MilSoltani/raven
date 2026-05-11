@@ -1,4 +1,4 @@
-import type { LoginPayload } from '@raven/api/exports'
+import type { SigninPayload } from '@raven/api/exports'
 import type { FieldErrors, UseFormRegister } from 'react-hook-form'
 import { Alert, AlertDescription, AlertTitle } from '@raven/web/components/ui/alert'
 import { Button } from '@raven/web/components/ui/button'
@@ -10,8 +10,8 @@ import { AlertCircleIcon } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 type Props = {
-  register: UseFormRegister<LoginPayload>
-  errors: FieldErrors<LoginPayload>
+  register: UseFormRegister<SigninPayload>
+  errors: FieldErrors<SigninPayload>
   onSubmit: () => void
   isLoading: boolean
 }

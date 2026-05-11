@@ -11,11 +11,11 @@ export function createAuthHandler(
 ) {
   return new OpenAPIHono<AppEnv>()
 
-    .openapi(AuthRoutes.login, async (c) => {
+    .openapi(AuthRoutes.signin, async (c) => {
       const { email, password } = c.req.valid('json')
 
       const { user, accessToken, refreshToken }
-        = await authService.login(email, password)
+        = await authService.signin(email, password)
 
       cookieUtil.createAccessToken(c, accessToken)
       cookieUtil.createRefreshToken(c, refreshToken)

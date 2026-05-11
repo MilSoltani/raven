@@ -1,14 +1,14 @@
 import { createRoute } from '@hono/zod-openapi'
 import { jsonContent, jsonError } from '@raven/api/common/routes.util'
-import { AuthUserSchema, LoginPayloadSchema, SignupPayloadSchema } from './auth.schema'
+import { AuthUserSchema, SigninPayloadSchema, SignupPayloadSchema } from './auth.schema'
 
 export const AuthRoutes = {
-  login: createRoute({
+  signin: createRoute({
     method: 'post',
-    path: '/login',
+    path: '/signin',
     tags: ['Auth'],
     request: {
-      body: jsonContent(LoginPayloadSchema, 'Login credentials'),
+      body: jsonContent(SigninPayloadSchema, 'Signin credentials'),
     },
     responses: {
       200: jsonContent(AuthUserSchema, 'Authenticated user'),

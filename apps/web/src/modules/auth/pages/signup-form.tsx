@@ -51,7 +51,7 @@ export function SignupForm({
               {errors.root?.serverError?.message && (
                 <Alert variant="destructive">
                   <AlertCircleIcon />
-                  <AlertTitle>Login failed</AlertTitle>
+                  <AlertTitle>Signin failed</AlertTitle>
                   <AlertDescription>
                     {errors.root.serverError?.message}
                   </AlertDescription>
