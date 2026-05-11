@@ -7,19 +7,10 @@ const authKeys = {
   me: () => [...authKeys.all, 'me'] as const,
 }
 
-const REQUEST_OPTS = {
-  init: {
-    credentials: 'include' as const,
-  },
-}
-
 async function loginRequest(
   payload: LoginPayload,
 ): Promise<AuthUser> {
-  const res = await authClient.login.$post(
-    { json: payload },
-    REQUEST_OPTS,
-  )
+  const res = await authClient.login.$post({ json: payload })
 
   const data = await res.json()
 

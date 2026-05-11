@@ -3,9 +3,18 @@ import { hc } from 'hono/client'
 
 // PRC Clients
 
-export const authClient = hc<typeof authModule.handler>('http://localhost:3000/auth')
-export const usersClient = hc<typeof usersModule.handler>('http://localhost:3000/users')
-export const ticketsClient = hc<typeof ticketsModule.handler>('http://localhost:3000/tickets')
+export const authClient = hc<typeof authModule.handler>(
+  'http://localhost:3000/auth',
+  { init: { credentials: 'include' } },
+)
+export const usersClient = hc<typeof usersModule.handler>(
+  'http://localhost:3000/users',
+  { init: { credentials: 'include' } },
+)
+export const ticketsClient = hc<typeof ticketsModule.handler>(
+  'http://localhost:3000/tickets',
+  { init: { credentials: 'include' } },
+)
 
 // Types
 
