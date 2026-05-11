@@ -45,10 +45,10 @@ export function createAuthHandler(
       return c.json(user, 200)
     })
 
-    .openapi(AuthRoutes.logout, async (c) => {
+    .openapi(AuthRoutes.signout, async (c) => {
       const refreshToken = cookieUtil.getRefreshToken(c)
 
-      await authService.logout(refreshToken)
+      await authService.signout(refreshToken)
 
       cookieUtil.clearTokens(c)
 

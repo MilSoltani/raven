@@ -15,7 +15,7 @@ const publicRoutes = [
   '/auth/signin',
   '/auth/signup',
   '/auth/refresh',
-  '/auth/logout',
+  '/auth/signout',
 ]
 
 const app = new OpenAPIHono<AppEnv>()

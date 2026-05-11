@@ -2,20 +2,20 @@ import { authClient } from '@raven/api/exports'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { authKeys } from '../auth.keys'
 
-async function logoutRequest(): Promise<void> {
-  const res = await authClient.logout.$post({})
+async function signoutRequest(): Promise<void> {
+  const res = await authClient.signout.$post({})
 
   if (!res.ok)
-    throw new Error('Logout failed')
+    throw new Error('Signout failed')
 }
 
-export function useLogout() {
+export function useSignout() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationKey: authKeys.logout(),
+    mutationKey: authKeys.signout(),
 
-    mutationFn: logoutRequest,
+    mutationFn: signoutRequest,
 
     onSuccess: async () => {
       await queryClient.cancelQueries({

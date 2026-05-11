@@ -102,7 +102,7 @@ export function createAuthService(
     return { user, ...newTokens }
   }
 
-  const logout = async (refreshToken: string) => {
+  const signout = async (refreshToken: string) => {
     const refreshTokenHash = cryptoUtil.hash(refreshToken)
     const session = await sessionsService.revoke(refreshTokenHash)
 
@@ -110,7 +110,7 @@ export function createAuthService(
       throw new NotFoundException('Session')
   }
 
-  return { signin, signup, refresh, logout }
+  return { signin, signup, refresh, signout }
 }
 
 export type AuthService = ReturnType<typeof createAuthService>

@@ -45,9 +45,9 @@ export const AuthRoutes = {
     },
   }),
 
-  logout: createRoute({
+  signout: createRoute({
     method: 'post',
-    path: '/logout',
+    path: '/signout',
     tags: ['Auth'],
     responses: {
       200: jsonContent(AuthUserSchema, 'Logged out successfully'),

@@ -4,5 +4,5 @@ export const authKeys = {
   signin: () => [...authKeys.all, 'signin'] as const,
   signup: () => [...authKeys.all, 'signup'] as const,
   refresh: () => [...authKeys.all, 'refresh'] as const,
-  logout: () => [...authKeys.all, 'logout'] as const,
+  signout: () => [...authKeys.all, 'signout'] as const,
 }
