@@ -1,11 +1,7 @@
 import type { AuthUser, LoginPayload } from '@raven/api/exports'
 import { authClient } from '@raven/api/exports'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-
-const authKeys = {
-  all: ['auth'] as const,
-  me: () => [...authKeys.all, 'me'] as const,
-}
+import { authKeys } from '../auth.keys'
 
 async function loginRequest(
   payload: LoginPayload,
@@ -15,17 +11,15 @@ async function loginRequest(
   const data = await res.json()
 
   if (!res.ok) {
-    const message
-      = 'message' in data
-        ? data.message
-        : 'Login failed'
+    const message = 'message' in data
+      ? data.message
+      : 'Login failed'
 
     throw new Error(message)
   }
 
-  if ('message' in data) {
+  if ('message' in data)
     throw new Error(data.message)
-  }
 
   return data
 }
@@ -34,14 +28,18 @@ export function useLogin() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationKey: [...authKeys.all, 'login'],
+    mutationKey: authKeys.login(),
+
     mutationFn: loginRequest,
 
-    onSuccess: (data) => {
-      queryClient.setQueryData(
-        authKeys.me(),
-        { id: data.id, email: data.email },
-      )
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: authKeys.me(),
+      })
+    },
+
+    onError: () => {
+      queryClient.setQueryData(authKeys.me(), null)
     },
   })
 }
