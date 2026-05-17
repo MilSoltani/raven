@@ -1,12 +1,14 @@
-import type { Context } from 'hono'
 import { createMiddleware } from 'hono/factory'
 import qs from 'qs'
 
-export const qsParser = createMiddleware(async (c: Context, next) => {
-  const url = new URL(c.req.url)
-  const parsedQuery = qs.parse(url.search, { ignoreQueryPrefix: true })
+export const qsParser = createMiddleware(async (c, next) => {
+  const raw = new URL(c.req.url).search
 
-  c.set('query', parsedQuery)
+  const query = qs.parse(raw, {
+    ignoreQueryPrefix: true,
+  })
+
+  c.set('query', query)
 
   await next()
 })

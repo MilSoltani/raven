@@ -1,7 +1,14 @@
 import type { authModule, ticketsModule, usersModule } from '@raven/api/app'
+import type { Criteria } from '@raven/api/infrastructure/query'
 import { hc } from 'hono/client'
+import qs from 'qs'
 
 // PRC Clients
+
+function buildSearchParams(query: Criteria) {
+  const queryString = qs.stringify(query)
+  return new URLSearchParams(queryString)
+}
 
 export const authClient = hc<typeof authModule.handler>(
   'http://localhost:3000/auth',
@@ -9,11 +16,11 @@ export const authClient = hc<typeof authModule.handler>(
 )
 export const usersClient = hc<typeof usersModule.handler>(
   'http://localhost:3000/users',
-  { init: { credentials: 'include' } },
+  { init: { credentials: 'include' }, buildSearchParams },
 )
 export const ticketsClient = hc<typeof ticketsModule.handler>(
   'http://localhost:3000/tickets',
-  { init: { credentials: 'include' } },
+  { init: { credentials: 'include' }, buildSearchParams },
 )
 
 // Types
