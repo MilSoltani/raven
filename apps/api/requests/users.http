@@ -1,6 +1,6 @@
 # get users
 ###
-GET http://localhost:3000/users?select=name,email
+GET http://localhost:3000/users?select=name,email&page=3&limit=2
 
 # get user
 ###

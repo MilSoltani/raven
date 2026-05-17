@@ -1,7 +1,9 @@
+import type { PaginatedResult } from '@raven/api/infrastructure/database'
 import type { UserOrderByWithRelationInput, UserSelect, UserWhereInput } from '@raven/api/infrastructure/database/generated/prisma/models'
 import type { PrismaClient } from '@raven/api/infrastructure/database/prisma'
 import type { PrismaPagination } from '@raven/api/infrastructure/query'
 import type { CreateUserPayload, UpdateUserPayload, User } from './users.schema'
+import { paginatePrisma } from '@raven/api/infrastructure/database'
 
 export function createUsersRepository(prisma: PrismaClient) {
   const getAll = async (
@@ -9,12 +11,13 @@ export function createUsersRepository(prisma: PrismaClient) {
     orderByInput: UserOrderByWithRelationInput | undefined,
     paginationInput: PrismaPagination,
     selectInput: UserSelect | undefined,
-  ): Promise<User[]> => {
-    return prisma.user.findMany({
-      select: selectInput,
+  ): Promise<PaginatedResult<User>> => {
+    return paginatePrisma({
+      model: prisma.user,
       where: whereInput,
       orderBy: orderByInput,
-      ...paginationInput,
+      select: selectInput,
+      pagination: paginationInput,
     })
   }
 

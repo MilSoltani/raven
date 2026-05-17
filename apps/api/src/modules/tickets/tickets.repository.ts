@@ -1,7 +1,9 @@
+import type { PaginatedResult } from '@raven/api/infrastructure/database'
 import type { TicketOrderByWithRelationInput, TicketSelect, TicketWhereInput } from '@raven/api/infrastructure/database/generated/prisma/models'
 import type { PrismaClient } from '@raven/api/infrastructure/database/prisma'
 import type { PrismaPagination } from '@raven/api/infrastructure/query'
 import type { CreateTicketPayload, Ticket, UpdateTicketPayload } from './tickets.schema'
+import { paginatePrisma } from '@raven/api/infrastructure/database'
 
 export function createTicketsRepository(prisma: PrismaClient) {
   const getAll = async (
@@ -9,12 +11,13 @@ export function createTicketsRepository(prisma: PrismaClient) {
     orderByInput: TicketOrderByWithRelationInput | undefined,
     paginationInput: PrismaPagination,
     selectInput: TicketSelect | undefined,
-  ): Promise<Ticket[]> => {
-    return prisma.ticket.findMany({
-      select: selectInput,
+  ): Promise<PaginatedResult<Ticket>> => {
+    return paginatePrisma({
+      model: prisma.ticket,
       where: whereInput,
       orderBy: orderByInput,
-      ...paginationInput,
+      select: selectInput,
+      pagination: paginationInput,
     })
   }
 
