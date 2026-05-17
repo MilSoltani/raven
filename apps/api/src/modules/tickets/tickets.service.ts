@@ -1,3 +1,4 @@
+import type { PaginatedResult } from '@raven/api/exports'
 import type { TicketOrderByWithRelationInput, TicketSelect, TicketWhereInput } from '@raven/api/infrastructure/database/generated/prisma/models'
 import type { FilterTransformer, PaginationTransformer, SelectTransformer, SortTransformer } from '@raven/api/infrastructure/query'
 import type { ParsedQs } from 'qs'
@@ -16,7 +17,7 @@ export function createTicketsService(
   selectTransformer: SelectTransformer<TicketSelect>,
 ) {
   return {
-    async getAll(query: ParsedQs): Promise<Ticket[]> {
+    async getAll(query: ParsedQs): Promise<PaginatedResult<Ticket>> {
       const whereInput = filterTransformer.transform(query.filter)
       const orderByInput = sortTransformer.transform(query.sort)
       const paginationInput = paginationTransformer.transform(query.page, query.limit)

@@ -1,3 +1,4 @@
+import type { PaginatedResult } from '@raven/api/exports'
 import type { UserOrderByWithRelationInput, UserSelect, UserWhereInput } from '@raven/api/infrastructure/database/generated/prisma/models'
 import type { FilterTransformer, PaginationTransformer, SelectTransformer, SortTransformer } from '@raven/api/infrastructure/query'
 import type { ParsedQs } from 'qs'
@@ -13,7 +14,7 @@ export function createUsersService(
   selectTransformer: SelectTransformer<UserSelect>,
 ) {
   return {
-    async getAll(query: ParsedQs): Promise<User[]> {
+    async getAll(query: ParsedQs): Promise<PaginatedResult<User>> {
       const whereInput = filterTransformer.transform(query.filter)
       const orderByInput = sortTransformer.transform(query.sort)
       const paginationInput = paginationTransformer.transform(query.page, query.limit)

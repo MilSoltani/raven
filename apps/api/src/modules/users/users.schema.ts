@@ -6,16 +6,14 @@ export const UserSchema = z.object({
   id: z.number().int(),
   name: z.string().min(1).max(255),
   email: z.email().max(255),
-  password: z.string().min(8).max(255).nullable().optional(),
-  updatedAt: z.date(),
-  createdAt: z.date(),
+  updatedAt: z.coerce.bigint().nullable(),
+  createdAt: z.coerce.bigint(),
 })
 
 export const CreateUserPayloadSchema = UserSchema.omit({
   id: true,
   updatedAt: true,
   createdAt: true,
-  password: true,
 })
 
 export const UpdateUserPayloadSchema = CreateUserPayloadSchema.partial()

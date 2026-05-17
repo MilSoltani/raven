@@ -28,7 +28,13 @@ export function createTicketsRepository(prisma: PrismaClient) {
   }
 
   const create = async (data: CreateTicketPayload, creatorId: number): Promise<Ticket> => {
-    return prisma.ticket.create({ data: { creatorId, ...data } })
+    return prisma.ticket.create({
+      data: {
+        createdAt: Date.now(),
+        creatorId,
+        ...data,
+      },
+    })
   }
 
   const update = async (
@@ -39,7 +45,7 @@ export function createTicketsRepository(prisma: PrismaClient) {
       where: { id },
       data: {
         ...data,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
       },
     })
   }

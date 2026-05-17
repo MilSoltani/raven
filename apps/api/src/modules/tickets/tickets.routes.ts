@@ -1,8 +1,8 @@
 import { createRoute } from '@hono/zod-openapi'
 import { jsonContent, jsonError } from '@raven/api/common/openapi/openapi.helper'
 import { IdParamSchema } from '@raven/api/common/openapi/openapi.schema'
+import { createPaginatedSchema } from '@raven/api/exports'
 import { CriteriaSchema } from '@raven/api/infrastructure/query/criteria.schema'
-import z from 'zod'
 import { CreateTicketSchema, TicketSchema, UpdateTicketSchema } from './tickets.schema'
 
 export const TicketsRoutes = {
@@ -14,7 +14,7 @@ export const TicketsRoutes = {
       query: CriteriaSchema,
     },
     responses: {
-      200: jsonContent(z.array(TicketSchema), 'List of all tickets'),
+      200: jsonContent(createPaginatedSchema(TicketSchema), 'List of all tickets'),
     },
   }),
 

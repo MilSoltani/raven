@@ -11,9 +11,14 @@ export function createSessionsRepository(prisma: PrismaClient) {
   const create = async (data: {
     userId: number
     refreshTokenHash: string
-    expiresAt: Date
+    expiresAt: bigint
   }): Promise<Session> => {
-    return prisma.session.create({ data })
+    return prisma.session.create({
+      data: {
+        ...data,
+        createdAt: Date.now(),
+      },
+    })
   }
 
   const update = async (
@@ -24,7 +29,7 @@ export function createSessionsRepository(prisma: PrismaClient) {
       where: { id },
       data: {
         ...data,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
       },
     })
   }

@@ -12,7 +12,10 @@ export function createAuthRepository(prisma: PrismaClient) {
   const signup = async (data: SignupPayload): Promise<AuthUser | null> => {
     return prisma.user.create({
       select: { id: true, email: true },
-      data,
+      data: {
+        ...data,
+        createdAt: Date.now(),
+      },
     })
   }
 

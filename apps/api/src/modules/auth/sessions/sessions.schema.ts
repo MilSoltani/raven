@@ -3,13 +3,10 @@ import { z } from '@hono/zod-openapi'
 export const SessionSchema = z.object({
   id: z.number().int(),
   userId: z.number().int(),
-
   refreshTokenHash: z.string(),
-
   isRevoked: z.boolean(),
-
-  expiresAt: z.date(),
-  createdAt: z.date(),
+  expiresAt: z.coerce.bigint(),
+  createdAt: z.coerce.bigint(),
 })
 
 export const CreateSessionPayloadSchema = SessionSchema.omit({

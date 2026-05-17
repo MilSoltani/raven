@@ -57,11 +57,11 @@ export function createJwtUtil(config: Config) {
   }
 
   function getAccessTokenExpiresAt() {
-    return new Date(Date.now() + config.JWT_ACCESS_EXPIRY_SECONDS * 1000)
+    return Date.now() + config.JWT_ACCESS_EXPIRY_SECONDS * 1000
   }
 
   function getRefreshTokenExpiresAt() {
-    return new Date(Date.now() + config.JWT_REFRESH_EXPIRY_SECONDS * 1000)
+    return BigInt(Date.now() + config.JWT_REFRESH_EXPIRY_SECONDS * 1000)
   }
 
   return {

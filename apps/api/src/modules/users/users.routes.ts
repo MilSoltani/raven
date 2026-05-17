@@ -1,8 +1,8 @@
 import { createRoute } from '@hono/zod-openapi'
 import { jsonContent, jsonError } from '@raven/api/common/openapi/openapi.helper'
 import { IdParamSchema } from '@raven/api/common/openapi/openapi.schema'
+import { createPaginatedSchema } from '@raven/api/exports'
 import { CriteriaSchema } from '@raven/api/infrastructure/query/criteria.schema'
-import z from 'zod'
 import { CreateUserPayloadSchema, UpdateUserPayloadSchema, UserSchema } from './users.schema'
 
 export const UsersRoutes = {
@@ -14,7 +14,7 @@ export const UsersRoutes = {
     },
     tags: ['User'],
     responses: {
-      200: jsonContent(z.array(UserSchema), 'List of all users'),
+      200: jsonContent(createPaginatedSchema(UserSchema), 'List of all users'),
     },
   }),
 

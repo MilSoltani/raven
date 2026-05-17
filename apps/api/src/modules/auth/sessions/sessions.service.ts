@@ -31,7 +31,7 @@ export function createSessionsService(
   const rotateSession = async (
     refreshTokenHash: string,
     newRefreshTokenHash: string,
-    expiresAt: Date,
+    expiresAt: bigint,
     userId: number,
   ) => {
     const session = await sessionsRepository.findByHash(refreshTokenHash)
@@ -41,7 +41,7 @@ export function createSessionsService(
       throw new RevokedException('Security Alert: Session compromised')
     }
 
-    if (session.expiresAt.getTime() < Date.now())
+    if (session.expiresAt < Date.now())
       throw new ExpiredException('Session')
 
     const updatedSession = await sessionsRepository.update(session.id, {

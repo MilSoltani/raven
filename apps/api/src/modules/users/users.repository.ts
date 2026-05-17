@@ -30,7 +30,10 @@ export function createUsersRepository(prisma: PrismaClient) {
 
   const create = async (data: CreateUserPayload): Promise<User> => {
     return prisma.user.create({
-      data,
+      data: {
+        ...data,
+        createdAt: Date.now(),
+      },
       omit: { password: true },
     })
   }
@@ -43,7 +46,7 @@ export function createUsersRepository(prisma: PrismaClient) {
       where: { id },
       data: {
         ...data,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
       },
       omit: { password: true },
     })
