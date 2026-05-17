@@ -1,6 +1,10 @@
-import type { PaginatedResult, User } from '@raven/api/exports'
+import type { CreateUserPayload, PaginatedResult, User } from '@raven/api/exports'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { CreateUserPayloadSchema } from '@raven/api/exports'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@raven/web/components/ui/table'
-import { CreateUserComponent } from '../components/create-user.component'
+import { useForm } from 'react-hook-form'
+import { CreateUserDialog } from '../components/create-user.dialog'
+import { useCreateUser } from '../hooks/use-create-User'
 
 type UsersFormProps = {
   data?: PaginatedResult<User>
@@ -10,6 +14,27 @@ type UsersFormProps = {
 }
 
 export function UsersForm({ data, isLoading, isError, error }: UsersFormProps) {
+  const create = useCreateUser()
+
+  const form = useForm<CreateUserPayload>({
+    resolver: zodResolver(CreateUserPayloadSchema),
+    mode: 'onBlur',
+    defaultValues: {
+      email: '',
+      name: '',
+    },
+  })
+
+  const onSubmit = form.handleSubmit((data) => {
+    create.mutate(data, {
+      onError: (err) => {
+        form.setError('root.serverError', {
+          message: err.message,
+        })
+      },
+    })
+  })
+
   if (isLoading)
     return <div>Loading users...</div>
 
@@ -18,7 +43,12 @@ export function UsersForm({ data, isLoading, isError, error }: UsersFormProps) {
 
   return (
     <div>
-      <CreateUserComponent />
+      <CreateUserDialog
+        register={form.register}
+        errors={form.formState.errors}
+        onSubmit={onSubmit}
+        isLoading={create.isPending}
+      />
 
       <Table>
         <TableHeader>
