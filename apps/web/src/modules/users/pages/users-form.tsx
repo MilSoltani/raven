@@ -7,8 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { IconDots } from '@tabler/icons-react'
 import { useForm } from 'react-hook-form'
 import { CreateUserDialog } from '../components/create-user.dialog'
-import { useCreateUser } from '../hooks/use-create-user'
-import { useDeleteUser } from '../hooks/use-delete-user'
+import { useCreateUser, useDeleteUser } from '../hooks/users.hooks'
 
 type UsersFormProps = {
   data?: PaginatedResult<User>

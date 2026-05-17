@@ -58,8 +58,8 @@ export const CriteriaSchema = z.object({
   filter: FilterSchema.optional(),
   sort: SortSchema.optional(),
   q: z.string().trim().optional(),
-  page: z.coerce.number().int().min(1).default(1),
-  limit: z.coerce.number().int().min(1).max(100).default(10),
+  page: z.coerce.number().int().min(1).default(1).optional(),
+  limit: z.coerce.number().int().min(1).max(100).default(10).optional(),
 }).openapi('Criteria')
 
 export type Criteria = z.infer<typeof CriteriaSchema>

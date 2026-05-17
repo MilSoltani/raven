@@ -1,8 +1,10 @@
-import { useUsers } from '../hooks/use-get-users'
+import { useUsers } from '../hooks/users.hooks'
 import { UsersForm } from './users-form'
 
 export function UsersPage() {
-  const { data, isLoading, isError, error } = useUsers()
+  const { data, isLoading, isError, error } = useUsers({
+    select: ['name', 'email'],
+  })
 
   return (
     <UsersForm
