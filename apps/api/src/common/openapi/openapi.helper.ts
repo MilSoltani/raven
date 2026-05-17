@@ -1,5 +1,5 @@
 import type z from 'zod'
-import { ErrorSchema } from './common.schema'
+import { ErrorSchema } from './openapi.schema'
 
 export function jsonContent<T extends z.ZodTypeAny>(schema: T, description: string) {
   return {
