@@ -1,10 +1,14 @@
 import type { CreateUserPayload, PaginatedResult, User } from '@raven/api/exports'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CreateUserPayloadSchema } from '@raven/api/exports'
+import { Button } from '@raven/web/components/ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@raven/web/components/ui/dropdown-menu'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@raven/web/components/ui/table'
+import { IconDots } from '@tabler/icons-react'
 import { useForm } from 'react-hook-form'
 import { CreateUserDialog } from '../components/create-user.dialog'
-import { useCreateUser } from '../hooks/use-create-User'
+import { useCreateUser } from '../hooks/use-create-user'
+import { useDeleteUser } from '../hooks/use-delete-user'
 
 type UsersFormProps = {
   data?: PaginatedResult<User>
@@ -15,6 +19,7 @@ type UsersFormProps = {
 
 export function UsersForm({ data, isLoading, isError, error }: UsersFormProps) {
   const create = useCreateUser()
+  const deleteUser = useDeleteUser()
 
   const form = useForm<CreateUserPayload>({
     resolver: zodResolver(CreateUserPayloadSchema),
@@ -56,6 +61,7 @@ export function UsersForm({ data, isLoading, isError, error }: UsersFormProps) {
             <TableHead>id</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>email</TableHead>
+            <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -64,6 +70,29 @@ export function UsersForm({ data, isLoading, isError, error }: UsersFormProps) {
               <TableCell className="font-light w-[40px]">{user.id}</TableCell>
               <TableCell className="font-medium">{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>
+
+              <TableCell className="text-right">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="size-8"
+                    >
+                      <IconDots />
+                      <span className="sr-only">Open menu</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem
+                      variant="destructive"
+                      onClick={() => deleteUser.mutate(user.id)}
+                    >
+                      Delete
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

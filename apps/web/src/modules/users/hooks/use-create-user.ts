@@ -29,17 +29,25 @@ export function useCreateUser() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationKey: usersKeys.create(),
-
     mutationFn: createUserRequest,
 
     onSuccess: (data) => {
-      queryClient.setQueryData(usersKeys.create(), data)
+      queryClient.setQueriesData(
+        { queryKey: ['users', 'list'] },
+        (old: any) => {
+          if (!old)
+            return old
+          return {
+            ...old,
+            data: [data, ...old.data],
+          }
+        },
+      )
     },
 
-    onSettled: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: usersKeys.all(),
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: usersKeys.all,
       })
     },
   })

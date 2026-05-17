@@ -64,7 +64,7 @@ export const TicketsRoutes = {
     tags: ['Ticket'],
     request: { params: IdParamSchema },
     responses: {
-      200: jsonContent(TicketSchema, 'Ticket deleted'),
+      204: { description: 'User deleted' },
       404: jsonError('Ticket not found'),
     },
   }),

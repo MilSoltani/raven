@@ -40,9 +40,9 @@ export function createUsersHandler(usersService: UsersService) {
     .openapi(UsersRoutes.remove, async (c) => {
       const { id } = c.req.valid('param')
 
-      const data = await usersService.delete(id)
+      await usersService.delete(id)
 
-      return c.json(data, 200)
+      return c.body(null, 204)
     })
 }
 

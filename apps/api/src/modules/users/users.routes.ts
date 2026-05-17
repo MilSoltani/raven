@@ -65,7 +65,7 @@ export const UsersRoutes = {
     tags: ['User'],
     request: { params: IdParamSchema },
     responses: {
-      200: jsonContent(UserSchema, 'User deleted'),
+      204: { description: 'User deleted' },
       404: jsonError('User not found'),
     },
   }),

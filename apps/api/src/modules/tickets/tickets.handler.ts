@@ -40,9 +40,9 @@ export function createTicketsHandler(ticketsService: TicketsService) {
     .openapi(TicketsRoutes.remove, async (c) => {
       const { id } = c.req.valid('param')
 
-      const data = await ticketsService.delete(id)
+      await ticketsService.delete(id)
 
-      return c.json(data, 200)
+      return c.body(null, 204)
     })
 }
 

@@ -20,7 +20,7 @@ async function getUsers(): Promise<PaginatedResult<User>> {
 
 export function useUsers() {
   return useQuery({
-    queryKey: usersKeys.all(query),
+    queryKey: usersKeys.all,
     queryFn: getUsers,
     retry: false,
     staleTime: 1000 * 60 * 5,
