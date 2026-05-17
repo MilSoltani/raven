@@ -1,9 +1,9 @@
-import type { User } from '@raven/api/exports'
+import type { PaginatedResult, User } from '@raven/api/exports'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@raven/web/components/ui/table'
 import { CreateUserComponent } from '../components/create-user.component'
 
 type UsersFormProps = {
-  data?: User[]
+  data?: PaginatedResult<User>
   isLoading: boolean
   isError: boolean
   error?: Error | null
@@ -29,7 +29,7 @@ export function UsersForm({ data, isLoading, isError, error }: UsersFormProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.map(user => (
+          {data?.data?.map(user => (
             <TableRow key={user.id}>
               <TableCell className="font-light w-[40px]">{user.id}</TableCell>
               <TableCell className="font-medium">{user.name}</TableCell>

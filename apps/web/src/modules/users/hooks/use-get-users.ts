@@ -1,4 +1,4 @@
-import type { Criteria, User } from '@raven/api/exports'
+import type { Criteria, PaginatedResult, User } from '@raven/api/exports'
 import { usersClient } from '@raven/api/exports'
 import { useQuery } from '@tanstack/react-query'
 import { usersKeys } from '../users.keys'
@@ -9,18 +9,13 @@ const query: Criteria = {
   page: 1,
 }
 
-async function getUsers(): Promise<User[]> {
+async function getUsers(): Promise<PaginatedResult<User>> {
   const res = await usersClient.index.$get({ query })
 
   if (!res.ok)
     throw new Error('Failed to fetch users')
 
-  const data = await res.json()
-
-  if (Array.isArray(data))
-    return data
-
-  return []
+  return await res.json()
 }
 
 export function useUsers() {
