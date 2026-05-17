@@ -16,8 +16,8 @@ export const TicketSchema = z.object({
   description: z.string().min(1),
   status: TicketStatusEnum,
   priority: TicketPriorityEnum,
-  updatedAt: z.coerce.bigint().nullable(),
-  createdAt: z.coerce.bigint(),
+  updatedAt: z.coerce.number().nullable(),
+  createdAt: z.coerce.number(),
 }).openapi('Ticket')
 
 export const CreateTicketSchema = TicketSchema.omit({

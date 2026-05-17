@@ -5,8 +5,8 @@ export const SessionSchema = z.object({
   userId: z.number().int(),
   refreshTokenHash: z.string(),
   isRevoked: z.boolean(),
-  expiresAt: z.coerce.bigint(),
-  createdAt: z.coerce.bigint(),
+  expiresAt: z.coerce.number(),
+  createdAt: z.coerce.number(),
 })
 
 export const CreateSessionPayloadSchema = SessionSchema.omit({

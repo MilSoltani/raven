@@ -12,8 +12,8 @@ model User {
   name      String @db.VarChar(255)
   email     String @unique @db.VarChar(255)
   password  String? @db.VarChar(255)
-  createdAt BigInt @db.BigInt()
-  updatedAt BigInt? @db.BigInt()
+  createdAt Int @db.Integer
+  updatedAt Int? @db.Integer
 
   sessions Session[]
   createdTickets Ticket[] @relation("TicketCreator")
@@ -23,14 +23,11 @@ model User {
 model Session {
   id               Int      @id @default(autoincrement())
   userId           Int
-
   refreshTokenHash String   @unique
-
   isRevoked        Boolean  @default(false)
-
-  expiresAt BigInt @db.BigInt()
-  createdAt BigInt @db.BigInt()
-  updatedAt BigInt? @db.BigInt()
+  expiresAt Int @db.Integer
+  createdAt Int @db.Integer
+  updatedAt Int? @db.Integer
 
   user             User     @relation(fields: [userId], references: [id])
 
@@ -60,8 +57,8 @@ model Ticket {
   description String @db.Text
   status      TicketStatus @default(OPEN)
   priority    TicketPriority @default(MEDIUM)
-  createdAt BigInt @db.BigInt()
-  updatedAt BigInt? @db.BigInt()
+  createdAt Int @db.Integer
+  updatedAt Int? @db.Integer
 
   creator User @relation("TicketCreator", fields: [creatorId], references: [id])
   agent   User? @relation("TicketAgent", fields: [agentId], references: [id])

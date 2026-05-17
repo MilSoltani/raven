@@ -11,7 +11,7 @@ export function createSessionsRepository(prisma: PrismaClient) {
   const create = async (data: {
     userId: number
     refreshTokenHash: string
-    expiresAt: bigint
+    expiresAt: number
   }): Promise<Session> => {
     return prisma.session.create({
       data: {

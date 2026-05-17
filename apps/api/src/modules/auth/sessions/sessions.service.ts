@@ -31,7 +31,7 @@ export function createSessionsService(
   const rotateSession = async (
     refreshTokenHash: string,
     newRefreshTokenHash: string,
-    expiresAt: bigint,
+    expiresAt: number,
     userId: number,
   ) => {
     const session = await sessionsRepository.findByHash(refreshTokenHash)

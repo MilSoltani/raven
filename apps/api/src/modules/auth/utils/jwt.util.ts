@@ -61,7 +61,7 @@ export function createJwtUtil(config: Config) {
   }
 
   function getRefreshTokenExpiresAt() {
-    return BigInt(Date.now() + config.JWT_REFRESH_EXPIRY_SECONDS * 1000)
+    return Date.now() + config.JWT_REFRESH_EXPIRY_SECONDS * 1000
   }
 
   return {
