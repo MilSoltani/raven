@@ -4,10 +4,12 @@ import { serve } from '@hono/node-server'
 import { swaggerUI } from '@hono/swagger-ui'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { config } from '@raven/api/infrastructure/config/config'
+import { translator } from '@raven/api/infrastructure/i18n'
 import { qsParser } from '@raven/api/infrastructure/middlewares'
 import { cors } from 'hono/cors'
 import { HTTPException } from 'hono/http-exception'
 import { jwt } from 'hono/jwt'
+import { languageDetector } from 'hono/language'
 import { logger } from 'hono/logger'
 import { authModule, ticketsModule, usersModule } from './app'
 
@@ -39,6 +41,13 @@ const app = new OpenAPIHono<AppEnv>()
     }),
   )
   .use(logger())
+  .use(
+    languageDetector({
+      supportedLanguages: ['en', 'ar', 'ja'],
+      fallbackLanguage: 'en',
+    }),
+  )
+  .use(translator)
   .use('*', async (c, next) => {
     const path = c.req.path
 
