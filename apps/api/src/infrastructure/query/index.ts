@@ -1,5 +1,6 @@
 export * from './criteria.schema'
 export * from './filter'
 export * from './pagination'
+export * from './qs.middleware'
 export * from './select'
 export * from './sort'

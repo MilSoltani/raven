@@ -5,7 +5,7 @@ import { swaggerUI } from '@hono/swagger-ui'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { config } from '@raven/api/infrastructure/config/config'
 import { translator } from '@raven/api/infrastructure/i18n'
-import { qsParser } from '@raven/api/infrastructure/middlewares'
+import { qsParser } from '@raven/api/infrastructure/query'
 import { cors } from 'hono/cors'
 import { HTTPException } from 'hono/http-exception'
 import { jwt } from 'hono/jwt'
@@ -43,7 +43,7 @@ const app = new OpenAPIHono<AppEnv>()
   .use(logger())
   .use(
     languageDetector({
-      supportedLanguages: ['en', 'ar', 'ja'],
+      supportedLanguages: ['en', 'de', 'fr', 'sp'],
       fallbackLanguage: 'en',
     }),
   )
