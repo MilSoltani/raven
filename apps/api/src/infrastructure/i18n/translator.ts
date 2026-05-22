@@ -1,15 +1,14 @@
-import type { Key, Lang } from './translations'
-import { translations } from './translations'
+export type Language = 'en' | 'de' | 'sp' | 'fr'
+type Translations = Record<string, string>
+type ModulesTranslations = Record<string, Translations>
 
-export function createTranslator(lang: Lang) {
-  return (key: Key) => {
-    const dict = translations[lang]
-
-    if (!dict?.[key]) {
-      return translations.en[key] ?? key
-    }
-
-    return dict[key]
+export function createTranslator(
+  translations: Record<string, ModulesTranslations>,
+  module: string,
+  language: Language,
+) {
+  return function t(key: string) {
+    return translations[module][language][key]
   }
 }
 

@@ -1,2 +1,1 @@
-export { type Translator } from './translator'
-export { translator } from './translator.middleware'
+export { createTranslator, type Language, type Translator } from './translator'

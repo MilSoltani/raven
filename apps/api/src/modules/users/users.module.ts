@@ -4,6 +4,7 @@ import { createFilterTransformer, createPaginationTransformer, createSelectTrans
 import { createUsersHandler } from './users.handler'
 import { createUsersRepository } from './users.repository'
 import { createUsersService } from './users.service'
+import { translations } from './users.translations'
 
 export function createUsersModule(prisma: PrismaClient) {
   const filterTransformer = createFilterTransformer<UserWhereInput>({
@@ -40,7 +41,7 @@ export function createUsersModule(prisma: PrismaClient) {
   )
   const handler = createUsersHandler(service)
 
-  return { service, handler }
+  return { service, handler, translations }
 }
 
 export type UsersModule = ReturnType<typeof createUsersModule>

@@ -4,7 +4,8 @@ import type { FilterTransformer, PaginationTransformer, SelectTransformer, SortT
 import type { ParsedQs } from 'qs'
 import type { UsersRepository } from './users.repository'
 import type { CreateUserPayload, UpdateUserPayload, User } from './users.schema'
-import { InternalException, NotFoundException } from '@raven/api/infrastructure/errors/exceptions'
+import { TranslatableException } from '@raven/api/infrastructure/errors'
+import { InternalException } from '@raven/api/infrastructure/errors/exceptions'
 
 export function createUsersService(
   usersRepository: UsersRepository,
@@ -32,7 +33,7 @@ export function createUsersService(
       const result = await usersRepository.getById(id)
 
       if (!result)
-        throw new NotFoundException('User')
+        throw new TranslatableException(404, 'users', 'NOT_FOUND')
 
       return result
     },
@@ -50,7 +51,7 @@ export function createUsersService(
       const result = await usersRepository.update(id, data)
 
       if (!result)
-        throw new NotFoundException('User')
+        throw new TranslatableException(404, 'users', 'NOT_FOUND')
 
       return result
     },
@@ -59,7 +60,7 @@ export function createUsersService(
       const result = await usersRepository.delete(id)
 
       if (!result)
-        throw new NotFoundException('User')
+        throw new TranslatableException(404, 'users', 'NOT_FOUND')
 
       return result
     },
