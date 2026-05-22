@@ -2,12 +2,8 @@ import type { AuthRepository } from './auth.repository'
 import type { SessionsService } from './sessions/sessions.service'
 import type { CryptoUtil } from './utils/crypto.util'
 import type { JwtUtil } from './utils/jwt.util'
-import {
-  InternalException,
-  InvalidCredentialsException,
-  NotFoundException,
-} from '@raven/api/infrastructure/errors/exceptions'
 import bcrypt from 'bcrypt'
+import { HTTPException } from 'hono/http-exception'
 
 export function createAuthService(
   authRepository: AuthRepository,
@@ -30,7 +26,7 @@ export function createAuthService(
     })
 
     if (!session)
-      throw new InternalException('Session')
+      throw new HTTPException(500, { message: 'Internal error processing session' })
 
     return session
   }
@@ -39,17 +35,17 @@ export function createAuthService(
     const ok = await bcrypt.compare(plain, hash)
 
     if (!ok)
-      throw new InvalidCredentialsException('User')
+      throw new HTTPException(401, { message: 'Invalid credentials' })
   }
 
   const signin = async (email: string, pass: string) => {
     const authUserInternal = await authRepository.getUserByEmail(email)
 
     if (!authUserInternal)
-      throw new InvalidCredentialsException('User')
+      throw new HTTPException(401, { message: 'Invalid credentials' })
 
     if (!authUserInternal.password)
-      throw new InvalidCredentialsException('User')
+      throw new HTTPException(401, { message: 'Invalid credentials' })
 
     await verifyPassword(pass, authUserInternal.password)
 
@@ -75,7 +71,7 @@ export function createAuthService(
     })
 
     if (!user)
-      throw new InternalException('User')
+      throw new HTTPException(500, { message: 'Internal error processing user' })
 
     const tokens = await issueTokens(user.id, user.email)
     await persistSession(user.id, tokens.refreshToken)
@@ -107,7 +103,7 @@ export function createAuthService(
     const session = await sessionsService.revoke(refreshTokenHash)
 
     if (!session)
-      throw new NotFoundException('Session')
+      throw new HTTPException(404, { message: 'Session not found' })
   }
 
   return { signin, signup, refresh, signout }

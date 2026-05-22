@@ -1,5 +1,5 @@
 import type { PrismaSelect, SelectOptions } from './types'
-import { BadRequestException } from '@raven/api/infrastructure/errors/exceptions'
+import { HTTPException } from 'hono/http-exception'
 
 export type SelectTransformer<TSelect> = {
   transform: (value: unknown) => TSelect | undefined
@@ -49,9 +49,7 @@ export function createSelectTransformer<TSelect>(
         continue
       }
 
-      throw new BadRequestException(
-        `Field "${field}" is not allowed`,
-      )
+      throw new HTTPException(401, { message: `Field "${field}" is not allowed` })
     }
 
     for (const field of requiredColumns) {

@@ -1,8 +1,8 @@
-import { BadRequestException } from '@raven/api/infrastructure/errors/exceptions'
+import { HTTPException } from 'hono/http-exception'
 
 export function validateOperatorObject(obj: Record<string, unknown>) {
   if (obj.eq !== undefined && Object.keys(obj).length > 1) {
-    throw new BadRequestException(`"eq" cannot be combined with other operators`)
+    throw new HTTPException(401, { message: `"eq" cannot be combined with other operators` })
   }
 }
 

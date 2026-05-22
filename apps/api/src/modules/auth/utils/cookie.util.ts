@@ -1,7 +1,7 @@
 import type { Config } from '@raven/api/infrastructure/config/config'
 import type { Context } from 'hono'
-import { InvalidOrExpiredTokenException } from '@raven/api/infrastructure/errors/exceptions'
 import { getCookie, setCookie } from 'hono/cookie'
+import { HTTPException } from 'hono/http-exception'
 
 export function createCookieUtil(config: Config) {
   const secure = config.NODE_ENV === 'production'
@@ -31,7 +31,7 @@ export function createCookieUtil(config: Config) {
     const accessToken = getCookie(c, 'accessToken')
 
     if (!accessToken) {
-      throw new InvalidOrExpiredTokenException()
+      throw new HTTPException(401, { message: 'Invalid or expired sesssion' })
     }
 
     return accessToken
@@ -41,7 +41,7 @@ export function createCookieUtil(config: Config) {
     const refreshToken = getCookie(c, 'refreshToken')
 
     if (!refreshToken) {
-      throw new InvalidOrExpiredTokenException()
+      throw new HTTPException(401, { message: 'Invalid or expired sesssion' })
     }
 
     return refreshToken

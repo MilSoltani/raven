@@ -1,18 +1,16 @@
 import type { AuthUser } from '@raven/api/modules/auth'
 import type { AppEnv, AuthPayload } from './common/types'
-import type { Language } from './infrastructure/i18n'
 import { serve } from '@hono/node-server'
 import { swaggerUI } from '@hono/swagger-ui'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { config } from '@raven/api/infrastructure/config/config'
-import { TranslatableException } from '@raven/api/infrastructure/errors'
 import { qsParser } from '@raven/api/infrastructure/query'
 import { cors } from 'hono/cors'
+import { HTTPException } from 'hono/http-exception'
 import { jwt } from 'hono/jwt'
 import { languageDetector } from 'hono/language'
 import { logger } from 'hono/logger'
 import { authModule, ticketsModule, usersModule } from './app'
-import { createTranslator } from './infrastructure/i18n'
 
 const publicRoutes = [
   '/auth/signin',
@@ -79,15 +77,8 @@ const app = new OpenAPIHono<AppEnv>()
   .route('/tickets', ticketsModule.handler)
   .notFound(c => c.json({ error: 'Not Found!' }, 404))
   .onError((err, c) => {
-    if (err instanceof TranslatableException) {
-      const translations = {
-        users: usersModule.translations,
-      }
-
-      const language = c.get('language') as Language
-      const t = createTranslator(translations, err.module, language)
-
-      return c.json({ message: t(err.translationKey) }, err.status)
+    if (err instanceof HTTPException) {
+      return c.json({ message: err.message }, err.status)
     }
 
     console.error(err)

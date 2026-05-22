@@ -1,11 +1,6 @@
 import type { SessionsRepository } from './sessions.repository'
 import type { CreateSessionPayload } from './sessions.schema'
-import {
-  ExpiredException,
-  InternalException,
-  NotFoundException,
-  RevokedException,
-} from '@raven/api/infrastructure/errors/exceptions'
+import { HTTPException } from 'hono/http-exception'
 
 export function createSessionsService(
   sessionsRepository: SessionsRepository,
@@ -14,7 +9,7 @@ export function createSessionsService(
     const result = await sessionsRepository.findByHash(hash)
 
     if (!result)
-      throw new NotFoundException('Session')
+      throw new HTTPException(404, { message: 'Session not found' })
 
     return result
   }
@@ -23,7 +18,7 @@ export function createSessionsService(
     const session = await sessionsRepository.create(data)
 
     if (!session)
-      throw new InternalException('Session creation')
+      throw new HTTPException(500, { message: 'Internal error creating session' })
 
     return { session }
   }
@@ -38,11 +33,11 @@ export function createSessionsService(
 
     if (!session || session.isRevoked) {
       await sessionsRepository.revokeAllForUser(userId)
-      throw new RevokedException('Security Alert: Session compromised')
+      throw new HTTPException(401, { message: 'Session is revoked' })
     }
 
     if (session.expiresAt < Date.now())
-      throw new ExpiredException('Session')
+      throw new HTTPException(401, { message: 'Session expired' })
 
     const updatedSession = await sessionsRepository.update(session.id, {
       refreshTokenHash: newRefreshTokenHash,

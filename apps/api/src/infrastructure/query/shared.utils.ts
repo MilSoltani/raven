@@ -1,4 +1,4 @@
-import { BadRequestException } from '../errors/exceptions'
+import { HTTPException } from 'hono/http-exception'
 
 export function isPlainObject(value: unknown): value is Record<string, unknown> {
   return (
@@ -10,7 +10,7 @@ export function isPlainObject(value: unknown): value is Record<string, unknown> 
 
 export function validatePath(path: string[], maxDepth: number, allowedPaths: string[]) {
   if (path.length > maxDepth) {
-    throw new BadRequestException(`Max depth is ${maxDepth}`)
+    throw new HTTPException(401, { message: `Max depth is ${maxDepth}` })
   }
 
   const normalized = path.join('.')
@@ -21,6 +21,6 @@ export function validatePath(path: string[], maxDepth: number, allowedPaths: str
   )
 
   if (!isAllowed) {
-    throw new BadRequestException(`Field "${normalized}" is not allowed`)
+    throw new HTTPException(401, { message: `Field "${normalized}" is not allowed` })
   }
 }

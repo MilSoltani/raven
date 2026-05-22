@@ -1,6 +1,6 @@
 import type { AuthPayload } from '@raven/api/common/types'
 import type { Config } from '@raven/api/infrastructure/config/config'
-import { InvalidOrExpiredTokenException } from '@raven/api/infrastructure/errors/exceptions'
+import { HTTPException } from 'hono/http-exception'
 import { sign, verify } from 'hono/jwt'
 
 export function createJwtUtil(config: Config) {
@@ -39,7 +39,7 @@ export function createJwtUtil(config: Config) {
       ) as AuthPayload
     }
     catch {
-      throw new InvalidOrExpiredTokenException()
+      throw new HTTPException(401, { message: 'Invalid or expired sesssion' })
     }
   }
 
@@ -52,7 +52,7 @@ export function createJwtUtil(config: Config) {
       ) as AuthPayload
     }
     catch {
-      throw new InvalidOrExpiredTokenException()
+      throw new HTTPException(401, { message: 'Invalid or expired sesssion' })
     }
   }
 
