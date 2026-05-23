@@ -1,5 +1,5 @@
 import { createRoute } from '@hono/zod-openapi'
-import { jsonContent, jsonError } from '@raven/api/common/openapi/openapi.helper'
+import { ErrorSchema } from '@raven/api/common/openapi/openapi.schema'
 import { AuthUserSchema, SigninPayloadSchema, SignupPayloadSchema } from './auth.schema'
 
 export const AuthRoutes = {
@@ -8,14 +8,56 @@ export const AuthRoutes = {
     path: '/signin',
     tags: ['Auth'],
     request: {
-      body: jsonContent(SigninPayloadSchema, 'Signin credentials'),
+      body: {
+        content: {
+          'application/json': {
+            schema: SigninPayloadSchema,
+          },
+        },
+        description: 'Signin credentials',
+      },
     },
     responses: {
-      200: jsonContent(AuthUserSchema, 'Authenticated user'),
-      401: jsonError('Unauthorized'),
-      422: jsonError('Validation error'),
-      429: jsonError('Too many requests'),
-      500: jsonError('Server error'),
+      200: {
+        content: {
+          'application/json': {
+            schema: AuthUserSchema,
+          },
+        },
+        description: 'Authenticated user',
+      },
+      401: {
+        content: {
+          'application/json': {
+            schema: ErrorSchema,
+          },
+        },
+        description: 'Unauthorized',
+      },
+      422: {
+        content: {
+          'application/json': {
+            schema: ErrorSchema,
+          },
+        },
+        description: 'Validation error',
+      },
+      429: {
+        content: {
+          'application/json': {
+            schema: ErrorSchema,
+          },
+        },
+        description: 'Too many requests',
+      },
+      500: {
+        content: {
+          'application/json': {
+            schema: ErrorSchema,
+          },
+        },
+        description: 'Server error',
+      },
     },
   }),
 
@@ -24,13 +66,48 @@ export const AuthRoutes = {
     path: '/signup',
     tags: ['Auth'],
     request: {
-      body: jsonContent(SignupPayloadSchema, 'Signup data'),
+      body: {
+        content: {
+          'application/json': {
+            schema: SignupPayloadSchema,
+          },
+        },
+        description: 'Signup data',
+      },
     },
     responses: {
-      201: jsonContent(AuthUserSchema, 'User created and authenticated'),
-      409: jsonError('Conflict'),
-      422: jsonError('Validation error'),
-      500: jsonError('Server error'),
+      201: {
+        content: {
+          'application/json': {
+            schema: AuthUserSchema,
+          },
+        },
+        description: 'User created and authenticated',
+      },
+      409: {
+        content: {
+          'application/json': {
+            schema: ErrorSchema,
+          },
+        },
+        description: 'Conflict',
+      },
+      422: {
+        content: {
+          'application/json': {
+            schema: ErrorSchema,
+          },
+        },
+        description: 'Validation error',
+      },
+      500: {
+        content: {
+          'application/json': {
+            schema: ErrorSchema,
+          },
+        },
+        description: 'Server error',
+      },
     },
   }),
 
@@ -39,9 +116,30 @@ export const AuthRoutes = {
     path: '/refresh',
     tags: ['Auth'],
     responses: {
-      200: jsonContent(AuthUserSchema, 'Session refreshed'),
-      401: jsonError('Unauthorized'),
-      500: jsonError('Server error'),
+      200: {
+        content: {
+          'application/json': {
+            schema: AuthUserSchema,
+          },
+        },
+        description: 'Session refreshed',
+      },
+      401: {
+        content: {
+          'application/json': {
+            schema: ErrorSchema,
+          },
+        },
+        description: 'Unauthorized',
+      },
+      500: {
+        content: {
+          'application/json': {
+            schema: ErrorSchema,
+          },
+        },
+        description: 'Server error',
+      },
     },
   }),
 
@@ -50,9 +148,30 @@ export const AuthRoutes = {
     path: '/signout',
     tags: ['Auth'],
     responses: {
-      200: jsonContent(AuthUserSchema, 'Logged out successfully'),
-      401: jsonError('Unauthorized'),
-      500: jsonError('Server error'),
+      200: {
+        content: {
+          'application/json': {
+            schema: AuthUserSchema,
+          },
+        },
+        description: 'Logged out successfully',
+      },
+      401: {
+        content: {
+          'application/json': {
+            schema: ErrorSchema,
+          },
+        },
+        description: 'Unauthorized',
+      },
+      500: {
+        content: {
+          'application/json': {
+            schema: ErrorSchema,
+          },
+        },
+        description: 'Server error',
+      },
     },
   }),
 
@@ -61,9 +180,30 @@ export const AuthRoutes = {
     path: '/me',
     tags: ['Auth'],
     responses: {
-      200: jsonContent(AuthUserSchema, 'Current authenticated user'),
-      401: jsonError('Unauthorized'),
-      500: jsonError('Server error'),
+      200: {
+        content: {
+          'application/json': {
+            schema: AuthUserSchema,
+          },
+        },
+        description: 'Current authenticated user',
+      },
+      401: {
+        content: {
+          'application/json': {
+            schema: ErrorSchema,
+          },
+        },
+        description: 'Unauthorized',
+      },
+      500: {
+        content: {
+          'application/json': {
+            schema: ErrorSchema,
+          },
+        },
+        description: 'Server error',
+      },
     },
   }),
 }

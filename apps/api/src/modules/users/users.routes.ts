@@ -1,6 +1,5 @@
 import { createRoute } from '@hono/zod-openapi'
-import { jsonContent, jsonError } from '@raven/api/common/openapi/openapi.helper'
-import { IdParamSchema } from '@raven/api/common/openapi/openapi.schema'
+import { ErrorSchema, IdParamSchema } from '@raven/api/common/openapi/openapi.schema'
 import { createPaginatedSchema } from '@raven/api/exports'
 import { CriteriaSchema } from '@raven/api/infrastructure/query/criteria.schema'
 import { CreateUserPayloadSchema, UpdateUserPayloadSchema, UserSchema } from './users.schema'
@@ -14,7 +13,14 @@ export const UsersRoutes = {
     },
     tags: ['User'],
     responses: {
-      200: jsonContent(createPaginatedSchema(UserSchema), 'List of all users'),
+      200: {
+        content: {
+          'application/json': {
+            schema: createPaginatedSchema(UserSchema),
+          },
+        },
+        description: 'List of all users',
+      },
     },
   }),
 
@@ -24,8 +30,22 @@ export const UsersRoutes = {
     tags: ['User'],
     request: { params: IdParamSchema },
     responses: {
-      200: jsonContent(UserSchema, 'The requested user'),
-      404: jsonError('User not found'),
+      200: {
+        content: {
+          'application/json': {
+            schema: UserSchema,
+          },
+        },
+        description: 'The requested user',
+      },
+      404: {
+        content: {
+          'application/json': {
+            schema: ErrorSchema,
+          },
+        },
+        description: 'User not found',
+      },
     },
   }),
 
@@ -34,13 +54,48 @@ export const UsersRoutes = {
     path: '/',
     tags: ['User'],
     request: {
-      body: jsonContent(CreateUserPayloadSchema, 'User data'),
+      body: {
+        content: {
+          'application/json': {
+            schema: CreateUserPayloadSchema,
+          },
+        },
+        description: 'User data',
+      },
     },
     responses: {
-      201: jsonContent(UserSchema, 'User created'),
-      400: jsonError('Invalid data'),
-      409: jsonError('User already exists'),
-      500: jsonError('User creation failed'),
+      201: {
+        content: {
+          'application/json': {
+            schema: UserSchema,
+          },
+        },
+        description: 'User created',
+      },
+      400: {
+        content: {
+          'application/json': {
+            schema: ErrorSchema,
+          },
+        },
+        description: 'Invalid data',
+      },
+      409: {
+        content: {
+          'application/json': {
+            schema: ErrorSchema,
+          },
+        },
+        description: 'User already exists',
+      },
+      500: {
+        content: {
+          'application/json': {
+            schema: ErrorSchema,
+          },
+        },
+        description: 'User creation failed',
+      },
     },
   }),
 
@@ -50,12 +105,40 @@ export const UsersRoutes = {
     tags: ['User'],
     request: {
       params: IdParamSchema,
-      body: jsonContent(UpdateUserPayloadSchema, 'Updated user data'),
+      body: {
+        content: {
+          'application/json': {
+            schema: UpdateUserPayloadSchema,
+          },
+        },
+        description: 'Updated user data',
+      },
     },
     responses: {
-      200: jsonContent(UserSchema, 'User updated'),
-      400: jsonError('Invalid data'),
-      404: jsonError('User not found'),
+      200: {
+        content: {
+          'application/json': {
+            schema: UserSchema,
+          },
+        },
+        description: 'User updated',
+      },
+      400: {
+        content: {
+          'application/json': {
+            schema: ErrorSchema,
+          },
+        },
+        description: 'Invalid data',
+      },
+      404: {
+        content: {
+          'application/json': {
+            schema: ErrorSchema,
+          },
+        },
+        description: 'User not found',
+      },
     },
   }),
 
@@ -66,7 +149,14 @@ export const UsersRoutes = {
     request: { params: IdParamSchema },
     responses: {
       204: { description: 'User deleted' },
-      404: jsonError('User not found'),
+      404: {
+        content: {
+          'application/json': {
+            schema: ErrorSchema,
+          },
+        },
+        description: 'User not found',
+      },
     },
   }),
 }
