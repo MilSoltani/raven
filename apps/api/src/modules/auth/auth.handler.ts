@@ -2,6 +2,7 @@ import type { AppEnv } from '@raven/api/common/types'
 import type { AuthService } from './auth.service'
 import type { CookieUtil } from './utils/cookie.util'
 import { OpenAPIHono } from '@hono/zod-openapi'
+import { response } from '@raven/api/common/http'
 import { HTTPException } from 'hono/http-exception'
 import { AuthRoutes } from './auth.routes'
 
@@ -20,7 +21,11 @@ export function createAuthHandler(
       cookieUtil.createAccessToken(c, accessToken)
       cookieUtil.createRefreshToken(c, refreshToken)
 
-      return c.json(user, 200)
+      return c.json(response({
+        success: true,
+        event: 'AUTH_SIGNIN',
+        data: user,
+      }), 200)
     })
 
     .openapi(AuthRoutes.signup, async (c) => {
@@ -31,7 +36,11 @@ export function createAuthHandler(
       cookieUtil.createAccessToken(c, accessToken)
       cookieUtil.createRefreshToken(c, refreshToken)
 
-      return c.json(user, 201)
+      return c.json(response({
+        success: true,
+        event: 'AUTH_SIGNUP',
+        data: user,
+      }), 201)
     })
 
     .openapi(AuthRoutes.refresh, async (c) => {
@@ -42,7 +51,11 @@ export function createAuthHandler(
       cookieUtil.createAccessToken(c, accessToken)
       cookieUtil.createRefreshToken(c, refreshToken)
 
-      return c.json(user, 200)
+      return c.json(response({
+        success: true,
+        event: 'AUTH_REFRESHED',
+        data: user,
+      }), 200)
     })
 
     .openapi(AuthRoutes.signout, async (c) => {
@@ -52,7 +65,11 @@ export function createAuthHandler(
 
       cookieUtil.clearTokens(c)
 
-      return c.json(c.var.user, 200)
+      return c.json(response({
+        success: true,
+        event: 'AUTH_SIGNOUT',
+        data: c.var.user,
+      }), 200)
     })
 
     .openapi(AuthRoutes.me, async (c) => {
@@ -62,6 +79,12 @@ export function createAuthHandler(
         throw new HTTPException(401, { message: 'Unauthenticated' })
       }
 
-      return c.json(user, 200)
+      return c.json(response({
+        success: true,
+        event: 'AUTH_ME',
+        data: user,
+      }), 200)
     })
 }
+
+export type AuthHandler = ReturnType<typeof createAuthHandler>

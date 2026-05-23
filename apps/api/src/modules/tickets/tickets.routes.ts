@@ -1,22 +1,25 @@
 import { createRoute } from '@hono/zod-openapi'
-import { ErrorSchema, IdParamSchema } from '@raven/api/common/openapi/openapi.schema'
-import { createPaginatedSchema } from '@raven/api/exports'
+import { ApiResponseSchema, IdParamSchema } from '@raven/api/common/http/http.schema'
+import { paginationMetaSchema } from '@raven/api/exports'
 import { CriteriaSchema } from '@raven/api/infrastructure/query/criteria.schema'
+import { z } from 'zod'
 import { CreateTicketSchema, TicketSchema, UpdateTicketSchema } from './tickets.schema'
 
 export const TicketsRoutes = {
   getAll: createRoute({
     method: 'get',
     path: '/',
+    request: { query: CriteriaSchema },
     tags: ['Ticket'],
-    request: {
-      query: CriteriaSchema,
-    },
     responses: {
       200: {
         content: {
           'application/json': {
-            schema: createPaginatedSchema(TicketSchema),
+            schema: ApiResponseSchema(
+              z.array(TicketSchema),
+            ).extend({
+              meta: paginationMetaSchema.nullable(),
+            }),
           },
         },
         description: 'List of all tickets',
@@ -33,7 +36,7 @@ export const TicketsRoutes = {
       200: {
         content: {
           'application/json': {
-            schema: TicketSchema,
+            schema: ApiResponseSchema(TicketSchema),
           },
         },
         description: 'The requested ticket',
@@ -41,7 +44,11 @@ export const TicketsRoutes = {
       404: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({
+                message: z.string(),
+              }),
+            ),
           },
         },
         description: 'Ticket not found',
@@ -67,7 +74,7 @@ export const TicketsRoutes = {
       201: {
         content: {
           'application/json': {
-            schema: TicketSchema,
+            schema: ApiResponseSchema(TicketSchema),
           },
         },
         description: 'Ticket created',
@@ -75,15 +82,29 @@ export const TicketsRoutes = {
       400: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'Invalid data',
       },
+      409: {
+        content: {
+          'application/json': {
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
+          },
+        },
+        description: 'Ticket already exists',
+      },
       500: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'Ticket creation failed',
@@ -110,7 +131,7 @@ export const TicketsRoutes = {
       200: {
         content: {
           'application/json': {
-            schema: TicketSchema,
+            schema: ApiResponseSchema(TicketSchema),
           },
         },
         description: 'Ticket updated',
@@ -118,7 +139,9 @@ export const TicketsRoutes = {
       400: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'Invalid data',
@@ -126,7 +149,9 @@ export const TicketsRoutes = {
       404: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'Ticket not found',
@@ -140,11 +165,20 @@ export const TicketsRoutes = {
     tags: ['Ticket'],
     request: { params: IdParamSchema },
     responses: {
-      204: { description: 'User deleted' },
+      200: {
+        content: {
+          'application/json': {
+            schema: ApiResponseSchema(TicketSchema),
+          },
+        },
+        description: 'Ticket deleted',
+      },
       404: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'Ticket not found',

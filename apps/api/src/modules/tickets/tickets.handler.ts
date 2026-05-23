@@ -1,48 +1,70 @@
 import type { AppEnv } from '@raven/api/common/types'
 import type { TicketsService } from './tickets.service'
 import { OpenAPIHono } from '@hono/zod-openapi'
+import { response } from '@raven/api/common/http'
 import { TicketsRoutes } from './tickets.routes'
 
 export function createTicketsHandler(ticketsService: TicketsService) {
   return new OpenAPIHono<AppEnv>()
 
     .openapi(TicketsRoutes.getAll, async (c) => {
-      const data = await ticketsService.getAll(c.var.query)
+      const result = await ticketsService.getAll(c.var.query)
 
-      return c.json(data, 200)
+      return c.json(response({
+        success: true,
+        event: 'TICKETS_FETCHED',
+        data: result.data,
+        meta: result.meta,
+      }), 200)
     })
 
     .openapi(TicketsRoutes.getById, async (c) => {
       const { id } = c.req.valid('param')
 
-      const data = await ticketsService.getById(id)
+      const result = await ticketsService.getById(id)
 
-      return c.json(data, 200)
+      return c.json(response({
+        success: true,
+        event: 'TICKET_FETCHED',
+        data: result,
+      }), 200)
     })
 
     .openapi(TicketsRoutes.create, async (c) => {
       const json = c.req.valid('json')
 
-      const data = await ticketsService.create(json, c.var.user.id)
+      const result = await ticketsService.create(json, c.var.user.id)
 
-      return c.json(data, 201)
+      return c.json(response({
+        success: true,
+        event: 'TICKET_CREATED',
+        data: result,
+      }), 201)
     })
 
     .openapi(TicketsRoutes.update, async (c) => {
       const { id } = c.req.valid('param')
       const json = c.req.valid('json')
 
-      const data = await ticketsService.update(id, json)
+      const result = await ticketsService.update(id, json)
 
-      return c.json(data, 200)
+      return c.json(response({
+        success: true,
+        event: 'TICKET_UPDATED',
+        data: result,
+      }), 200)
     })
 
     .openapi(TicketsRoutes.remove, async (c) => {
       const { id } = c.req.valid('param')
 
-      await ticketsService.delete(id)
+      const result = await ticketsService.delete(id)
 
-      return c.body(null, 204)
+      return c.json(response({
+        success: true,
+        event: 'TICKET_DELETED',
+        data: result,
+      }), 200)
     })
 }
 

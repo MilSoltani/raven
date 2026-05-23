@@ -1,10 +1,10 @@
 # get users
 ###
-GET http://localhost:3000/users?select=name,email&page=3&limit=2
+GET http://localhost:3000/users?select=name,email
 
 # get user
 ###
-GET http://localhost:3000/users/20
+GET http://localhost:3000/users/3
 
 # create user
 ###

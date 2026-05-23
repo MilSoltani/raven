@@ -1,5 +1,6 @@
 import { createRoute } from '@hono/zod-openapi'
-import { ErrorSchema } from '@raven/api/common/openapi/openapi.schema'
+import { ApiResponseSchema } from '@raven/api/common/http/http.schema'
+import { z } from 'zod'
 import { AuthUserSchema, SigninPayloadSchema, SignupPayloadSchema } from './auth.schema'
 
 export const AuthRoutes = {
@@ -21,7 +22,7 @@ export const AuthRoutes = {
       200: {
         content: {
           'application/json': {
-            schema: AuthUserSchema,
+            schema: ApiResponseSchema(AuthUserSchema),
           },
         },
         description: 'Authenticated user',
@@ -29,7 +30,9 @@ export const AuthRoutes = {
       401: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'Unauthorized',
@@ -37,7 +40,9 @@ export const AuthRoutes = {
       422: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'Validation error',
@@ -45,7 +50,9 @@ export const AuthRoutes = {
       429: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'Too many requests',
@@ -53,7 +60,9 @@ export const AuthRoutes = {
       500: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'Server error',
@@ -79,7 +88,7 @@ export const AuthRoutes = {
       201: {
         content: {
           'application/json': {
-            schema: AuthUserSchema,
+            schema: ApiResponseSchema(AuthUserSchema),
           },
         },
         description: 'User created and authenticated',
@@ -87,7 +96,9 @@ export const AuthRoutes = {
       409: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'Conflict',
@@ -95,7 +106,9 @@ export const AuthRoutes = {
       422: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'Validation error',
@@ -103,7 +116,9 @@ export const AuthRoutes = {
       500: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'Server error',
@@ -119,7 +134,7 @@ export const AuthRoutes = {
       200: {
         content: {
           'application/json': {
-            schema: AuthUserSchema,
+            schema: ApiResponseSchema(AuthUserSchema),
           },
         },
         description: 'Session refreshed',
@@ -127,7 +142,9 @@ export const AuthRoutes = {
       401: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'Unauthorized',
@@ -135,7 +152,9 @@ export const AuthRoutes = {
       500: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'Server error',
@@ -151,7 +170,7 @@ export const AuthRoutes = {
       200: {
         content: {
           'application/json': {
-            schema: AuthUserSchema,
+            schema: ApiResponseSchema(AuthUserSchema),
           },
         },
         description: 'Logged out successfully',
@@ -159,7 +178,9 @@ export const AuthRoutes = {
       401: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'Unauthorized',
@@ -167,7 +188,9 @@ export const AuthRoutes = {
       500: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'Server error',
@@ -183,7 +206,7 @@ export const AuthRoutes = {
       200: {
         content: {
           'application/json': {
-            schema: AuthUserSchema,
+            schema: ApiResponseSchema(AuthUserSchema),
           },
         },
         description: 'Current authenticated user',
@@ -191,7 +214,9 @@ export const AuthRoutes = {
       401: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'Unauthorized',
@@ -199,7 +224,9 @@ export const AuthRoutes = {
       500: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'Server error',

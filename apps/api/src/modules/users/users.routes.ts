@@ -1,22 +1,25 @@
 import { createRoute } from '@hono/zod-openapi'
-import { ErrorSchema, IdParamSchema } from '@raven/api/common/openapi/openapi.schema'
-import { createPaginatedSchema } from '@raven/api/exports'
+import { ApiResponseSchema, IdParamSchema } from '@raven/api/common/http/http.schema'
+import { paginationMetaSchema } from '@raven/api/exports'
 import { CriteriaSchema } from '@raven/api/infrastructure/query/criteria.schema'
+import { z } from 'zod'
 import { CreateUserPayloadSchema, UpdateUserPayloadSchema, UserSchema } from './users.schema'
 
 export const UsersRoutes = {
   getAll: createRoute({
     method: 'get',
     path: '/',
-    request: {
-      query: CriteriaSchema,
-    },
+    request: { query: CriteriaSchema },
     tags: ['User'],
     responses: {
       200: {
         content: {
           'application/json': {
-            schema: createPaginatedSchema(UserSchema),
+            schema: ApiResponseSchema(
+              z.array(UserSchema),
+            ).extend({
+              meta: paginationMetaSchema.nullable(),
+            }),
           },
         },
         description: 'List of all users',
@@ -33,7 +36,7 @@ export const UsersRoutes = {
       200: {
         content: {
           'application/json': {
-            schema: UserSchema,
+            schema: ApiResponseSchema(UserSchema),
           },
         },
         description: 'The requested user',
@@ -41,7 +44,11 @@ export const UsersRoutes = {
       404: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({
+                message: z.string(),
+              }),
+            ),
           },
         },
         description: 'User not found',
@@ -67,7 +74,7 @@ export const UsersRoutes = {
       201: {
         content: {
           'application/json': {
-            schema: UserSchema,
+            schema: ApiResponseSchema(UserSchema),
           },
         },
         description: 'User created',
@@ -75,7 +82,9 @@ export const UsersRoutes = {
       400: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'Invalid data',
@@ -83,7 +92,9 @@ export const UsersRoutes = {
       409: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'User already exists',
@@ -91,7 +102,9 @@ export const UsersRoutes = {
       500: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'User creation failed',
@@ -118,7 +131,7 @@ export const UsersRoutes = {
       200: {
         content: {
           'application/json': {
-            schema: UserSchema,
+            schema: ApiResponseSchema(UserSchema),
           },
         },
         description: 'User updated',
@@ -126,7 +139,9 @@ export const UsersRoutes = {
       400: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'Invalid data',
@@ -134,7 +149,9 @@ export const UsersRoutes = {
       404: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'User not found',
@@ -148,11 +165,20 @@ export const UsersRoutes = {
     tags: ['User'],
     request: { params: IdParamSchema },
     responses: {
-      204: { description: 'User deleted' },
+      200: {
+        content: {
+          'application/json': {
+            schema: ApiResponseSchema(UserSchema),
+          },
+        },
+        description: 'User deleted',
+      },
       404: {
         content: {
           'application/json': {
-            schema: ErrorSchema,
+            schema: ApiResponseSchema(
+              z.object({ message: z.string() }),
+            ),
           },
         },
         description: 'User not found',
