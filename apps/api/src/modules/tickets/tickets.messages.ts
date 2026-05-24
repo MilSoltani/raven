@@ -17,6 +17,9 @@ export const ticketsMessages = {
   DESCRIPTION_REQUIRED: 400,
   UPDATED_AT_INVALID: 400,
   CREATED_AT_REQUIRED: 400,
+
+  TICKET_NOT_FOUND: 404,
+  INTERNAL_ERROR: 500,
 } as const
 
 export type TicketsMessage = keyof typeof ticketsMessages

@@ -4,7 +4,10 @@ import type { FilterTransformer, PaginationTransformer, SelectTransformer, SortT
 import type { ParsedQs } from 'qs'
 import type { TicketsRepository } from './tickets.repository'
 import type { CreateTicketPayload, Ticket, UpdateTicketPayload } from './tickets.schema'
-import { HTTPException } from 'hono/http-exception'
+import { appExceptionFactory } from '@raven/api/common/http/app.exception'
+import { ticketsMessages } from './tickets.messages'
+
+const appException = appExceptionFactory(ticketsMessages)
 
 export function createTicketsService(
   ticketsRepository: TicketsRepository,
@@ -32,7 +35,7 @@ export function createTicketsService(
       const result = await ticketsRepository.getById(id)
 
       if (!result)
-        throw new HTTPException(404, { message: 'Ticket not found' })
+        throw appException('TICKET_NOT_FOUND')
 
       return result
     },
@@ -41,7 +44,7 @@ export function createTicketsService(
       const result = await ticketsRepository.create(data, creatorId)
 
       if (!result)
-        throw new HTTPException(500, { message: 'Internal error creating Ticket' })
+        throw appException('INTERNAL_ERROR')
 
       return result
     },
@@ -50,7 +53,7 @@ export function createTicketsService(
       const result = await ticketsRepository.update(id, data)
 
       if (!result)
-        throw new HTTPException(404, { message: 'Ticket not found' })
+        throw appException('TICKET_NOT_FOUND')
 
       return result
     },
@@ -59,7 +62,7 @@ export function createTicketsService(
       const result = await ticketsRepository.delete(id)
 
       if (!result)
-        throw new HTTPException(404, { message: 'Ticket not found' })
+        throw appException('TICKET_NOT_FOUND')
 
       return result
     },

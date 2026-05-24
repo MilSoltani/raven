@@ -4,7 +4,10 @@ import type { FilterTransformer, PaginationTransformer, SelectTransformer, SortT
 import type { ParsedQs } from 'qs'
 import type { UsersRepository } from './users.repository'
 import type { CreateUserPayload, UpdateUserPayload, User } from './users.schema'
-import { HTTPException } from 'hono/http-exception'
+import { appExceptionFactory } from '@raven/api/common/http/app.exception'
+import { usersMessages } from './users.messages'
+
+const appException = appExceptionFactory(usersMessages)
 
 export function createUsersService(
   usersRepository: UsersRepository,
@@ -32,7 +35,7 @@ export function createUsersService(
       const result = await usersRepository.getById(id)
 
       if (!result)
-        throw new HTTPException(404, { message: 'User not found' })
+        throw appException('USER_NOT_FOUND')
 
       return result
     },
@@ -41,7 +44,7 @@ export function createUsersService(
       const result = await usersRepository.create(data)
 
       if (!result)
-        throw new HTTPException(500, { message: 'Internal error while creating user' })
+        throw appException('INTERNAL_ERROR')
 
       return result
     },
@@ -50,7 +53,7 @@ export function createUsersService(
       const result = await usersRepository.update(id, data)
 
       if (!result)
-        throw new HTTPException(404, { message: 'User not found' })
+        throw appException('USER_NOT_FOUND')
 
       return result
     },
@@ -59,7 +62,7 @@ export function createUsersService(
       const result = await usersRepository.delete(id)
 
       if (!result)
-        throw new HTTPException(404, { message: 'User not found' })
+        throw appException('USER_NOT_FOUND')
 
       return result
     },

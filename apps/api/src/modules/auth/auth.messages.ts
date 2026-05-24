@@ -13,6 +13,10 @@ export const authMessages = {
   PASSWORD_TOO_LONG: 400,
   NAME_REQUIRED: 400,
   NAME_TOO_LONG: 400,
+
+  SESSION_NOT_FOUND: 404,
+  INVALID_CREDENTIALS: 401,
+  INTERNAL_ERROR: 500,
 } as const
 
 export type AuthMessage = keyof typeof authMessages

@@ -1,7 +1,7 @@
 import type { SessionsRepository } from './sessions.repository'
 import type { CreateSessionPayload } from './sessions.schema'
 import { HTTPException } from 'hono/http-exception'
-
+// TODO: Sessions service - use AppExceptions
 export function createSessionsService(
   sessionsRepository: SessionsRepository,
 ) {

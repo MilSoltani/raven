@@ -12,7 +12,9 @@ export const usersMessages = {
   EMAIL_TOO_LONG: 400,
   UPDATED_AT_INVALID: 400,
   CREATED_AT_REQUIRED: 400,
+
   USER_NOT_FOUND: 404,
+  INTERNAL_ERROR: 500,
 } as const
 
 export type UsersMessage = keyof typeof usersMessages

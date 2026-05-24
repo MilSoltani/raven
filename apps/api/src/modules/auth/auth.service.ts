@@ -2,8 +2,11 @@ import type { AuthRepository } from './auth.repository'
 import type { SessionsService } from './sessions/sessions.service'
 import type { CryptoUtil } from './utils/crypto.util'
 import type { JwtUtil } from './utils/jwt.util'
+import { appExceptionFactory } from '@raven/api/common/http/app.exception'
 import bcrypt from 'bcrypt'
-import { HTTPException } from 'hono/http-exception'
+import { authMessages } from './auth.messages'
+
+const appException = appExceptionFactory(authMessages)
 
 export function createAuthService(
   authRepository: AuthRepository,
@@ -26,7 +29,7 @@ export function createAuthService(
     })
 
     if (!session)
-      throw new HTTPException(500, { message: 'Internal error processing session' })
+      throw appException('INTERNAL_ERROR')
 
     return session
   }
@@ -35,17 +38,17 @@ export function createAuthService(
     const ok = await bcrypt.compare(plain, hash)
 
     if (!ok)
-      throw new HTTPException(401, { message: 'Invalid credentials' })
+      throw appException('INVALID_CREDENTIALS')
   }
 
   const signin = async (email: string, pass: string) => {
     const authUserInternal = await authRepository.getUserByEmail(email)
 
     if (!authUserInternal)
-      throw new HTTPException(401, { message: 'Invalid credentials' })
+      throw appException('INVALID_CREDENTIALS')
 
     if (!authUserInternal.password)
-      throw new HTTPException(401, { message: 'Invalid credentials' })
+      throw appException('INVALID_CREDENTIALS')
 
     await verifyPassword(pass, authUserInternal.password)
 
@@ -71,7 +74,7 @@ export function createAuthService(
     })
 
     if (!user)
-      throw new HTTPException(500, { message: 'Internal error processing user' })
+      throw appException('INTERNAL_ERROR')
 
     const tokens = await issueTokens(user.id, user.email)
     await persistSession(user.id, tokens.refreshToken)
@@ -102,8 +105,9 @@ export function createAuthService(
     const refreshTokenHash = cryptoUtil.hash(refreshToken)
     const session = await sessionsService.revoke(refreshTokenHash)
 
+    // TODO: move this to sessions service
     if (!session)
-      throw new HTTPException(404, { message: 'Session not found' })
+      throw appException('SESSION_NOT_FOUND')
   }
 
   return { signin, signup, refresh, signout }
