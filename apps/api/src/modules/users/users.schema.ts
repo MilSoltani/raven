@@ -1,19 +1,21 @@
 import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
-import { throwException } from '@raven/api/common/http'
-import { usersMessage } from './users.messages'
+import { zodExceptionFactory } from '@raven/api/common/http'
+import { usersMessages } from './users.messages'
+
+const throwException = zodExceptionFactory(usersMessages)
 
 extendZodWithOpenApi(z)
 
 export const UserSchema = z.object({
   id: z.number().int(),
 
-  name: z.string(throwException(usersMessage('NAME_REQUIRED')))
-    .min(1, throwException(usersMessage('NAME_REQUIRED')))
-    .max(255, throwException(usersMessage('NAME_TOO_LONG'))),
+  name: z.string(throwException('NAME_REQUIRED'))
+    .min(1, throwException('NAME_REQUIRED'))
+    .max(255, throwException('NAME_TOO_LONG')),
 
-  email: z.email(throwException(usersMessage('EMAIL_INVALID')))
-    .min(5, throwException(usersMessage('EMAIL_REQUIRED')))
-    .max(255, throwException(usersMessage('EMAIL_TOO_LONG'))),
+  email: z.email(throwException('EMAIL_INVALID'))
+    .min(5, throwException('EMAIL_REQUIRED'))
+    .max(255, throwException('EMAIL_TOO_LONG')),
 
   updatedAt: z.coerce.number(throwException('UPDATED_AT_INVALID')).nullable(),
 
