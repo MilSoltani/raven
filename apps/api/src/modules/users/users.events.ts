@@ -1,4 +1,4 @@
-export const usersEvents = {
+export const usersResponseCodes = {
   USERS_FETCHED: 200,
   USER_FETCHED: 200,
   USER_UPDATED: 200,
@@ -15,5 +15,5 @@ export const usersEvents = {
   USER_NOT_FOUND: 404,
 } as const
 
-export type UsersEvent = keyof typeof usersEvents
-export const usersEvent = <T extends UsersEvent>(e: T) => e
+export type UsersResponseCode = keyof typeof usersResponseCodes
+export const usersResponseCode = <T extends UsersResponseCode>(e: T) => e

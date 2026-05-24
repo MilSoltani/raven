@@ -1,4 +1,4 @@
-export const TicketsEvents = {
+export const ticketsResposeCodes = {
   TICKETS_FETCHED: 200,
   TICKET_FETCHED: 200,
   TICKET_CREATED: 201,
@@ -19,5 +19,5 @@ export const TicketsEvents = {
   CREATED_AT_REQUIRED: 400,
 } as const
 
-export type TicketsEvent = keyof typeof TicketsEvents
-export const ticketsEvent = <T extends TicketsEvent>(e: T) => e
+export type TicketsResponseCode = keyof typeof ticketsResposeCodes
+export const ticketsResponseCode = <T extends TicketsResponseCode>(e: T) => e

@@ -1,5 +1,5 @@
 import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
-import { usersEvent } from './users.events'
+import { usersResponseCode } from './users.events'
 
 extendZodWithOpenApi(z)
 
@@ -7,12 +7,12 @@ export const UserSchema = z.object({
   id: z.number().int(),
 
   name: z.string()
-    .min(1, { error: usersEvent('NAME_REQUIRED') })
-    .max(255, { error: usersEvent('NAME_TOO_LONG') }),
+    .min(1, { error: usersResponseCode('NAME_REQUIRED') })
+    .max(255, { error: usersResponseCode('NAME_TOO_LONG') }),
 
-  email: z.email({ error: usersEvent('EMAIL_INVALID') })
-    .min(5, { error: usersEvent('EMAIL_REQUIRED') })
-    .max(255, { error: usersEvent('EMAIL_TOO_LONG') }),
+  email: z.email({ error: usersResponseCode('EMAIL_INVALID') })
+    .min(5, { error: usersResponseCode('EMAIL_REQUIRED') })
+    .max(255, { error: usersResponseCode('EMAIL_TOO_LONG') }),
 
   updatedAt: z.coerce.number({ error: 'UPDATED_AT_INVALID' }).nullable(),
   createdAt: z.coerce.number({ error: 'CREATED_AT_REQUIRED' }),

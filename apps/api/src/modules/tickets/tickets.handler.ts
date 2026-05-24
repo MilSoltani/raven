@@ -1,12 +1,12 @@
 import type { AppEnv } from '@raven/api/common/types'
-import type { TicketsEvent } from './tickets.events'
+import type { TicketsResponseCode } from './tickets.events'
 import type { TicketsService } from './tickets.service'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { responseFactory } from '@raven/api/common/http'
 import { TicketsRoutes } from './tickets.routes'
 
 export function createTicketsHandler(ticketsService: TicketsService) {
-  const response = responseFactory<TicketsEvent>()
+  const response = responseFactory<TicketsResponseCode>()
 
   return new OpenAPIHono<AppEnv>()
 

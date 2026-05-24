@@ -1,5 +1,5 @@
 import type { AppEnv } from '@raven/api/common/types'
-import type { AuthEvent } from './auth.events'
+import type { AuthResponseCode } from './auth.events'
 import type { AuthService } from './auth.service'
 import type { CookieUtil } from './utils/cookie.util'
 import { OpenAPIHono } from '@hono/zod-openapi'
@@ -11,7 +11,7 @@ export function createAuthHandler(
   authService: AuthService,
   cookieUtil: CookieUtil,
 ) {
-  const response = responseFactory<AuthEvent>()
+  const response = responseFactory<AuthResponseCode>()
 
   return new OpenAPIHono<AppEnv>()
 
