@@ -1,12 +1,12 @@
 import type { AppEnv } from '@raven/api/common/types'
-import type { UserEvent } from './users.events'
+import type { UsersEvent } from './users.events'
 import type { UsersService } from './users.service'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { responseFactory } from '@raven/api/common/http'
 import { UsersRoutes } from './users.routes'
 
 export function createUsersHandler(usersService: UsersService) {
-  const response = responseFactory<UserEvent>()
+  const response = responseFactory<UsersEvent>()
 
   return new OpenAPIHono<AppEnv>()
 

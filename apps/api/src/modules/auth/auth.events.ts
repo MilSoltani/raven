@@ -11,6 +11,9 @@ export const authEvents = {
   PASSWORD_REQUIRED: 400,
   PASSWORD_TOO_SHORT: 400,
   PASSWORD_TOO_LONG: 400,
+  NAME_REQUIRED: 400,
+  NAME_TOO_LONG: 400,
 } as const
 
 export type AuthEvent = keyof typeof authEvents
+export const authEvent = <T extends AuthEvent>(e: T) => e

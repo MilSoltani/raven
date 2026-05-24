@@ -19,4 +19,5 @@ export const TicketsEvents = {
   CREATED_AT_REQUIRED: 400,
 } as const
 
-export type TicketEvent = keyof typeof TicketsEvents
+export type TicketsEvent = keyof typeof TicketsEvents
+export const ticketsEvent = <T extends TicketsEvent>(e: T) => e

@@ -10,7 +10,10 @@ export const usersEvents = {
   EMAIL_REQUIRED: 400,
   EMAIL_INVALID: 400,
   EMAIL_TOO_LONG: 400,
+  UPDATED_AT_INVALID: 400,
+  CREATED_AT_REQUIRED: 400,
   USER_NOT_FOUND: 404,
 } as const
 
-export type UserEvent = keyof typeof usersEvents
+export type UsersEvent = keyof typeof usersEvents
+export const usersEvent = <T extends UsersEvent>(e: T) => e

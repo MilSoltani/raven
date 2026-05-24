@@ -1,14 +1,15 @@
 import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
+import { authEvent } from './auth.events'
 
 extendZodWithOpenApi(z)
 
-const emailSchema = z.email({ error: 'EMAIL_INVALID' })
-  .min(5, { error: 'EMAIL_REQUIRED' })
-  .max(255, { error: 'EMAIL_TOO_LONG' })
+const emailSchema = z.email({ error: authEvent('EMAIL_INVALID') })
+  .min(5, { error: authEvent('EMAIL_REQUIRED') })
+  .max(255, { error: authEvent('EMAIL_TOO_LONG') })
 
-const passwordSchema = z.string({ error: 'PASSWORD_REQUIRED' })
-  .min(8, { error: 'PASSWORD_TOO_SHORT' })
-  .max(255, { error: 'PASSWORD_TOO_LONG' })
+const passwordSchema = z.string({ error: authEvent('PASSWORD_REQUIRED') })
+  .min(8, { error: authEvent('PASSWORD_TOO_SHORT') })
+  .max(255, { error: authEvent('PASSWORD_TOO_LONG') })
 
 export const AuthUserSchema = z.object({
   id: z.number().int(),
@@ -26,7 +27,9 @@ export const SigninPayloadSchema = z.object({
 }).openapi('SigninPayload')
 
 export const SignupPayloadSchema = z.object({
-  name: z.string().min(1).max(255),
+  name: z.string()
+    .min(1, { error: authEvent('NAME_REQUIRED') })
+    .max(255, { error: authEvent('NAME_TOO_LONG') }),
   email: emailSchema,
   password: passwordSchema,
 }).openapi('SignupPayload')
