@@ -103,11 +103,7 @@ export function createAuthService(
 
   const signout = async (refreshToken: string) => {
     const refreshTokenHash = cryptoUtil.hash(refreshToken)
-    const session = await sessionsService.revoke(refreshTokenHash)
-
-    // TODO: move this to sessions service
-    if (!session)
-      throw appException('SESSION_NOT_FOUND')
+    await sessionsService.revoke(refreshTokenHash)
   }
 
   return { signin, signup, refresh, signout }

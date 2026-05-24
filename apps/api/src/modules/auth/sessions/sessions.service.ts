@@ -1,7 +1,10 @@
 import type { SessionsRepository } from './sessions.repository'
 import type { CreateSessionPayload } from './sessions.schema'
-import { HTTPException } from 'hono/http-exception'
-// TODO: Sessions service - use AppExceptions
+import { appExceptionFactory } from '@raven/api/common/http/app.exception'
+import { sessionsMessages } from './sessions.messages'
+
+const appException = appExceptionFactory(sessionsMessages)
+
 export function createSessionsService(
   sessionsRepository: SessionsRepository,
 ) {
@@ -9,7 +12,7 @@ export function createSessionsService(
     const result = await sessionsRepository.findByHash(hash)
 
     if (!result)
-      throw new HTTPException(404, { message: 'Session not found' })
+      throw appException('SESSION_NOT_FOUND')
 
     return result
   }
@@ -18,7 +21,7 @@ export function createSessionsService(
     const session = await sessionsRepository.create(data)
 
     if (!session)
-      throw new HTTPException(500, { message: 'Internal error creating session' })
+      throw appException('INTERNAL_ERROR')
 
     return { session }
   }
@@ -33,11 +36,11 @@ export function createSessionsService(
 
     if (!session || session.isRevoked) {
       await sessionsRepository.revokeAllForUser(userId)
-      throw new HTTPException(401, { message: 'Session is revoked' })
+      throw appException('SESSION_REVOKED')
     }
 
     if (session.expiresAt < Date.now())
-      throw new HTTPException(401, { message: 'Session expired' })
+      throw appException('SESSION_EXPIRED')
 
     const updatedSession = await sessionsRepository.update(session.id, {
       refreshTokenHash: newRefreshTokenHash,
@@ -48,7 +51,12 @@ export function createSessionsService(
   }
 
   function revoke(refreshTokenHash: string) {
-    return sessionsRepository.revoke(refreshTokenHash)
+    const result = sessionsRepository.revoke(refreshTokenHash)
+
+    if (!result)
+      throw appException('SESSION_NOT_FOUND')
+
+    return result
   }
 
   return {
