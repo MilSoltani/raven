@@ -1,17 +1,19 @@
 import type { AppEnv } from '@raven/api/common/types'
+import type { TicketEvent } from './tickets.events'
 import type { TicketsService } from './tickets.service'
 import { OpenAPIHono } from '@hono/zod-openapi'
-import { response } from '@raven/api/common/http'
+import { responseFactory } from '@raven/api/common/http'
 import { TicketsRoutes } from './tickets.routes'
 
 export function createTicketsHandler(ticketsService: TicketsService) {
+  const response = responseFactory<TicketEvent>()
+
   return new OpenAPIHono<AppEnv>()
 
     .openapi(TicketsRoutes.getAll, async (c) => {
       const result = await ticketsService.getAll(c.var.query)
 
       return c.json(response({
-        success: true,
         event: 'TICKETS_FETCHED',
         data: result.data,
         meta: result.meta,
@@ -24,7 +26,6 @@ export function createTicketsHandler(ticketsService: TicketsService) {
       const result = await ticketsService.getById(id)
 
       return c.json(response({
-        success: true,
         event: 'TICKET_FETCHED',
         data: result,
       }), 200)
@@ -36,7 +37,6 @@ export function createTicketsHandler(ticketsService: TicketsService) {
       const result = await ticketsService.create(json, c.var.user.id)
 
       return c.json(response({
-        success: true,
         event: 'TICKET_CREATED',
         data: result,
       }), 201)
@@ -49,7 +49,6 @@ export function createTicketsHandler(ticketsService: TicketsService) {
       const result = await ticketsService.update(id, json)
 
       return c.json(response({
-        success: true,
         event: 'TICKET_UPDATED',
         data: result,
       }), 200)
@@ -61,7 +60,6 @@ export function createTicketsHandler(ticketsService: TicketsService) {
       const result = await ticketsService.delete(id)
 
       return c.json(response({
-        success: true,
         event: 'TICKET_DELETED',
         data: result,
       }), 200)

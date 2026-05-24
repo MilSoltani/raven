@@ -1,6 +1,5 @@
 import { createRoute } from '@hono/zod-openapi'
 import { ApiResponseSchema, IdParamSchema } from '@raven/api/common/http/http.schema'
-import { paginationMetaSchema } from '@raven/api/exports'
 import { CriteriaSchema } from '@raven/api/infrastructure/query/criteria.schema'
 import { z } from 'zod'
 import { CreateUserPayloadSchema, UpdateUserPayloadSchema, UserSchema } from './users.schema'
@@ -15,11 +14,7 @@ export const UsersRoutes = {
       200: {
         content: {
           'application/json': {
-            schema: ApiResponseSchema(
-              z.array(UserSchema),
-            ).extend({
-              meta: paginationMetaSchema.nullable(),
-            }),
+            schema: ApiResponseSchema(z.array(UserSchema)),
           },
         },
         description: 'List of all users',

@@ -2,22 +2,40 @@ import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
 
 extendZodWithOpenApi(z)
 
-export const TicketStatusEnum = z.enum(['OPEN', 'PENDING', 'WORKING', 'RESOLVED', 'CLOSED'])
-  .openapi('TicketStatus')
+export const TicketStatusEnum = z.enum(
+  ['OPEN', 'PENDING', 'WORKING', 'RESOLVED', 'CLOSED'],
+  { error: 'STATUS_INVALID' },
+).openapi('TicketStatus')
 
-export const TicketPriorityEnum = z.enum(['LOW', 'MEDIUM', 'HIGH', 'URGENT'])
-  .openapi('TicketPriority')
+export const TicketPriorityEnum = z.enum(
+  ['LOW', 'MEDIUM', 'HIGH', 'URGENT'],
+  { error: 'PRIORITY_INVALID' },
+).openapi('TicketPriority')
 
 export const TicketSchema = z.object({
-  id: z.number().int(),
-  creatorId: z.number().int(),
-  agentId: z.number().int().nullable().optional(),
-  subject: z.string().min(1).max(512),
-  description: z.string().min(1),
+  id: z.number({ error: 'TICKET_ID_REQUIRED' })
+    .int({ error: 'TICKET_ID_INVALID' }),
+
+  creatorId: z.number({ error: 'CREATOR_ID_REQUIRED' })
+    .int({ error: 'CREATOR_ID_INVALID' }),
+
+  agentId: z.number({ error: 'AGENT_ID_INVALID' })
+    .int({ error: 'AGENT_ID_INVALID' })
+    .nullable()
+    .optional(),
+
+  subject: z.string({ error: 'SUBJECT_REQUIRED' })
+    .min(1, { error: 'SUBJECT_REQUIRED' })
+    .max(512, { error: 'SUBJECT_TOO_LONG' }),
+
+  description: z.string({ error: 'DESCRIPTION_REQUIRED' })
+    .min(1, { error: 'DESCRIPTION_REQUIRED' }),
+
   status: TicketStatusEnum,
   priority: TicketPriorityEnum,
-  updatedAt: z.coerce.number().nullable(),
-  createdAt: z.coerce.number(),
+
+  updatedAt: z.coerce.number({ error: 'UPDATED_AT_INVALID' }).nullable(),
+  createdAt: z.coerce.number({ error: 'CREATED_AT_REQUIRED' }),
 }).openapi('Ticket')
 
 export const CreateTicketSchema = TicketSchema.omit({

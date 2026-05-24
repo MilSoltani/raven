@@ -1,18 +1,20 @@
 import { paginationMetaSchema } from '@raven/api/exports'
 import { z } from 'zod'
 
+export type ApiResponse<TData, TEvent extends string, TMeta = null, TError = null> = {
+  event: TEvent
+  data: TData
+  meta: TMeta
+  error: TError
+}
+
 export function ApiResponseSchema<T>(dataSchema: T) {
   return z.object({
     event: z.string(),
     data: dataSchema,
-    meta: paginationMetaSchema.nullable().optional(),
+    meta: paginationMetaSchema.nullable(),
+    error: z.unknown().nullable().optional(),
   })
-}
-
-export type ApiResponse<TData> = {
-  event: string
-  data: TData
-  meta?: unknown | null
 }
 
 export const IdParamSchema = z.object({

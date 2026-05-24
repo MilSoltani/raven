@@ -4,8 +4,12 @@ extendZodWithOpenApi(z)
 
 export const UserSchema = z.object({
   id: z.number().int(),
-  name: z.string().min(1).max(255),
-  email: z.email().max(255),
+  name: z.string()
+    .min(1, { error: 'NAME_REQUIRED' })
+    .max(255, { error: 'NAME_TOO_LONG' }),
+  email: z.email({ error: 'EMAIL_INVALID' })
+    .min(5, { error: 'EMAIL_REQUIRED' })
+    .max(255, { error: 'EMAIL_TOO_LONG' }),
   updatedAt: z.coerce.number().nullable(),
   createdAt: z.coerce.number(),
 })
