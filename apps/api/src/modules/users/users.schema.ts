@@ -1,4 +1,5 @@
 import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
+import { zodException } from '@raven/api/common/http'
 import { usersResponseCode } from './users.events'
 
 extendZodWithOpenApi(z)
@@ -6,16 +7,17 @@ extendZodWithOpenApi(z)
 export const UserSchema = z.object({
   id: z.number().int(),
 
-  name: z.string()
-    .min(1, { error: usersResponseCode('NAME_REQUIRED') })
-    .max(255, { error: usersResponseCode('NAME_TOO_LONG') }),
+  name: z.string(zodException(usersResponseCode('NAME_REQUIRED')))
+    .min(1, zodException(usersResponseCode('NAME_REQUIRED')))
+    .max(255, zodException(usersResponseCode('NAME_TOO_LONG'))),
 
-  email: z.email({ error: usersResponseCode('EMAIL_INVALID') })
-    .min(5, { error: usersResponseCode('EMAIL_REQUIRED') })
-    .max(255, { error: usersResponseCode('EMAIL_TOO_LONG') }),
+  email: z.email(zodException(usersResponseCode('EMAIL_INVALID')))
+    .min(5, zodException(usersResponseCode('EMAIL_REQUIRED')))
+    .max(255, zodException(usersResponseCode('EMAIL_TOO_LONG'))),
 
-  updatedAt: z.coerce.number({ error: 'UPDATED_AT_INVALID' }).nullable(),
-  createdAt: z.coerce.number({ error: 'CREATED_AT_REQUIRED' }),
+  updatedAt: z.coerce.number(zodException('UPDATED_AT_INVALID')).nullable(),
+
+  createdAt: z.coerce.number(zodException('CREATED_AT_REQUIRED')),
 })
 
 export const CreateUserPayloadSchema = UserSchema.omit({

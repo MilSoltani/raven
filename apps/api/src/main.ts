@@ -78,7 +78,7 @@ const app = new OpenAPIHono<AppEnv>()
   .notFound(c => c.json({ error: 'Not Found!' }, 404))
   .onError((err, c) => {
     if (err instanceof HTTPException) {
-      return c.json({ message: err.message }, err.status)
+      return c.json({ event: err.message }, err.status)
     }
 
     console.error(err)
