@@ -1,46 +1,46 @@
 import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
 import { zodException } from '@raven/api/common/http'
-import { ticketsResponseCode } from './tickets.events'
+import { ticketsMessage } from './tickets.messages'
 
 extendZodWithOpenApi(z)
 
 export const TicketStatusEnum = z.enum(
   ['OPEN', 'PENDING', 'WORKING', 'RESOLVED', 'CLOSED'],
-  zodException(ticketsResponseCode('STATUS_INVALID')),
+  zodException(ticketsMessage('STATUS_INVALID')),
 ).openapi('TicketStatus')
 
 export const TicketPriorityEnum = z.enum(
   ['LOW', 'MEDIUM', 'HIGH', 'URGENT'],
-  zodException(ticketsResponseCode('PRIORITY_INVALID')),
+  zodException(ticketsMessage('PRIORITY_INVALID')),
 ).openapi('TicketPriority')
 
 export const TicketSchema = z.object({
-  id: z.number(zodException(ticketsResponseCode('TICKET_ID_REQUIRED')),
+  id: z.number(zodException(ticketsMessage('TICKET_ID_REQUIRED')),
   )
-    .int(zodException(ticketsResponseCode('TICKET_ID_INVALID'))),
+    .int(zodException(ticketsMessage('TICKET_ID_INVALID'))),
 
-  creatorId: z.number(zodException(ticketsResponseCode('CREATOR_ID_REQUIRED')))
-    .int(zodException(ticketsResponseCode('CREATOR_ID_INVALID'))),
+  creatorId: z.number(zodException(ticketsMessage('CREATOR_ID_REQUIRED')))
+    .int(zodException(ticketsMessage('CREATOR_ID_INVALID'))),
 
-  agentId: z.number(zodException(ticketsResponseCode('AGENT_ID_INVALID')))
-    .int(zodException(ticketsResponseCode('AGENT_ID_INVALID')))
+  agentId: z.number(zodException(ticketsMessage('AGENT_ID_INVALID')))
+    .int(zodException(ticketsMessage('AGENT_ID_INVALID')))
     .nullable()
     .optional(),
 
-  subject: z.string(zodException(ticketsResponseCode('SUBJECT_REQUIRED')))
-    .min(1, zodException(ticketsResponseCode('SUBJECT_REQUIRED')))
-    .max(512, zodException(ticketsResponseCode('SUBJECT_TOO_LONG'))),
+  subject: z.string(zodException(ticketsMessage('SUBJECT_REQUIRED')))
+    .min(1, zodException(ticketsMessage('SUBJECT_REQUIRED')))
+    .max(512, zodException(ticketsMessage('SUBJECT_TOO_LONG'))),
 
-  description: z.string(zodException(ticketsResponseCode('DESCRIPTION_REQUIRED')))
-    .min(1, zodException(ticketsResponseCode('DESCRIPTION_REQUIRED'))),
+  description: z.string(zodException(ticketsMessage('DESCRIPTION_REQUIRED')))
+    .min(1, zodException(ticketsMessage('DESCRIPTION_REQUIRED'))),
 
   status: TicketStatusEnum,
   priority: TicketPriorityEnum,
 
-  updatedAt: z.coerce.number(zodException(ticketsResponseCode('UPDATED_AT_INVALID')))
+  updatedAt: z.coerce.number(zodException(ticketsMessage('UPDATED_AT_INVALID')))
     .nullable(),
 
-  createdAt: z.coerce.number(zodException(ticketsResponseCode('CREATED_AT_REQUIRED'))),
+  createdAt: z.coerce.number(zodException(ticketsMessage('CREATED_AT_REQUIRED'))),
 }).openapi('Ticket')
 
 export const CreateTicketSchema = TicketSchema.omit({

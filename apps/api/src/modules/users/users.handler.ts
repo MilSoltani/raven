@@ -1,12 +1,12 @@
 import type { AppEnv } from '@raven/api/common/types'
-import type { UsersResponseCode } from './users.events'
+import type { UsersMessage } from './users.messages'
 import type { UsersService } from './users.service'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { responseFactory } from '@raven/api/common/http'
 import { UsersRoutes } from './users.routes'
 
 export function createUsersHandler(usersService: UsersService) {
-  const response = responseFactory<UsersResponseCode>()
+  const response = responseFactory<UsersMessage>()
 
   return new OpenAPIHono<AppEnv>()
 
@@ -14,7 +14,7 @@ export function createUsersHandler(usersService: UsersService) {
       const result = await usersService.getAll(c.var.query)
 
       return c.json(response({
-        event: 'USERS_FETCHED',
+        message: 'USERS_FETCHED',
         data: result.data,
         meta: result.meta,
       }), 200)
@@ -26,7 +26,7 @@ export function createUsersHandler(usersService: UsersService) {
       const result = await usersService.getById(id)
 
       return c.json(response({
-        event: 'USER_FETCHED',
+        message: 'USER_FETCHED',
         data: result,
       }), 200)
     })
@@ -37,7 +37,7 @@ export function createUsersHandler(usersService: UsersService) {
       const result = await usersService.create(json)
 
       return c.json(response({
-        event: 'USER_CREATED',
+        message: 'USER_CREATED',
         data: result,
       }), 201)
     })
@@ -49,7 +49,7 @@ export function createUsersHandler(usersService: UsersService) {
       const result = await usersService.update(id, json)
 
       return c.json(response({
-        event: 'USER_UPDATED',
+        message: 'USER_UPDATED',
         data: result,
       }), 200)
     })
@@ -60,7 +60,7 @@ export function createUsersHandler(usersService: UsersService) {
       const result = await usersService.delete(id)
 
       return c.json(response({
-        event: 'USER_DELETED',
+        message: 'USER_DELETED',
         data: result,
       }), 200)
     })

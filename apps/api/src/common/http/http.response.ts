@@ -1,14 +1,14 @@
 import type { ApiResponse } from './http.schema'
 
-export function responseFactory<TEvent extends string, TError = null>() {
+export function responseFactory<TMessage extends string, TError = null>() {
   return function response<TData, TMeta = null>(input: {
-    event: TEvent
+    message: TMessage
     data: TData
     meta?: TMeta
     error?: TError
-  }): ApiResponse<TData, TEvent, TMeta, TError> {
+  }): ApiResponse<TData, TMessage, TMeta, TError> {
     return {
-      event: input.event,
+      message: input.message,
       data: input.data,
       meta: (input.meta ?? null) as TMeta,
       error: (input.error ?? null) as TError,

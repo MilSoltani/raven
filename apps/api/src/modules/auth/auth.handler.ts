@@ -1,5 +1,5 @@
 import type { AppEnv } from '@raven/api/common/types'
-import type { AuthResponseCode } from './auth.events'
+import type { AuthMessage } from './auth.messages'
 import type { AuthService } from './auth.service'
 import type { CookieUtil } from './utils/cookie.util'
 import { OpenAPIHono } from '@hono/zod-openapi'
@@ -11,7 +11,7 @@ export function createAuthHandler(
   authService: AuthService,
   cookieUtil: CookieUtil,
 ) {
-  const response = responseFactory<AuthResponseCode>()
+  const response = responseFactory<AuthMessage>()
 
   return new OpenAPIHono<AppEnv>()
 
@@ -25,7 +25,7 @@ export function createAuthHandler(
       cookieUtil.createRefreshToken(c, refreshToken)
 
       return c.json(response({
-        event: 'AUTH_SIGNIN',
+        message: 'AUTH_SIGNIN',
         data: user,
       }), 200)
     })
@@ -39,7 +39,7 @@ export function createAuthHandler(
       cookieUtil.createRefreshToken(c, refreshToken)
 
       return c.json(response({
-        event: 'AUTH_SIGNUP',
+        message: 'AUTH_SIGNUP',
         data: user,
       }), 201)
     })
@@ -53,7 +53,7 @@ export function createAuthHandler(
       cookieUtil.createRefreshToken(c, refreshToken)
 
       return c.json(response({
-        event: 'AUTH_REFRESHED',
+        message: 'AUTH_REFRESHED',
         data: user,
       }), 200)
     })
@@ -66,7 +66,7 @@ export function createAuthHandler(
       cookieUtil.clearTokens(c)
 
       return c.json(response({
-        event: 'AUTH_SIGNOUT',
+        message: 'AUTH_SIGNOUT',
         data: c.var.user,
       }), 200)
     })
@@ -79,7 +79,7 @@ export function createAuthHandler(
       }
 
       return c.json(response({
-        event: 'AUTH_ME',
+        message: 'AUTH_ME',
         data: user,
       }), 200)
     })

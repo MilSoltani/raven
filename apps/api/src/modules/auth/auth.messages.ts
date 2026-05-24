@@ -1,4 +1,4 @@
-export const authResponseCodes = {
+export const authMessages = {
   AUTH_SIGNIN: 200,
   AUTH_REFRESHED: 200,
   AUTH_SIGNOUT: 200,
@@ -15,5 +15,5 @@ export const authResponseCodes = {
   NAME_TOO_LONG: 400,
 } as const
 
-export type AuthResponseCode = keyof typeof authResponseCodes
-export const authResponseCode = <T extends AuthResponseCode>(e: T) => e
+export type AuthMessage = keyof typeof authMessages
+export const authMessage = <T extends AuthMessage>(e: T) => e

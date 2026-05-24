@@ -1,19 +1,19 @@
 import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
 import { zodException } from '@raven/api/common/http'
-import { usersResponseCode } from './users.events'
+import { usersMessage } from './users.messages'
 
 extendZodWithOpenApi(z)
 
 export const UserSchema = z.object({
   id: z.number().int(),
 
-  name: z.string(zodException(usersResponseCode('NAME_REQUIRED')))
-    .min(1, zodException(usersResponseCode('NAME_REQUIRED')))
-    .max(255, zodException(usersResponseCode('NAME_TOO_LONG'))),
+  name: z.string(zodException(usersMessage('NAME_REQUIRED')))
+    .min(1, zodException(usersMessage('NAME_REQUIRED')))
+    .max(255, zodException(usersMessage('NAME_TOO_LONG'))),
 
-  email: z.email(zodException(usersResponseCode('EMAIL_INVALID')))
-    .min(5, zodException(usersResponseCode('EMAIL_REQUIRED')))
-    .max(255, zodException(usersResponseCode('EMAIL_TOO_LONG'))),
+  email: z.email(zodException(usersMessage('EMAIL_INVALID')))
+    .min(5, zodException(usersMessage('EMAIL_REQUIRED')))
+    .max(255, zodException(usersMessage('EMAIL_TOO_LONG'))),
 
   updatedAt: z.coerce.number(zodException('UPDATED_AT_INVALID')).nullable(),
 
