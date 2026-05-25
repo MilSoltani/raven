@@ -3,6 +3,7 @@ import { Button } from '@raven/web/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@raven/web/components/ui/dropdown-menu'
 import { TableCell, TableRow } from '@raven/web/components/ui/table'
 import { IconDots } from '@tabler/icons-react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useDeleteUser } from '../hooks/users.hooks'
 
@@ -11,6 +12,8 @@ type UsersRowProps = {
 }
 
 export function UsersRow({ user }: UsersRowProps) {
+  const { t } = useTranslation('ui')
+
   const deleteUser = useDeleteUser()
   const navigate = useNavigate()
 
@@ -33,7 +36,7 @@ export function UsersRow({ user }: UsersRowProps) {
               onClick={e => e.stopPropagation()}
             >
               <IconDots />
-              <span className="sr-only">Open menu</span>
+              <span className="sr-only">{t('SR_OPEN_MENU')}</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -44,7 +47,7 @@ export function UsersRow({ user }: UsersRowProps) {
                 deleteUser.mutate(user.id)
               }}
             >
-              Delete
+              {t('USER_DELETE')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -9,6 +9,7 @@ import { Input } from '@raven/web/components/ui/input'
 import { cn } from '@raven/web/lib/utils'
 import { IconAlertCircle } from '@tabler/icons-react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 
 type UsersFormProps = {
   initialData?: CreateUserPayload
@@ -17,6 +18,8 @@ type UsersFormProps = {
 }
 
 export function UsersForm({ initialData, onSubmit, isPending }: UsersFormProps) {
+  const { t } = useTranslation('ui')
+
   const isEditMode = !!initialData
 
   const form = useForm<CreateUserPayload>({
@@ -46,7 +49,7 @@ export function UsersForm({ initialData, onSubmit, isPending }: UsersFormProps) 
 
       <FieldGroup>
         <Field>
-          <FieldLabel htmlFor="name">Full Name</FieldLabel>
+          <FieldLabel htmlFor="name">{t('USER_NAME')}</FieldLabel>
           <Input
             id="name"
             type="text"
@@ -66,7 +69,7 @@ export function UsersForm({ initialData, onSubmit, isPending }: UsersFormProps) 
         </Field>
 
         <Field>
-          <FieldLabel htmlFor="email">Email</FieldLabel>
+          <FieldLabel htmlFor="email">{t('USER_EMAIL')}</FieldLabel>
           <Input
             id="email"
             type="email"
@@ -92,8 +95,8 @@ export function UsersForm({ initialData, onSubmit, isPending }: UsersFormProps) 
         className="mt-4"
       >
         {isPending
-          ? isEditMode ? 'Updating...' : 'Creating...'
-          : isEditMode ? 'Update User' : 'Create User'}
+          ? '...'
+          : isEditMode ? t('USER_UPDATE') : t('USER_CREATE')}
       </Button>
     </form>
   )

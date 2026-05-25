@@ -1,19 +1,23 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import { usersApiLocale } from '../modules/users'
+import { usersApiLocale, usersUiLocale } from '../modules/users'
 
 const resources = {
   en: {
-    ui: usersApiLocale.en,
+    api: usersApiLocale.en,
+    ui: usersUiLocale.en,
   },
   de: {
-    ui: usersApiLocale.de,
+    api: usersApiLocale.de,
+    ui: usersUiLocale.de,
   },
   fr: {
-    ui: usersApiLocale.fr,
+    api: usersApiLocale.fr,
+    ui: usersUiLocale.fr,
   },
   sp: {
-    ui: usersApiLocale.sp,
+    api: usersApiLocale.sp,
+    ui: usersUiLocale.sp,
   },
 }
 

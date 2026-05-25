@@ -1,13 +1,15 @@
 import type { CreateUserPayload } from '@raven/api/exports'
 import type { UseFormSetError } from 'react-hook-form'
 import { Button } from '@raven/web/components/ui/button'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@raven/web/components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@raven/web/components/ui/dialog'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { UsersForm } from '../components/users-form'
 import { UsersList } from '../components/users-list'
 import { useCreateUser, useUsers } from '../hooks/users.hooks'
 
 export function UsersPage() {
+  const { t } = useTranslation('ui')
   const [open, setOpen] = useState(false)
 
   const { data, isLoading, isError, error } = useUsers({ select: ['name', 'email'] })
@@ -51,14 +53,11 @@ export function UsersPage() {
       >
 
         <DialogTrigger asChild>
-          <Button variant="outline">Open Dialog</Button>
+          <Button variant="outline">{t('NEW_USER')}</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-sm">
           <DialogHeader>
-            <DialogTitle>New user</DialogTitle>
-            <DialogDescription>
-              Create a new user
-            </DialogDescription>
+            <DialogTitle>{t('NEW_USER')}</DialogTitle>
           </DialogHeader>
 
           <UsersForm
