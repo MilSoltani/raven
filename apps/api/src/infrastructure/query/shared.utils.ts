@@ -1,4 +1,7 @@
-import { HTTPException } from 'hono/http-exception'
+import { appExceptionFactory } from '@raven/api/common/http/app.exception'
+import { queryCodesMap } from './query.codes'
+
+const appException = appExceptionFactory(queryCodesMap)
 
 export function isPlainObject(value: unknown): value is Record<string, unknown> {
   return (
@@ -9,9 +12,8 @@ export function isPlainObject(value: unknown): value is Record<string, unknown> 
 }
 
 export function validatePath(path: string[], maxDepth: number, allowedPaths: string[]) {
-  if (path.length > maxDepth) {
-    throw new HTTPException(401, { message: `Max depth is ${maxDepth}` })
-  }
+  if (path.length > maxDepth)
+    throw appException('MAX_DEPTH_EXCEEDED')
 
   const normalized = path.join('.')
 
@@ -21,6 +23,6 @@ export function validatePath(path: string[], maxDepth: number, allowedPaths: str
   )
 
   if (!isAllowed) {
-    throw new HTTPException(401, { message: `Field "${normalized}" is not allowed` })
+    throw appException('FIELD_NOT_ALLOWED')
   }
 }

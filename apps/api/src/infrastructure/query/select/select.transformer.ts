@@ -1,5 +1,8 @@
 import type { PrismaSelect, SelectOptions } from './types'
-import { HTTPException } from 'hono/http-exception'
+import { appExceptionFactory } from '@raven/api/common/http/app.exception'
+import { queryCodesMap } from '../query.codes'
+
+const appException = appExceptionFactory(queryCodesMap)
 
 export type SelectTransformer<TSelect> = {
   transform: (value: unknown) => TSelect | undefined
@@ -49,7 +52,7 @@ export function createSelectTransformer<TSelect>(
         continue
       }
 
-      throw new HTTPException(401, { message: `Field "${field}" is not allowed` })
+      throw appException('FIELD_NOT_ALLOWED')
     }
 
     for (const field of requiredColumns) {

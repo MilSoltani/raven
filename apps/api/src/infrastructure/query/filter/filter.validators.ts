@@ -1,9 +1,11 @@
-import { HTTPException } from 'hono/http-exception'
+import { appExceptionFactory } from '@raven/api/common/http/app.exception'
+import { queryCodesMap } from '../query.codes'
+
+const appException = appExceptionFactory(queryCodesMap)
 
 export function validateOperatorObject(obj: Record<string, unknown>) {
-  if (obj.eq !== undefined && Object.keys(obj).length > 1) {
-    throw new HTTPException(401, { message: `"eq" cannot be combined with other operators` })
-  }
+  if (obj.eq !== undefined && Object.keys(obj).length > 1)
+    throw appException('OPERATOR_COMBINATION_ERROR')
 }
 
 export function isFilterCondition(obj: any) {

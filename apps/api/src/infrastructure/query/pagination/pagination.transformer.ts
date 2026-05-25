@@ -1,5 +1,8 @@
 import type { PaginationOptions, PrismaPagination } from './types'
-import { HTTPException } from 'hono/http-exception'
+import { appExceptionFactory } from '@raven/api/common/http/app.exception'
+import { queryCodesMap } from '../query.codes'
+
+const appException = appExceptionFactory(queryCodesMap)
 
 export type PaginationTransformer = {
   transform: (page: unknown, limit: unknown) => PrismaPagination
@@ -13,12 +16,11 @@ export function createPaginationTransformer(
 
   return {
     transform(page: unknown, limit: unknown): PrismaPagination {
-      const parsedPage = parseNumber(page, 1, 'page')
-      const parsedLimit = parseNumber(limit, defaultLimit, 'limit')
+      const parsedPage = parseNumber(page, 1)
+      const parsedLimit = parseNumber(limit, defaultLimit)
 
-      if (parsedLimit > maxLimit) {
-        throw new HTTPException(401, { message: `Limit cannot exceed ${maxLimit}` })
-      }
+      if (parsedLimit > maxLimit)
+        throw appException('MAX_LIMIT_EXCEEDED')
 
       return {
         skip: (parsedPage - 1) * parsedLimit,
@@ -30,7 +32,6 @@ export function createPaginationTransformer(
   function parseNumber(
     value: unknown,
     fallback: number,
-    name: string,
   ): number {
     if (value === undefined || value === null || value === '') {
       return fallback
@@ -38,9 +39,8 @@ export function createPaginationTransformer(
 
     const n = Number(value)
 
-    if (!Number.isInteger(n) || n < 1) {
-      throw new HTTPException(401, { message: `${name} must be a positive integer` })
-    }
+    if (!Number.isInteger(n) || n < 1)
+      throw appException('NON_NUMBER_LIMIT_PAGE')
 
     return n
   }
