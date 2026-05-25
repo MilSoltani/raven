@@ -5,6 +5,7 @@ import { RouterProvider } from 'react-router-dom'
 import { queryClient } from './lib/query-client'
 
 import { router } from './router'
+import './utils/i18n'
 import './main.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

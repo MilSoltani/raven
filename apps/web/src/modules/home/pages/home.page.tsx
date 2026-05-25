@@ -1,5 +1,9 @@
+import { useTranslation } from 'react-i18next'
+
 export function HomePage() {
+  const { t } = useTranslation()
+
   return (
-    <div>...</div>
+    <div>{t('welcomeMessage')}</div>
   )
 }
