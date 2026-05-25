@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
-import { AppLayout } from './components/app.layout'
-import { AppSidebar } from './components/app.sidebar'
+import { AppLayout } from './common/components/app.layout'
+import { AppSidebar } from './common/components/app.sidebar'
 import { AuthGate, SigninPage, SignupPage } from './modules/auth'
 import { HomePage } from './modules/home'
 import { UserPage, UsersPage } from './modules/users'
