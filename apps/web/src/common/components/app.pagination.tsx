@@ -1,23 +1,26 @@
+import type { PaginationMeta } from '@raven/api/exports'
+import { generatePages } from '../utils/pages.generator'
 import { Field, FieldLabel } from './ui/field'
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from './ui/pagination'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from './ui/select'
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from './ui/pagination'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 
-export function AppPagination() {
+type AppPaginationProps = {
+  pagination: PaginationMeta
+  onPageChange: (page: number) => void
+  onPageSizeChange: (pageSize: number) => void
+  pageSizeOptions?: number[]
+}
+
+export function AppPagination({
+  pagination,
+  onPageChange,
+  onPageSizeChange,
+  pageSizeOptions = [10, 25, 50, 100],
+}: AppPaginationProps) {
+  const { page, pageSize, totalPages, hasNextPage, hasPreviousPage } = pagination
+
+  const pages = generatePages(page, totalPages)
+
   return (
     <div className="flex items-center justify-between gap-4">
       <Field
@@ -27,19 +30,29 @@ export function AppPagination() {
         <FieldLabel htmlFor="select-rows-per-page">
           Rows per page
         </FieldLabel>
-        <Select defaultValue="25">
+
+        <Select
+          value={String(pageSize)}
+          onValueChange={value =>
+            onPageSizeChange(Number(value))}
+        >
           <SelectTrigger
-            className="w-20"
             id="select-rows-per-page"
+            className="w-20"
           >
             <SelectValue />
           </SelectTrigger>
+
           <SelectContent align="start">
             <SelectGroup>
-              <SelectItem value="10">10</SelectItem>
-              <SelectItem value="25">25</SelectItem>
-              <SelectItem value="50">50</SelectItem>
-              <SelectItem value="100">100</SelectItem>
+              {pageSizeOptions.map(size => (
+                <SelectItem
+                  key={size}
+                  value={String(size)}
+                >
+                  {size}
+                </SelectItem>
+              ))}
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -48,31 +61,68 @@ export function AppPagination() {
       <Pagination className="mx-0 w-auto">
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious href="#" />
+            <PaginationPrevious
+              aria-disabled={!hasPreviousPage}
+              className={
+                !hasPreviousPage
+                  ? 'pointer-events-none opacity-50'
+                  : undefined
+              }
+              onClick={(e) => {
+                e.preventDefault()
+
+                if (hasPreviousPage)
+                  onPageChange(page - 1)
+              }}
+            />
           </PaginationItem>
+
+          {pages.map((item, index) => {
+            if (item === 'ellipsis') {
+              return (
+                <PaginationItem
+                  key={`ellipsis-${index}`}
+                >
+                  <PaginationEllipsis />
+                </PaginationItem>
+              )
+            }
+
+            return (
+              <PaginationItem key={item}>
+                <PaginationLink
+                  isActive={item === page}
+                  onClick={(e) => {
+                    e.preventDefault()
+
+                    if (item !== page)
+                      onPageChange(item)
+                  }}
+                >
+                  {item}
+                </PaginationLink>
+              </PaginationItem>
+            )
+          })}
+
           <PaginationItem>
-            <PaginationLink href="#">1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink
-              href="#"
-              isActive
-            >
-              2
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">3</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href="#" />
+            <PaginationNext
+              aria-disabled={!hasNextPage}
+              className={
+                !hasNextPage
+                  ? 'pointer-events-none opacity-50'
+                  : undefined
+              }
+              onClick={(e) => {
+                e.preventDefault()
+
+                if (hasNextPage)
+                  onPageChange(page + 1)
+              }}
+            />
           </PaginationItem>
         </PaginationContent>
       </Pagination>
     </div>
-
   )
 }

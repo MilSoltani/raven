@@ -1,4 +1,4 @@
-import type { CreateUserPayload } from '@raven/api/exports'
+import type { CreateUserPayload, Criteria } from '@raven/api/exports'
 import type { UseFormSetError } from 'react-hook-form'
 import { AppPagination } from '@raven/web/common/components/app.pagination'
 import { Button } from '@raven/web/common/components/ui/button'
@@ -13,7 +13,13 @@ export function UsersPage() {
   const { t } = useTranslation('ui')
   const [open, setOpen] = useState(false)
 
-  const { data, isLoading, isError, error } = useUsers({ select: ['name', 'email'] })
+  const [criteria, setCriteria] = useState<Criteria>({
+    select: ['name', 'email'],
+    page: 1,
+    limit: 10,
+  })
+
+  const { data, isLoading, isError, error } = useUsers(criteria)
 
   const create = useCreateUser()
 
@@ -44,7 +50,7 @@ export function UsersPage() {
     )
   }
 
-  const { users } = data
+  const { users, pagination } = data
 
   return (
     <div>
@@ -70,7 +76,24 @@ export function UsersPage() {
 
       <UsersList users={users} />
 
-      <AppPagination />
+      {pagination && (
+        <AppPagination
+          pagination={pagination}
+          onPageChange={(page) => {
+            setCriteria(prev => ({
+              ...prev,
+              page,
+            }))
+          }}
+          onPageSizeChange={(limit) => {
+            setCriteria(prev => ({
+              ...prev,
+              page: 1,
+              limit,
+            }))
+          }}
+        />
+      )}
     </div>
 
   )

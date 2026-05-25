@@ -21,6 +21,7 @@ export const usersKeys = {
 export function useUsers(query?: Criteria) {
   const { t } = useTranslation('api')
 
+  // TODO: Caching is working?
   const normalizedQuery = normalizeCriteria(query)
 
   return useQuery({
