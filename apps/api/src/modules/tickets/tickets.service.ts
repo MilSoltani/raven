@@ -5,9 +5,9 @@ import type { ParsedQs } from 'qs'
 import type { TicketsRepository } from './tickets.repository'
 import type { CreateTicketPayload, Ticket, UpdateTicketPayload } from './tickets.schema'
 import { appExceptionFactory } from '@raven/api/common/http/app.exception'
-import { ticketsMessages } from './tickets.messages'
+import { ticketsCodesMap } from './tickets.codes'
 
-const appException = appExceptionFactory(ticketsMessages)
+const appException = appExceptionFactory(ticketsCodesMap)
 
 export function createTicketsService(
   ticketsRepository: TicketsRepository,

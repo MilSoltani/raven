@@ -4,9 +4,9 @@ import type { CryptoUtil } from './utils/crypto.util'
 import type { JwtUtil } from './utils/jwt.util'
 import { appExceptionFactory } from '@raven/api/common/http/app.exception'
 import bcrypt from 'bcrypt'
-import { authMessages } from './auth.messages'
+import { authCodesMap } from './auth.codes'
 
-const appException = appExceptionFactory(authMessages)
+const appException = appExceptionFactory(authCodesMap)
 
 export function createAuthService(
   authRepository: AuthRepository,

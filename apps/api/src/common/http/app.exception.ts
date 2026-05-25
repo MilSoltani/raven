@@ -1,11 +1,11 @@
 import type { ContentfulStatusCode } from 'hono/utils/http-status'
 import { HTTPException } from 'hono/http-exception'
 
-export function appExceptionFactory(messages: Record<string, number>) {
-  return function (message: keyof typeof messages) {
+export function appExceptionFactory(codesMap: Record<string, number>) {
+  return function (code: keyof typeof codesMap) {
     return new HTTPException(
-      messages[message] as ContentfulStatusCode,
-      { message },
+      codesMap[code] as ContentfulStatusCode,
+      { message: code },
     )
   }
 }

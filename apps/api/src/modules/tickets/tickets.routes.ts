@@ -46,7 +46,7 @@ export const TicketsRoutes = {
           'application/json': {
             schema: ApiResponseSchema(
               z.object({
-                message: z.string(),
+                code: z.string(),
               }),
             ),
           },
@@ -83,7 +83,7 @@ export const TicketsRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ message: z.string() }),
+              z.object({ code: z.string() }),
             ),
           },
         },
@@ -93,7 +93,7 @@ export const TicketsRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ message: z.string() }),
+              z.object({ code: z.string() }),
             ),
           },
         },
@@ -103,7 +103,7 @@ export const TicketsRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ message: z.string() }),
+              z.object({ code: z.string() }),
             ),
           },
         },
@@ -140,7 +140,7 @@ export const TicketsRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ message: z.string() }),
+              z.object({ code: z.string() }),
             ),
           },
         },
@@ -150,7 +150,7 @@ export const TicketsRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ message: z.string() }),
+              z.object({ code: z.string() }),
             ),
           },
         },
@@ -177,7 +177,7 @@ export const TicketsRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ message: z.string() }),
+              z.object({ code: z.string() }),
             ),
           },
         },

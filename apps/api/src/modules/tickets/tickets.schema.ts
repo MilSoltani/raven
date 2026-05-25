@@ -1,8 +1,8 @@
 import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
 import { zodExceptionFactory } from '@raven/api/common/http'
-import { ticketsMessages } from './tickets.messages'
+import { ticketsCodesMap } from './tickets.codes'
 
-const throwException = zodExceptionFactory(ticketsMessages)
+const throwException = zodExceptionFactory(ticketsCodesMap)
 
 extendZodWithOpenApi(z)
 

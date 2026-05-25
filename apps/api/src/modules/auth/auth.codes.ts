@@ -1,4 +1,4 @@
-export const authMessages = {
+export const authCodesMap = {
   AUTH_SIGNIN: 200,
   AUTH_REFRESHED: 200,
   AUTH_SIGNOUT: 200,
@@ -14,9 +14,10 @@ export const authMessages = {
   NAME_REQUIRED: 400,
   NAME_TOO_LONG: 400,
 
+  UNAUTHENTICATED: 401,
   INVALID_CREDENTIALS: 401,
   INTERNAL_ERROR: 500,
 } as const
 
-export type AuthMessage = keyof typeof authMessages
-export const authMessage = <T extends AuthMessage>(e: T) => e
+export type AuthCode = keyof typeof authCodesMap
+export const authCode = <T extends AuthCode>(e: T) => e

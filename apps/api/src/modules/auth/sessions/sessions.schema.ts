@@ -1,8 +1,8 @@
 import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
 import { zodExceptionFactory } from '@raven/api/common/http'
-import { sessionsMessages } from './sessions.messages'
+import { sessionsCodesMap } from './sessions.codes'
 
-const throwException = zodExceptionFactory(sessionsMessages)
+const throwException = zodExceptionFactory(sessionsCodesMap)
 
 extendZodWithOpenApi(z)
 

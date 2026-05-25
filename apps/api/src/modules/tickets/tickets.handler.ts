@@ -1,12 +1,12 @@
 import type { AppEnv } from '@raven/api/common/types'
-import type { TicketsMessage } from './tickets.messages'
+import type { TicketsCode } from './tickets.codes'
 import type { TicketsService } from './tickets.service'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { responseFactory } from '@raven/api/common/http'
 import { TicketsRoutes } from './tickets.routes'
 
 export function createTicketsHandler(ticketsService: TicketsService) {
-  const response = responseFactory<TicketsMessage>()
+  const response = responseFactory<TicketsCode>()
 
   return new OpenAPIHono<AppEnv>()
 
@@ -14,7 +14,7 @@ export function createTicketsHandler(ticketsService: TicketsService) {
       const result = await ticketsService.getAll(c.var.query)
 
       return c.json(response({
-        message: 'TICKETS_FETCHED',
+        code: 'TICKETS_FETCHED',
         data: result.data,
         meta: result.meta,
       }), 200)
@@ -26,7 +26,7 @@ export function createTicketsHandler(ticketsService: TicketsService) {
       const result = await ticketsService.getById(id)
 
       return c.json(response({
-        message: 'TICKET_FETCHED',
+        code: 'TICKET_FETCHED',
         data: result,
       }), 200)
     })
@@ -37,7 +37,7 @@ export function createTicketsHandler(ticketsService: TicketsService) {
       const result = await ticketsService.create(json, c.var.user.id)
 
       return c.json(response({
-        message: 'TICKET_CREATED',
+        code: 'TICKET_CREATED',
         data: result,
       }), 201)
     })
@@ -49,7 +49,7 @@ export function createTicketsHandler(ticketsService: TicketsService) {
       const result = await ticketsService.update(id, json)
 
       return c.json(response({
-        message: 'TICKET_UPDATED',
+        code: 'TICKET_UPDATED',
         data: result,
       }), 200)
     })
@@ -60,7 +60,7 @@ export function createTicketsHandler(ticketsService: TicketsService) {
       const result = await ticketsService.delete(id)
 
       return c.json(response({
-        message: 'TICKET_DELETED',
+        code: 'TICKET_DELETED',
         data: result,
       }), 200)
     })

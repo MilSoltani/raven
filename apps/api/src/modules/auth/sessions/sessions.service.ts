@@ -1,9 +1,9 @@
 import type { SessionsRepository } from './sessions.repository'
 import type { CreateSessionPayload } from './sessions.schema'
 import { appExceptionFactory } from '@raven/api/common/http/app.exception'
-import { sessionsMessages } from './sessions.messages'
+import { sessionsCodesMap } from './sessions.codes'
 
-const appException = appExceptionFactory(sessionsMessages)
+const appException = appExceptionFactory(sessionsCodesMap)
 
 export function createSessionsService(
   sessionsRepository: SessionsRepository,

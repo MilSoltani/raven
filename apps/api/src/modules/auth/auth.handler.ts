@@ -1,17 +1,20 @@
 import type { AppEnv } from '@raven/api/common/types'
-import type { AuthMessage } from './auth.messages'
+import type { AuthCode } from './auth.codes'
 import type { AuthService } from './auth.service'
 import type { CookieUtil } from './utils/cookie.util'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { responseFactory } from '@raven/api/common/http'
-import { HTTPException } from 'hono/http-exception'
+import { appExceptionFactory } from '@raven/api/common/http/app.exception'
+import { authCodesMap } from './auth.codes'
 import { AuthRoutes } from './auth.routes'
+
+const appException = appExceptionFactory(authCodesMap)
 
 export function createAuthHandler(
   authService: AuthService,
   cookieUtil: CookieUtil,
 ) {
-  const response = responseFactory<AuthMessage>()
+  const response = responseFactory<AuthCode>()
 
   return new OpenAPIHono<AppEnv>()
 
@@ -25,7 +28,7 @@ export function createAuthHandler(
       cookieUtil.createRefreshToken(c, refreshToken)
 
       return c.json(response({
-        message: 'AUTH_SIGNIN',
+        code: 'AUTH_SIGNIN',
         data: user,
       }), 200)
     })
@@ -39,7 +42,7 @@ export function createAuthHandler(
       cookieUtil.createRefreshToken(c, refreshToken)
 
       return c.json(response({
-        message: 'AUTH_SIGNUP',
+        code: 'AUTH_SIGNUP',
         data: user,
       }), 201)
     })
@@ -53,7 +56,7 @@ export function createAuthHandler(
       cookieUtil.createRefreshToken(c, refreshToken)
 
       return c.json(response({
-        message: 'AUTH_REFRESHED',
+        code: 'AUTH_REFRESHED',
         data: user,
       }), 200)
     })
@@ -66,7 +69,7 @@ export function createAuthHandler(
       cookieUtil.clearTokens(c)
 
       return c.json(response({
-        message: 'AUTH_SIGNOUT',
+        code: 'AUTH_SIGNOUT',
         data: c.var.user,
       }), 200)
     })
@@ -75,11 +78,11 @@ export function createAuthHandler(
       const user = c.var.user
 
       if (!user) {
-        throw new HTTPException(401, { message: 'Unauthenticated' })
+        throw appException('UNAUTHENTICATED')
       }
 
       return c.json(response({
-        message: 'AUTH_ME',
+        code: 'AUTH_ME',
         data: user,
       }), 200)
     })

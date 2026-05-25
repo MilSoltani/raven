@@ -40,9 +40,7 @@ export const UsersRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({
-                message: z.string(),
-              }),
+              z.object({ code: z.string() }),
             ),
           },
         },
@@ -78,7 +76,7 @@ export const UsersRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ message: z.string() }),
+              z.object({ code: z.string() }),
             ),
           },
         },
@@ -88,7 +86,7 @@ export const UsersRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ message: z.string() }),
+              z.object({ code: z.string() }),
             ),
           },
         },
@@ -98,7 +96,7 @@ export const UsersRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ message: z.string() }),
+              z.object({ code: z.string() }),
             ),
           },
         },
@@ -135,7 +133,7 @@ export const UsersRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ message: z.string() }),
+              z.object({ code: z.string() }),
             ),
           },
         },
@@ -145,7 +143,7 @@ export const UsersRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ message: z.string() }),
+              z.object({ code: z.string() }),
             ),
           },
         },
@@ -172,7 +170,7 @@ export const UsersRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ message: z.string() }),
+              z.object({ code: z.string() }),
             ),
           },
         },

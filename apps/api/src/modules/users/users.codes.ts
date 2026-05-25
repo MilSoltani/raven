@@ -1,4 +1,4 @@
-export const usersMessages = {
+export const usersCodesMap = {
   USERS_FETCHED: 200,
   USER_FETCHED: 200,
   USER_UPDATED: 200,
@@ -17,5 +17,5 @@ export const usersMessages = {
   INTERNAL_ERROR: 500,
 } as const
 
-export type UsersMessage = keyof typeof usersMessages
-export const usersMessage = <T extends UsersMessage>(e: T) => e
+export type UsersCode = keyof typeof usersCodesMap
+export const usersCode = <T extends UsersCode>(e: T) => e

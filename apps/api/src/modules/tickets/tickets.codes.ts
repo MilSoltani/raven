@@ -1,4 +1,4 @@
-export const ticketsMessages = {
+export const ticketsCodesMap = {
   TICKETS_FETCHED: 200,
   TICKET_FETCHED: 200,
   TICKET_CREATED: 201,
@@ -22,5 +22,5 @@ export const ticketsMessages = {
   INTERNAL_ERROR: 500,
 } as const
 
-export type TicketsMessage = keyof typeof ticketsMessages
-export const ticketsMessage = <T extends TicketsMessage>(e: T) => e
+export type TicketsCode = keyof typeof ticketsCodesMap
+export const ticketsCode = <T extends TicketsCode>(e: T) => e

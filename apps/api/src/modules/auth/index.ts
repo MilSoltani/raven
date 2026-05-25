@@ -1,4 +1,4 @@
-export type { AuthMessage } from './auth.messages'
+export type { AuthCode } from './auth.codes'
 export { createAuthModule } from './auth.module'
 export * from './auth.schema'
-export type { SessionsMessage } from './sessions/sessions.messages'
+export type { SessionsCode } from './sessions/sessions.codes'

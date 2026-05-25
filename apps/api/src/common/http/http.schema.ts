@@ -1,8 +1,8 @@
 import { paginationMetaSchema } from '@raven/api/exports'
 import { z } from 'zod'
 
-export type ApiResponse<TData, TMessage extends string, TMeta = null, TError = null> = {
-  message: TMessage
+export type ApiResponse<TData, TCode extends string, TMeta = null, TError = null> = {
+  code: TCode
   data: TData
   meta: TMeta
   error: TError
@@ -10,7 +10,7 @@ export type ApiResponse<TData, TMessage extends string, TMeta = null, TError = n
 
 export function ApiResponseSchema<T>(dataSchema: T) {
   return z.object({
-    message: z.string(),
+    code: z.string(),
     data: dataSchema,
     meta: paginationMetaSchema.nullable(),
     error: z.unknown().nullable().optional(),

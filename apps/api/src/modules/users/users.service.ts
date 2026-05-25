@@ -5,9 +5,9 @@ import type { ParsedQs } from 'qs'
 import type { UsersRepository } from './users.repository'
 import type { CreateUserPayload, UpdateUserPayload, User } from './users.schema'
 import { appExceptionFactory } from '@raven/api/common/http/app.exception'
-import { usersMessages } from './users.messages'
+import { usersCodesMap } from './users.codes'
 
-const appException = appExceptionFactory(usersMessages)
+const appException = appExceptionFactory(usersCodesMap)
 
 export function createUsersService(
   usersRepository: UsersRepository,
