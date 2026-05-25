@@ -1,6 +1,8 @@
-import * as React from 'react'
+'use client'
 
-import { cn } from '../../common/lib/utils'
+import { cn } from '@raven/web/common/lib/utils'
+
+import * as React from 'react'
 
 function Table({ className, ...props }: React.ComponentProps<'table'>) {
   return (

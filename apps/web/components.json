@@ -13,11 +13,11 @@
   "iconLibrary": "tabler",
   "rtl": false,
   "aliases": {
-    "components": "@raven/web/components",
-    "utils": "@raven/web/lib/utils",
-    "ui": "@raven/web/components/ui",
-    "lib": "@raven/web/lib",
-    "hooks": "@raven/web/hooks"
+    "components": "@raven/web/common/components",
+    "utils": "@raven/web/common/lib/utils",
+    "ui": "@raven/web/common/components/ui",
+    "lib": "@raven/web/common/lib",
+    "hooks": "@raven/web/common/hooks"
   },
   "menuColor": "default",
   "menuAccent": "subtle",

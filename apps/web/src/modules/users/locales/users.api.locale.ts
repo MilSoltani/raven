@@ -1,5 +1,5 @@
 import type { UsersCode } from '@raven/api/modules/users'
-import type { SupportedLanguage } from '../../../common/utils/i18n'
+import type { SupportedLanguage } from '@raven/web/common/utils/i18n'
 
 export const usersApiLocale: Record<SupportedLanguage, Record<UsersCode, any>> = {
   en: {

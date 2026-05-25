@@ -1,4 +1,4 @@
-import type { SupportedLanguage } from '../../../common/utils/i18n'
+import type { SupportedLanguage } from '@raven/web/common/utils/i18n'
 
 export const usersUiLocale: Record<SupportedLanguage, Record<string, any>> = {
   en: {

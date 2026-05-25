@@ -1,5 +1,5 @@
 import type { User } from '@raven/api/exports'
-import { Table, TableBody, TableHead, TableHeader, TableRow } from '@raven/web/components/ui/table'
+import { Table, TableBody, TableHead, TableHeader, TableRow } from '@raven/web/common/components/ui/table'
 import { useTranslation } from 'react-i18next'
 import { UsersRow } from './users-row'
 

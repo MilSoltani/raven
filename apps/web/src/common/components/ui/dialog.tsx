@@ -1,9 +1,9 @@
-import { Button } from '@raven/web/components/ui/button'
-import { IconX } from '@tabler/icons-react'
+import { Button } from '@raven/web/common/components/ui/button'
+import { cn } from '@raven/web/common/lib/utils'
 
+import { IconX } from '@tabler/icons-react'
 import { Dialog as DialogPrimitive } from 'radix-ui'
 import * as React from 'react'
-import { cn } from '../../common/lib/utils'
 
 function Dialog({
   ...props

@@ -1,9 +1,7 @@
-'use client'
-
+import { cn } from '@raven/web/common/lib/utils'
 import { Separator as SeparatorPrimitive } from 'radix-ui'
-import * as React from 'react'
 
-import { cn } from '../../common/lib/utils'
+import * as React from 'react'
 
 function Separator({
   className,
