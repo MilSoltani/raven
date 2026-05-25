@@ -1,7 +1,7 @@
 import type { UsersCode } from '@raven/api/modules/users'
 import type { SupportedLanguage } from '@raven/web/utils/i18n'
 
-export const usersLocale: Record<SupportedLanguage, Record<UsersCode, any>> = {
+export const usersApiLocale: Record<SupportedLanguage, Record<UsersCode, any>> = {
   en: {
     USERS_FETCHED: 'Users fetched',
     USER_FETCHED: 'User fetched',

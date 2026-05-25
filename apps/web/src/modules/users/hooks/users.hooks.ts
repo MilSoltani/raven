@@ -19,7 +19,7 @@ export const usersKeys = {
 }
 
 export function useUsers(query?: Criteria) {
-  const { t } = useTranslation()
+  const { t } = useTranslation('api')
 
   const normalizedQuery = normalizeCriteria(query)
 
