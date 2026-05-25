@@ -1,4 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
+import { AppLayout } from './components/app.layout'
+import { AppSidebar } from './components/app.sidebar'
 import { AuthGate, SigninPage, SignupPage } from './modules/auth'
 import { HomePage } from './modules/home'
 import { UserPage, UsersPage } from './modules/users'
@@ -8,16 +10,21 @@ export const router = createBrowserRouter([
     element: <AuthGate />,
     children: [
       {
-        path: '/',
-        element: <HomePage />,
-      },
-      {
-        path: '/users',
-        element: <UsersPage />,
-      },
-      {
-        path: '/users/:id',
-        element: <UserPage />,
+        element: <AppLayout sidebar={<AppSidebar />} />,
+        children: [
+          {
+            path: '/',
+            element: <HomePage />,
+          },
+          {
+            path: '/users',
+            element: <UsersPage />,
+          },
+          {
+            path: '/users/:id',
+            element: <UserPage />,
+          },
+        ],
       },
     ],
   },
