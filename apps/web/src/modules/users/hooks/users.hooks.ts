@@ -2,6 +2,7 @@ import type { CreateUserPayload, Criteria, UpdateUserPayload } from '@raven/api/
 import { usersClient } from '@raven/api/exports'
 import { normalizeCriteria } from '@raven/web/utils/criteria-normalizer'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 
 export const usersKeys = {
   all: ['users'] as const,
@@ -18,6 +19,8 @@ export const usersKeys = {
 }
 
 export function useUsers(query?: Criteria) {
+  const { t } = useTranslation()
+
   const normalizedQuery = normalizeCriteria(query)
 
   return useQuery({
@@ -30,13 +33,13 @@ export function useUsers(query?: Criteria) {
         throw new Error('Failed to fetch users')
       return res.json()
     },
-
     select: response => ({
       users: response.data,
       pagination: response.meta,
-      apiCode: response.code,
+      message: t(response.code),
       apiError: response.error,
     }),
+
   })
 }
 

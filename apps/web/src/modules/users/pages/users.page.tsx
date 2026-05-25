@@ -1,6 +1,8 @@
+import { useTranslation } from 'react-i18next'
 import { useUsers } from '../hooks/users.hooks'
 
 export function UsersPage() {
+  const { t } = useTranslation()
   const { data, isLoading, isError, error } = useUsers({ select: ['name', 'email'] })
 
   if (isLoading) {
@@ -16,8 +18,11 @@ export function UsersPage() {
     )
   }
 
+  const x = data?.message ? t(data.message) : undefined
+
   return (
     <div style={{ padding: '20px' }}>
+      {x}
       <h1>Users List</h1>
       <ul>
         {data?.users?.map(user => (
