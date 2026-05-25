@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom'
 import { AuthGate, SigninPage, SignupPage } from './modules/auth'
 import { HomePage } from './modules/home'
+import { UsersPage } from './modules/users'
 
 export const router = createBrowserRouter([
   {
@@ -10,10 +11,10 @@ export const router = createBrowserRouter([
         path: '/',
         element: <HomePage />,
       },
-      // {
-      //   path: '/users',
-      //   element: <UsersPage />,
-      // },
+      {
+        path: '/users',
+        element: <UsersPage />,
+      },
       // {
       //   path: '/users/:id',
       //   element: <UsersEditPage />,
