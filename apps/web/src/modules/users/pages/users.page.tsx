@@ -1,5 +1,6 @@
 import type { CreateUserPayload } from '@raven/api/exports'
 import type { UseFormSetError } from 'react-hook-form'
+import { AppPagination } from '@raven/web/common/components/app.pagination'
 import { Button } from '@raven/web/common/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@raven/web/common/components/ui/dialog'
 import { useState } from 'react'
@@ -68,6 +69,8 @@ export function UsersPage() {
       </Dialog>
 
       <UsersList users={users} />
+
+      <AppPagination />
     </div>
 
   )
