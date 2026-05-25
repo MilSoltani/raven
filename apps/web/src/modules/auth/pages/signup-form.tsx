@@ -16,9 +16,9 @@ import {
   FieldLabel,
 } from '@raven/web/components/ui/field'
 import { Input } from '@raven/web/components/ui/input'
-import { cn } from '@raven/web/lib/utils'
 import { IconAlertCircle } from '@tabler/icons-react'
 import { Link } from 'react-router-dom'
+import { cn } from '../../../common/lib/utils'
 
 type Props = {
   register: UseFormRegister<SignupPayload>

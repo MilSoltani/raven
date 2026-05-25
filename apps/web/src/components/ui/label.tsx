@@ -1,7 +1,7 @@
-import { cn } from '@raven/web/lib/utils'
 import { Label as LabelPrimitive } from 'radix-ui'
-
 import * as React from 'react'
+
+import { cn } from '../../common/lib/utils'
 
 function Label({
   className,

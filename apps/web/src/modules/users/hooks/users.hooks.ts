@@ -1,8 +1,8 @@
 import type { CreateUserPayload, Criteria, UpdateUserPayload } from '@raven/api/exports'
 import { usersClient } from '@raven/api/exports'
-import { normalizeCriteria } from '@raven/web/utils/criteria-normalizer'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import { normalizeCriteria } from '../../../common/utils/criteria-normalizer'
 
 export const usersKeys = {
   all: ['users'] as const,

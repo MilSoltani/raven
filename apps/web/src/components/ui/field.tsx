@@ -2,9 +2,9 @@ import type { VariantProps } from 'class-variance-authority'
 import { Label } from '@raven/web/components/ui/label'
 
 import { Separator } from '@raven/web/components/ui/separator'
-import { cn } from '@raven/web/lib/utils'
 import { cva } from 'class-variance-authority'
 import { useMemo } from 'react'
+import { cn } from '../../common/lib/utils'
 
 function FieldSet({ className, ...props }: React.ComponentProps<'fieldset'>) {
   return (

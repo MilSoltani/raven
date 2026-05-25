@@ -1,8 +1,8 @@
 import type { VariantProps } from 'class-variance-authority'
-import { cn } from '@raven/web/lib/utils'
 import { Slot } from 'radix-ui'
-
 import * as React from 'react'
+
+import { cn } from '../../common/lib/utils'
 import { buttonVariants } from './button-variants'
 
 function Button({

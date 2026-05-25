@@ -6,10 +6,10 @@ import { Alert, AlertDescription, AlertTitle } from '@raven/web/components/ui/al
 import { Button } from '@raven/web/components/ui/button'
 import { Field, FieldDescription, FieldGroup, FieldLabel } from '@raven/web/components/ui/field'
 import { Input } from '@raven/web/components/ui/input'
-import { cn } from '@raven/web/lib/utils'
 import { IconAlertCircle } from '@tabler/icons-react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { cn } from '../../../common/lib/utils'
 
 type UsersFormProps = {
   initialData?: CreateUserPayload

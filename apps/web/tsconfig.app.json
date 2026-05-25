@@ -14,11 +14,11 @@
       "@raven/web": ["./src/"],
       "@raven/web/*": ["./src/*"],
       "@raven/api/*": ["../api/src/*"],
-      "components/*": ["./src/components/*"],
-      "ui/*": ["./src/components/ui/*"],
-      "lib/*": ["./src/lib/*"],
-      "hooks/*": ["./src/hooks/*"],
-      "utils/*": ["./src/utils/*"]
+      "components/*": ["./src/common/components/*"],
+      "ui/*": ["./src/common/components/ui/*"],
+      "lib/*": ["./src/common/lib/*"],
+      "hooks/*": ["./src/common/hooks/*"],
+      "utils/*": ["./src/common/utils/*"]
     },
     "types": ["vite/client"],
     "allowImportingTsExtensions": true,

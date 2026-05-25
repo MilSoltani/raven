@@ -1,6 +1,6 @@
-import { cn } from '@raven/web/lib/utils'
-
 import * as React from 'react'
+
+import { cn } from '../../common/lib/utils'
 
 function Card({
   className,

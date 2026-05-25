@@ -2,10 +2,10 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import * as React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
-import { queryClient } from './lib/query-client'
+import { queryClient } from './common/lib/query-client'
 
 import { router } from './router'
-import './utils/i18n'
+import './common/utils/i18n'
 import './main.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
