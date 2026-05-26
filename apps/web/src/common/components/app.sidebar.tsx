@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { ModeToggle } from './mode-toggle'
 
 export function AppSidebar() {
   return (
@@ -8,6 +9,8 @@ export function AppSidebar() {
       <Link to="/signin">SignIn</Link>
       <Link to="/signout">SingOut</Link>
       <Link to="/signup">SingUp</Link>
+
+      <ModeToggle />
     </div>
   )
 }
