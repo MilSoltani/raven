@@ -1,9 +1,9 @@
 'use client'
-
 import type { PaginationMeta } from '@raven/api/exports'
-import type { ColumnDef, PaginationState } from '@tanstack/react-table'
 
+import type { ColumnDef, SortingState } from '@tanstack/react-table'
 import { Button } from '@raven/web/common/components/ui/button'
+
 import {
   Table,
   TableBody,
@@ -12,40 +12,46 @@ import {
   TableHeader,
   TableRow,
 } from '@raven/web/common/components/ui/table'
-
 import {
   flexRender,
   getCoreRowModel,
-  getPaginationRowModel,
   useReactTable,
+
 } from '@tanstack/react-table'
 
 type AppTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   pagination: PaginationMeta
+  sorting: SortingState
   onPaginationChange: (pagination: PaginationMeta) => void
+  onSortingChange: (sorting: SortingState) => void
 }
 
 export function AppTable<TData, TValue>({
   columns,
   data,
   pagination,
+  sorting,
   onPaginationChange,
+  onSortingChange,
 }: AppTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     manualPagination: true,
+    manualSorting: true,
+
     pageCount: pagination.totalPages,
+
     state: {
       pagination: {
         pageIndex: pagination.page - 1,
         pageSize: pagination.pageSize,
-      } as PaginationState,
+      },
+      sorting,
     },
+
     onPaginationChange: (updater) => {
       const next
         = typeof updater === 'function'
@@ -64,6 +70,17 @@ export function AppTable<TData, TValue>({
         hasPreviousPage: pagination.hasPreviousPage,
       })
     },
+
+    onSortingChange: (updater) => {
+      const next
+        = typeof updater === 'function'
+          ? updater(sorting)
+          : updater
+
+      onSortingChange(next)
+    },
+
+    getCoreRowModel: getCoreRowModel(),
   })
 
   return (

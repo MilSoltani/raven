@@ -1,4 +1,5 @@
 import type { CreateUserPayload, Criteria } from '@raven/api/exports'
+import type { SortingState } from '@tanstack/react-table'
 import type { UseFormSetError } from 'react-hook-form'
 import { AppTable } from '@raven/web/common/components/app.table'
 import { Button } from '@raven/web/common/components/ui/button'
@@ -17,7 +18,15 @@ export function UsersPage() {
     select: ['name', 'email'],
     page: 1,
     limit: 10,
+    sort: { name: 'asc' },
   })
+
+  const sorting: SortingState = criteria.sort
+    ? Object.entries(criteria.sort).map(([id, dir]) => ({
+        id,
+        desc: dir === 'desc',
+      }))
+    : []
 
   const { data, isLoading, isError, error } = useUsers(criteria)
 
@@ -60,6 +69,20 @@ export function UsersPage() {
     hasPreviousPage: false,
   }
 
+  const handleSortingChange = (sorting: SortingState) => {
+    if (!sorting.length)
+      return
+
+    const s = sorting[0]
+
+    setCriteria(prev => ({
+      ...prev,
+      sort: {
+        [s.id]: s.desc ? 'desc' : 'asc',
+      },
+    }))
+  }
+
   return (
     <div>
       <Dialog
@@ -86,6 +109,8 @@ export function UsersPage() {
         columns={usersColumns}
         data={users}
         pagination={safePagination}
+        sorting={sorting}
+        onSortingChange={handleSortingChange}
         onPaginationChange={p =>
           setCriteria(prev => ({
             ...prev,

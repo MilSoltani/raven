@@ -9,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@raven/web/common/components/ui/dropdown-menu'
-import { IconDotsFilled } from '@tabler/icons-react'
+import { IconArrowsUpDown, IconDotsFilled } from '@tabler/icons-react'
 
 export const usersColumns: ColumnDef<User>[] = [
   {
@@ -18,7 +18,18 @@ export const usersColumns: ColumnDef<User>[] = [
   },
   {
     accessorKey: 'name',
-    header: 'Name',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Name
+          <IconArrowsUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    enableSorting: true,
   },
   {
     accessorKey: 'email',
