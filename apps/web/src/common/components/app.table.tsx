@@ -3,6 +3,15 @@ import type { ColumnDef, SortingState } from '@tanstack/react-table'
 
 import { Button } from '@raven/web/common/components/ui/button'
 import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@raven/web/common/components/ui/select'
+
+import {
   Table,
   TableBody,
   TableCell,
@@ -16,13 +25,19 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table'
+import { Field, FieldLabel } from './ui/field'
+
+type PaginationState = {
+  page: number
+  pageSize: number
+}
 
 type AppTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   pagination: PaginationMeta
   sorting: SortingState
-  onPaginationChange: (pagination: PaginationMeta) => void
+  onPaginationChange: (pagination: PaginationState) => void
   onSortingChange: (sorting: SortingState) => void
 }
 
@@ -63,10 +78,6 @@ export function AppTable<TData, TValue>({
       onPaginationChange({
         page: next.pageIndex + 1,
         pageSize: next.pageSize,
-        totalItems: pagination.totalItems,
-        totalPages: pagination.totalPages,
-        hasNextPage: pagination.hasNextPage,
-        hasPreviousPage: pagination.hasPreviousPage,
       })
     },
 
@@ -83,7 +94,7 @@ export function AppTable<TData, TValue>({
   })
 
   return (
-    <div>
+    <div className="mt-1">
       <div className="overflow-hidden rounded-md border">
         <Table>
           <TableHeader>
@@ -133,24 +144,69 @@ export function AppTable<TData, TValue>({
         </Table>
       </div>
 
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!pagination.hasPreviousPage}
+      <div className="mt-1 flex items-center justify-between gap-4">
+        <Field
+          orientation="horizontal"
+          className="w-fit"
         >
-          Previous
-        </Button>
+          <FieldLabel htmlFor="select-rows-per-page">
+            Rows per page
+          </FieldLabel>
 
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!pagination.hasNextPage}
-        >
-          Next
-        </Button>
+          <Select
+            value={String(pagination.pageSize)}
+            onValueChange={(value) => {
+              const newSize = Number(value)
+
+              table.setPageIndex(0)
+
+              onPaginationChange({
+                page: 1,
+                pageSize: newSize,
+              })
+            }}
+          >
+            <SelectTrigger
+              className="w-20"
+              id="select-rows-per-page"
+            >
+              <SelectValue />
+            </SelectTrigger>
+
+            <SelectContent align="start">
+              <SelectGroup>
+                {[10, 25, 50, 100].map(size => (
+                  <SelectItem
+                    key={size}
+                    value={String(size)}
+                  >
+                    {size}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </Field>
+
+        <div className="flex items-center space-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!pagination.hasPreviousPage}
+          >
+            Previous
+          </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!pagination.hasNextPage}
+          >
+            Next
+          </Button>
+        </div>
       </div>
     </div>
   )

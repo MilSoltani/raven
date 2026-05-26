@@ -28,7 +28,7 @@ export function createUsersColumns(deleteUser: ReturnType<typeof useDeleteUser>)
       header: 'Email',
     },
     {
-      id: 'actions',
+      header: 'actions',
       cell: ({ row }) => (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
