@@ -1,13 +1,13 @@
 import type { CreateUserPayload, Criteria } from '@raven/api/exports'
 import type { UseFormSetError } from 'react-hook-form'
-import { AppPagination } from '@raven/web/common/components/app.pagination'
+import { AppTable } from '@raven/web/common/components/app.table'
 import { Button } from '@raven/web/common/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@raven/web/common/components/ui/dialog'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { UsersForm } from '../components/users-form'
-import { UsersList } from '../components/users-list'
 import { useCreateUser, useUsers } from '../hooks/users.hooks'
+import { usersColumns } from '../users.columns'
 
 export function UsersPage() {
   const { t } = useTranslation('ui')
@@ -51,6 +51,14 @@ export function UsersPage() {
   }
 
   const { users, pagination } = data
+  const safePagination = pagination ?? {
+    page: 1,
+    pageSize: 10,
+    totalItems: 0,
+    totalPages: 1,
+    hasNextPage: false,
+    hasPreviousPage: false,
+  }
 
   return (
     <div>
@@ -74,26 +82,18 @@ export function UsersPage() {
         </DialogContent>
       </Dialog>
 
-      <UsersList users={users} />
+      <AppTable
+        columns={usersColumns}
+        data={users}
+        pagination={safePagination}
+        onPaginationChange={p =>
+          setCriteria(prev => ({
+            ...prev,
+            page: p.page,
+            limit: p.pageSize,
+          }))}
+      />
 
-      {pagination && (
-        <AppPagination
-          pagination={pagination}
-          onPageChange={(page) => {
-            setCriteria(prev => ({
-              ...prev,
-              page,
-            }))
-          }}
-          onPageSizeChange={(limit) => {
-            setCriteria(prev => ({
-              ...prev,
-              page: 1,
-              limit,
-            }))
-          }}
-        />
-      )}
     </div>
 
   )

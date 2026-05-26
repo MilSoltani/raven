@@ -1,5 +1,3 @@
-'use client'
-
 import { cn } from '@raven/web/common/lib/utils'
 
 import * as React from 'react'
