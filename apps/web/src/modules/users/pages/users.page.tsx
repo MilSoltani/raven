@@ -4,11 +4,12 @@ import type { UseFormSetError } from 'react-hook-form'
 import { AppTable } from '@raven/web/common/components/app.table'
 import { Button } from '@raven/web/common/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@raven/web/common/components/ui/dialog'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { sortingToSort, sortToSorting } from '../../../common/utils/sorting-adapters'
 import { UsersForm } from '../components/users-form'
-import { useCreateUser, useUsers } from '../hooks/users.hooks'
-import { usersColumns } from '../users.columns'
+import { useCreateUser, useDeleteUser, useUsers } from '../hooks/users.hooks'
+import { createUsersColumns } from '../users.columns'
 
 export function UsersPage() {
   const { t } = useTranslation('ui')
@@ -21,14 +22,10 @@ export function UsersPage() {
     sort: { name: 'asc' },
   })
 
-  const sorting: SortingState = criteria.sort
-    ? Object.entries(criteria.sort).map(([id, dir]) => ({
-        id,
-        desc: dir === 'desc',
-      }))
-    : []
-
   const { data, isLoading, isError, error } = useUsers(criteria)
+
+  const deleteUser = useDeleteUser()
+  const columns = useMemo(() => createUsersColumns(deleteUser), [deleteUser])
 
   const create = useCreateUser()
 
@@ -40,10 +37,7 @@ export function UsersPage() {
       onError: (err) => {
         setError('root.serverError', { message: err.message })
       },
-
-      onSuccess: () => {
-        setOpen(false)
-      },
+      onSuccess: () => setOpen(false),
     })
   }
 
@@ -60,6 +54,7 @@ export function UsersPage() {
   }
 
   const { users, pagination } = data
+
   const safePagination = pagination ?? {
     page: 1,
     pageSize: 10,
@@ -69,19 +64,7 @@ export function UsersPage() {
     hasPreviousPage: false,
   }
 
-  const handleSortingChange = (sorting: SortingState) => {
-    if (!sorting.length)
-      return
-
-    const s = sorting[0]
-
-    setCriteria(prev => ({
-      ...prev,
-      sort: {
-        [s.id]: s.desc ? 'desc' : 'asc',
-      },
-    }))
-  }
+  const sorting: SortingState = sortToSorting(criteria.sort)
 
   return (
     <div>
@@ -89,10 +72,10 @@ export function UsersPage() {
         open={open}
         onOpenChange={setOpen}
       >
-
         <DialogTrigger asChild>
           <Button variant="outline">{t('NEW_USER')}</Button>
         </DialogTrigger>
+
         <DialogContent className="sm:max-w-sm">
           <DialogHeader>
             <DialogTitle>{t('NEW_USER')}</DialogTitle>
@@ -106,20 +89,23 @@ export function UsersPage() {
       </Dialog>
 
       <AppTable
-        columns={usersColumns}
+        columns={columns}
         data={users}
         pagination={safePagination}
         sorting={sorting}
-        onSortingChange={handleSortingChange}
         onPaginationChange={p =>
           setCriteria(prev => ({
             ...prev,
             page: p.page,
             limit: p.pageSize,
           }))}
+        onSortingChange={s =>
+          setCriteria(prev => ({
+            ...prev,
+            page: 1,
+            sort: sortingToSort(s),
+          }))}
       />
-
     </div>
-
   )
 }

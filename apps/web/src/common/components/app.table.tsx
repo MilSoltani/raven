@@ -1,9 +1,7 @@
-'use client'
 import type { PaginationMeta } from '@raven/api/exports'
-
 import type { ColumnDef, SortingState } from '@tanstack/react-table'
-import { Button } from '@raven/web/common/components/ui/button'
 
+import { Button } from '@raven/web/common/components/ui/button'
 import {
   Table,
   TableBody,
@@ -12,11 +10,11 @@ import {
   TableHeader,
   TableRow,
 } from '@raven/web/common/components/ui/table'
+
 import {
   flexRender,
   getCoreRowModel,
   useReactTable,
-
 } from '@tanstack/react-table'
 
 type AppTableProps<TData, TValue> = {
@@ -39,6 +37,7 @@ export function AppTable<TData, TValue>({
   const table = useReactTable({
     data,
     columns,
+
     manualPagination: true,
     manualSorting: true,
 
