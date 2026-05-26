@@ -15,7 +15,7 @@ export function AppPagination({
   pagination,
   onPageChange,
   onPageSizeChange,
-  pageSizeOptions = [10, 25, 50, 100],
+  pageSizeOptions = [1, 10, 25, 50, 100],
 }: AppPaginationProps) {
   const { page, pageSize, totalPages, hasNextPage, hasPreviousPage } = pagination
 
