@@ -1,53 +1,51 @@
-import type { CreateUserPayload, Criteria } from '@raven/api/exports'
+import type { Criteria } from '@raven/api/exports'
 import type { SortingState } from '@tanstack/react-table'
-import type { UseFormSetError } from 'react-hook-form'
 import { AppTable } from '@raven/web/common/components/app.table'
-import { Button } from '@raven/web/common/components/ui/button'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@raven/web/common/components/ui/dialog'
+import {
+  sortingToSort,
+  sortToSorting,
+} from '@raven/web/common/utils/sorting-adapters'
+
 import { useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { sortingToSort, sortToSorting } from '../../../common/utils/sorting-adapters'
-import { UsersForm } from '../components/users-form'
-import { useCreateUser, useDeleteUser, useUsers } from '../hooks/users.hooks'
+
+import { useDeleteUser, useUpdateUser, useUsers } from '../hooks/users.hooks'
+
 import { createUsersColumns } from '../users.columns'
 
 export function UsersPage() {
-  const { t } = useTranslation('ui')
-  const [open, setOpen] = useState(false)
-
   const [criteria, setCriteria] = useState<Criteria>({
-    select: ['name', 'email'],
+    select: ['name', 'email', 'createdAt', 'updatedAt'],
     page: 1,
     limit: 10,
-    sort: { name: 'asc' },
+    sort: {
+      name: 'asc',
+    },
   })
 
-  const { data, isLoading, isError, error } = useUsers(criteria)
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+  } = useUsers(criteria)
 
   const deleteUser = useDeleteUser()
-  const columns = useMemo(() => createUsersColumns(deleteUser), [deleteUser])
+  const updateUser = useUpdateUser()
 
-  const create = useCreateUser()
+  const columns = useMemo(
+    () => createUsersColumns(deleteUser, updateUser),
+    [deleteUser, updateUser],
+  )
 
-  const handleCreate = (
-    data: CreateUserPayload,
-    setError: UseFormSetError<CreateUserPayload>,
-  ) => {
-    create.mutate(data, {
-      onError: (err) => {
-        setError('root.serverError', { message: err.message })
-      },
-      onSuccess: () => setOpen(false),
-    })
-  }
-
-  if (isLoading)
+  if (isLoading) {
     return <div>Loading users...</div>
+  }
 
   if (isError || !data) {
     return (
       <div>
         Error:
+        {' '}
         {error?.message}
       </div>
     )
@@ -68,26 +66,6 @@ export function UsersPage() {
 
   return (
     <div>
-      <Dialog
-        open={open}
-        onOpenChange={setOpen}
-      >
-        <DialogTrigger asChild>
-          <Button variant="outline">{t('NEW_USER')}</Button>
-        </DialogTrigger>
-
-        <DialogContent className="sm:max-w-sm">
-          <DialogHeader>
-            <DialogTitle>{t('NEW_USER')}</DialogTitle>
-          </DialogHeader>
-
-          <UsersForm
-            onSubmit={handleCreate}
-            isPending={create.isPending}
-          />
-        </DialogContent>
-      </Dialog>
-
       <AppTable
         columns={columns}
         data={users}

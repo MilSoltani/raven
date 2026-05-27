@@ -1,10 +1,16 @@
 import type { User } from '@raven/api/exports'
 import type { ColumnDef } from '@tanstack/react-table'
-import type { useDeleteUser } from './hooks/users.hooks'
-import { Button } from '@raven/web/common/components/ui/button'
-import { IconArrowsUpDown, IconTrash } from '@tabler/icons-react'
+import type { useDeleteUser, useUpdateUser } from './hooks/users.hooks'
 
-export function createUsersColumns(deleteUser: ReturnType<typeof useDeleteUser>): ColumnDef<User>[] {
+import { Button } from '@raven/web/common/components/ui/button'
+
+import { IconArrowsUpDown, IconEdit } from '@tabler/icons-react'
+import { UsersDetails } from './components/users.details'
+
+export function createUsersColumns(
+  deleteUser: ReturnType<typeof useDeleteUser>,
+  updateUser: ReturnType<typeof useUpdateUser>,
+): ColumnDef<User>[] {
   return [
     {
       accessorKey: 'id',
@@ -29,15 +35,18 @@ export function createUsersColumns(deleteUser: ReturnType<typeof useDeleteUser>)
     {
       header: 'actions',
       cell: ({ row }) => (
-        <div>
+        <div className="flex items-center gap-2">
+          <UsersDetails
+            user={row.original}
+            updateUser={updateUser}
+            deleteUser={deleteUser}
+          />
+
           <Button
-            variant="ghost"
-            onClick={(e) => {
-              e.stopPropagation()
-              deleteUser.mutate(row.original.id)
-            }}
+            variant="outline"
+            size="icon"
           >
-            <IconTrash className="h-4 w-4" />
+            <IconEdit className="h-4 w-4" />
           </Button>
         </div>
       ),
