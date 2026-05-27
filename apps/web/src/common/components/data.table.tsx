@@ -128,7 +128,10 @@ export function DataTable<TData, TValue>({
           orientation="horizontal"
           className="w-fit"
         >
-          <FieldLabel htmlFor="select-rows-per-page">
+          <FieldLabel
+            htmlFor="select-rows-per-page"
+            className="text-muted-foreground text-xs"
+          >
             Rows per page
           </FieldLabel>
 
@@ -168,6 +171,10 @@ export function DataTable<TData, TValue>({
         </Field>
 
         <div className="flex items-center space-x-2">
+          <div className="text-muted-foreground text-xs">
+            {`page ${pagination.page} of ${pagination.totalPages}`}
+          </div>
+
           <Button
             variant="outline"
             size="sm"
