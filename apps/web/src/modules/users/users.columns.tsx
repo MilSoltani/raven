@@ -1,6 +1,6 @@
 import type { User } from '@raven/api/exports'
 import type { ColumnDef } from '@tanstack/react-table'
-import { TableDrawer } from '@raven/web/common/components/table.drawer'
+import { AppDrawer } from '@raven/web/common/components/app.drawer'
 import { Button } from '@raven/web/common/components/ui/button'
 import { IconArrowsUpDown } from '@tabler/icons-react'
 import { useMemo } from 'react'
@@ -40,7 +40,7 @@ export function useUsersColumns(): ColumnDef<User>[] {
         header: 'Details',
         cell: ({ row }) => (
           <div className="flex items-center gap-2">
-            <TableDrawer
+            <AppDrawer
               drawerTitle="User Details"
               drawerDescription=""
               drawerBody={(

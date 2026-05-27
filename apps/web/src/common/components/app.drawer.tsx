@@ -3,21 +3,21 @@ import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, Dr
 import { IconArrowsMaximize, IconLayoutSidebarRightExpandFilled, IconX } from '@tabler/icons-react'
 import { Link } from 'react-router-dom'
 
-type TableDrawerProps = {
+type AppDrawerProps = {
   drawerTitle: string
   drawerBody: React.ReactNode
-  editPageUrl?: string
+  pageLinkUrl?: string
   drawerDescription: string
   width?: string
 }
 
-export function TableDrawer({
+export function AppDrawer({
   drawerTitle,
   drawerBody,
-  editPageUrl,
+  pageLinkUrl,
   drawerDescription,
   width = 'w-[400px]',
-}: TableDrawerProps) {
+}: AppDrawerProps) {
   return (
     <Drawer direction="right">
       <DrawerTrigger asChild>
@@ -35,14 +35,14 @@ export function TableDrawer({
             <DrawerTitle>{drawerTitle}</DrawerTitle>
 
             <div className="flex items-center gap-2">
-              {editPageUrl && (
+              {pageLinkUrl && (
                 <Button
                   variant="ghost"
                   size="icon"
                   asChild
                 >
                   <Link
-                    to={editPageUrl}
+                    to={pageLinkUrl}
                     className="cursor-pointer"
                     viewTransition
                   >
