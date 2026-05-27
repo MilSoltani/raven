@@ -32,6 +32,7 @@ export function UserPage() {
       user={data.user}
       updateUser={updateUser}
       deleteUser={deleteUser}
+      mode="edit"
     />
   )
 }

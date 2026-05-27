@@ -1,30 +1,9 @@
 import type { PaginationMeta } from '@raven/api/exports'
 import type { ColumnDef, SortingState } from '@tanstack/react-table'
-
 import { Button } from '@raven/web/common/components/ui/button'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@raven/web/common/components/ui/select'
-
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@raven/web/common/components/ui/table'
-
-import {
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@raven/web/common/components/ui/select'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@raven/web/common/components/ui/table'
+import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { Field, FieldLabel } from './ui/field'
 
 type PaginationState = {
@@ -32,7 +11,7 @@ type PaginationState = {
   pageSize: number
 }
 
-type AppTableProps<TData, TValue> = {
+type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   pagination: PaginationMeta
@@ -41,23 +20,20 @@ type AppTableProps<TData, TValue> = {
   onSortingChange: (sorting: SortingState) => void
 }
 
-export function AppTable<TData, TValue>({
+export function DataTable<TData, TValue>({
   columns,
   data,
   pagination,
   sorting,
   onPaginationChange,
   onSortingChange,
-}: AppTableProps<TData, TValue>) {
+}: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
-
     manualPagination: true,
     manualSorting: true,
-
     pageCount: pagination.totalPages,
-
     state: {
       pagination: {
         pageIndex: pagination.page - 1,
@@ -65,7 +41,6 @@ export function AppTable<TData, TValue>({
       },
       sorting,
     },
-
     onPaginationChange: (updater) => {
       const next
         = typeof updater === 'function'
@@ -74,13 +49,11 @@ export function AppTable<TData, TValue>({
               pageSize: pagination.pageSize,
             })
           : updater
-
       onPaginationChange({
         page: next.pageIndex + 1,
         pageSize: next.pageSize,
       })
     },
-
     onSortingChange: (updater) => {
       const next
         = typeof updater === 'function'
@@ -89,19 +62,22 @@ export function AppTable<TData, TValue>({
 
       onSortingChange(next)
     },
-
     getCoreRowModel: getCoreRowModel(),
   })
 
   return (
     <div className="mt-1">
       <div className="overflow-hidden rounded-md border">
-        <Table>
+        <Table className="table-fixed">
           <TableHeader>
             {table.getHeaderGroups().map(headerGroup => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map(header => (
-                  <TableHead key={header.id}>
+                  <TableHead
+                    key={header.id}
+                    className="font-bold"
+                    style={{ width: header.getSize() }}
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -120,7 +96,10 @@ export function AppTable<TData, TValue>({
                   table.getRowModel().rows.map(row => (
                     <TableRow key={row.id}>
                       {row.getVisibleCells().map(cell => (
-                        <TableCell key={cell.id}>
+                        <TableCell
+                          key={cell.id}
+                          style={{ width: cell.column.getSize() }}
+                        >
                           {flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext(),

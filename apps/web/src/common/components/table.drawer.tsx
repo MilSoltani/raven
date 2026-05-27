@@ -1,0 +1,76 @@
+import { Button } from '@raven/web/common/components/ui/button'
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from '@raven/web/common/components/ui/drawer'
+import { IconArrowsMaximize, IconLayoutSidebarRightExpandFilled, IconX } from '@tabler/icons-react'
+import { Link } from 'react-router-dom'
+
+type TableDrawerProps = {
+  drawerTitle: string
+  drawerBody: React.ReactNode
+  editPageUrl?: string
+  drawerDescription: string
+  width?: string
+}
+
+export function TableDrawer({
+  drawerTitle,
+  drawerBody,
+  editPageUrl,
+  drawerDescription,
+  width = 'w-[400px]',
+}: TableDrawerProps) {
+  return (
+    <Drawer direction="right">
+      <DrawerTrigger asChild>
+        <Button
+          variant="outline"
+          size="icon"
+        >
+          <IconLayoutSidebarRightExpandFilled className="h-4 w-4" />
+        </Button>
+      </DrawerTrigger>
+
+      <DrawerContent className={`${width} data-[vaul-drawer-direction=bottom]:max-h-[50vh] data-[vaul-drawer-direction=top]:max-h-[50vh]`}>
+        <DrawerHeader>
+          <div className="flex flex-row items-center justify-between">
+            <DrawerTitle>{drawerTitle}</DrawerTitle>
+
+            <div className="flex items-center gap-2">
+              {editPageUrl && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  asChild
+                >
+                  <Link
+                    to={editPageUrl}
+                    className="cursor-pointer"
+                    viewTransition
+                  >
+                    <IconArrowsMaximize className="w-4 h-4" />
+                  </Link>
+                </Button>
+              )}
+
+              <DrawerClose asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                >
+                  <IconX className="w-4 h-4" />
+                </Button>
+              </DrawerClose>
+            </div>
+          </div>
+
+          <DrawerDescription>
+            {drawerDescription}
+          </DrawerDescription>
+        </DrawerHeader>
+
+        <div className="flex h-full flex-col">
+          {drawerBody}
+        </div>
+      </DrawerContent>
+    </Drawer>
+  )
+}

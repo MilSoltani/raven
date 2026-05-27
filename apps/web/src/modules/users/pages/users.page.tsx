@@ -1,6 +1,6 @@
 import type { Criteria } from '@raven/api/exports'
 import type { SortingState } from '@tanstack/react-table'
-import { AppTable } from '@raven/web/common/components/app.table'
+import { DataTable } from '@raven/web/common/components/data.table'
 import {
   sortingToSort,
   sortToSorting,
@@ -66,7 +66,7 @@ export function UsersPage() {
 
   return (
     <div>
-      <AppTable
+      <DataTable
         columns={columns}
         data={users}
         pagination={safePagination}

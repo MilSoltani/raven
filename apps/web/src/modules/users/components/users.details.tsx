@@ -4,11 +4,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { UpdateUserPayloadSchema } from '@raven/api/exports'
 import { Alert, AlertDescription, AlertTitle } from '@raven/web/common/components/ui/alert'
 import { Button } from '@raven/web/common/components/ui/button'
-import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from '@raven/web/common/components/ui/drawer'
 import { Field, FieldDescription, FieldGroup, FieldLabel } from '@raven/web/common/components/ui/field'
 import { Input } from '@raven/web/common/components/ui/input'
 import { cn } from '@raven/web/common/lib/utils'
-import { IconAlertCircle, IconEye } from '@tabler/icons-react'
+import { IconAlertCircle } from '@tabler/icons-react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
@@ -16,12 +15,14 @@ type UsersDetailsProps = {
   user: User
   updateUser: ReturnType<typeof useUpdateUser>
   deleteUser: ReturnType<typeof useDeleteUser>
+  mode: 'edit' | 'new'
 }
 
 export function UsersDetails({
   user,
   updateUser,
   deleteUser,
+  mode,
 }: UsersDetailsProps) {
   const { t } = useTranslation('ui')
 
@@ -51,129 +52,113 @@ export function UsersDetails({
   })
 
   return (
-    <Drawer direction="right">
-      <DrawerTrigger asChild>
-        <Button
-          variant="outline"
-          size="icon"
-        >
-          <IconEye className="h-4 w-4" />
-        </Button>
-      </DrawerTrigger>
+    <form
+      onSubmit={handleSubmit}
+      noValidate
+      className="flex h-full flex-col"
+    >
+      <div className="no-scrollbar overflow-y-auto px-4">
+        {form.formState.errors.root?.serverError?.message && (
+          <Alert variant="destructive">
+            <IconAlertCircle />
 
-      <DrawerContent className="w-[400px] data-[vaul-drawer-direction=bottom]:max-h-[50vh] data-[vaul-drawer-direction=top]:max-h-[50vh]">
-        <DrawerHeader>
-          <DrawerTitle>Details</DrawerTitle>
-        </DrawerHeader>
+            <AlertTitle>
+              {t('USER_UPDATE_FAILED')}
+            </AlertTitle>
 
-        <form
-          onSubmit={handleSubmit}
-          noValidate
-          className="flex h-full flex-col"
-        >
-          <div className="no-scrollbar overflow-y-auto px-4">
-            {form.formState.errors.root?.serverError?.message && (
-              <Alert variant="destructive">
-                <IconAlertCircle />
+            <AlertDescription>
+              {form.formState.errors.root.serverError.message}
+            </AlertDescription>
+          </Alert>
+        )}
 
-                <AlertTitle>
-                  {t('USER_UPDATE_FAILED')}
-                </AlertTitle>
+        <FieldGroup>
+          <Field>
+            <FieldLabel htmlFor="name">
+              {t('USER_NAME')}
+            </FieldLabel>
 
-                <AlertDescription>
-                  {form.formState.errors.root.serverError.message}
-                </AlertDescription>
-              </Alert>
+            <Input
+              id="name"
+              type="text"
+              placeholder="John Doe"
+              aria-invalid={!!form.formState.errors.name}
+              className={cn(
+                form.formState.errors.name
+                && 'border-destructive focus-visible:ring-destructive/50',
+              )}
+              {...form.register('name')}
+              required
+            />
+
+            {form.formState.errors.name?.message && (
+              <FieldDescription className="text-destructive">
+                {form.formState.errors.name.message}
+              </FieldDescription>
             )}
+          </Field>
 
-            <FieldGroup>
-              <Field>
-                <FieldLabel htmlFor="name">
-                  {t('USER_NAME')}
-                </FieldLabel>
+          <Field>
+            <FieldLabel htmlFor="email">
+              {t('USER_EMAIL')}
+            </FieldLabel>
 
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="John Doe"
-                  aria-invalid={!!form.formState.errors.name}
-                  className={cn(
-                    form.formState.errors.name
-                    && 'border-destructive focus-visible:ring-destructive/50',
-                  )}
-                  {...form.register('name')}
-                  required
-                />
+            <Input
+              id="email"
+              type="email"
+              placeholder="m@example.com"
+              aria-invalid={!!form.formState.errors.email}
+              className={cn(
+                form.formState.errors.email
+                && 'border-destructive focus-visible:ring-destructive/50',
+              )}
+              {...form.register('email')}
+              required
+            />
 
-                {form.formState.errors.name?.message && (
-                  <FieldDescription className="text-destructive">
-                    {form.formState.errors.name.message}
-                  </FieldDescription>
-                )}
-              </Field>
+            {form.formState.errors.email?.message && (
+              <FieldDescription className="text-destructive">
+                {form.formState.errors.email.message}
+              </FieldDescription>
+            )}
+          </Field>
 
-              <Field>
-                <FieldLabel htmlFor="email">
-                  {t('USER_EMAIL')}
-                </FieldLabel>
+          {mode !== 'new' && (
+            <Field>
+              <FieldLabel htmlFor="createdAt">
+                Created At
+              </FieldLabel>
 
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  aria-invalid={!!form.formState.errors.email}
-                  className={cn(
-                    form.formState.errors.email
-                    && 'border-destructive focus-visible:ring-destructive/50',
-                  )}
-                  {...form.register('email')}
-                  required
-                />
+              <Input
+                id="createdAt"
+                type="input"
+                value={user.createdAt}
+                disabled
+              />
+            </Field>
+          )}
 
-                {form.formState.errors.email?.message && (
-                  <FieldDescription className="text-destructive">
-                    {form.formState.errors.email.message}
-                  </FieldDescription>
-                )}
-              </Field>
+          {mode !== 'new' && (
+            <Field>
+              <FieldLabel htmlFor="updatedAt">
+                Updated At
+              </FieldLabel>
 
-              <Field>
-                <FieldLabel htmlFor="createdAt">
-                  Created At
-                </FieldLabel>
+              <Input
+                id="updatedAt"
+                type="input"
+                value={user.updatedAt ?? ''}
+                disabled
+              />
+            </Field>
+          )}
+        </FieldGroup>
 
-                <Input
-                  id="createdAt"
-                  type="input"
-                  value={user.createdAt}
-                  disabled
-                />
-              </Field>
-
-              <Field>
-                <FieldLabel htmlFor="updatedAt">
-                  Updated At
-                </FieldLabel>
-
-                <Input
-                  id="updatedAt"
-                  type="input"
-                  value={user.updatedAt ?? ''}
-                  disabled
-                />
-              </Field>
-            </FieldGroup>
-          </div>
-
-          <DrawerFooter className="flex flex-row justify-start">
-            <DrawerClose asChild>
-              <Button variant="outline">
-                Close
-              </Button>
-            </DrawerClose>
-
+        {mode === 'edit' && (
+          <div className=" mt-5 flex flex-row justify-start gap-2">
             <Button
               type="submit"
+              variant="default"
               disabled={updateUser.isPending}
             >
               {updateUser.isPending
@@ -182,7 +167,7 @@ export function UsersDetails({
             </Button>
 
             <Button
-              variant="outline"
+              variant="destructive"
               onClick={(e) => {
                 e.stopPropagation()
                 deleteUser.mutate(user.id)
@@ -190,9 +175,9 @@ export function UsersDetails({
             >
               Delete
             </Button>
-          </DrawerFooter>
-        </form>
-      </DrawerContent>
-    </Drawer>
+          </div>
+        )}
+      </div>
+    </form>
   )
 }
