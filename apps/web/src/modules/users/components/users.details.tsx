@@ -15,14 +15,12 @@ type UsersDetailsProps = {
   user: User
   updateUser: ReturnType<typeof useUpdateUser>
   deleteUser: ReturnType<typeof useDeleteUser>
-  mode: 'edit' | 'new'
 }
 
 export function UsersDetails({
   user,
   updateUser,
   deleteUser,
-  mode,
 }: UsersDetailsProps) {
   const { t } = useTranslation('ui')
 
@@ -106,7 +104,7 @@ export function UsersDetails({
             <Input
               id="email"
               type="email"
-              placeholder="m@example.com"
+              placeholder="doe@example.com"
               aria-invalid={!!form.formState.errors.email}
               className={cn(
                 form.formState.errors.email
@@ -123,60 +121,54 @@ export function UsersDetails({
             )}
           </Field>
 
-          {mode !== 'new' && (
-            <Field>
-              <FieldLabel htmlFor="createdAt">
-                Created At
-              </FieldLabel>
+          <Field>
+            <FieldLabel htmlFor="createdAt">
+              Created At
+            </FieldLabel>
 
-              <Input
-                id="createdAt"
-                type="input"
-                value={user.createdAt}
-                disabled
-              />
-            </Field>
-          )}
+            <Input
+              id="createdAt"
+              type="input"
+              value={user.createdAt}
+              disabled
+            />
+          </Field>
 
-          {mode !== 'new' && (
-            <Field>
-              <FieldLabel htmlFor="updatedAt">
-                Updated At
-              </FieldLabel>
+          <Field>
+            <FieldLabel htmlFor="updatedAt">
+              Updated At
+            </FieldLabel>
 
-              <Input
-                id="updatedAt"
-                type="input"
-                value={user.updatedAt ?? ''}
-                disabled
-              />
-            </Field>
-          )}
+            <Input
+              id="updatedAt"
+              type="input"
+              value={user.updatedAt ?? ''}
+              disabled
+            />
+          </Field>
         </FieldGroup>
 
-        {mode === 'edit' && (
-          <div className=" mt-5 flex flex-row justify-start gap-2">
-            <Button
-              type="submit"
-              variant="default"
-              disabled={updateUser.isPending}
-            >
-              {updateUser.isPending
-                ? '...'
-                : t('USER_UPDATE')}
-            </Button>
+        <div className=" mt-5 flex flex-row justify-start gap-2">
+          <Button
+            type="submit"
+            variant="default"
+            disabled={updateUser.isPending}
+          >
+            {updateUser.isPending
+              ? '...'
+              : t('USER_UPDATE')}
+          </Button>
 
-            <Button
-              variant="destructive"
-              onClick={(e) => {
-                e.stopPropagation()
-                deleteUser.mutate(user.id)
-              }}
-            >
-              Delete
-            </Button>
-          </div>
-        )}
+          <Button
+            variant="destructive"
+            onClick={(e) => {
+              e.stopPropagation()
+              deleteUser.mutate(user.id)
+            }}
+          >
+            Delete
+          </Button>
+        </div>
       </div>
     </form>
   )

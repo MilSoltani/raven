@@ -1,16 +1,10 @@
 import type { Criteria } from '@raven/api/exports'
 import type { SortingState } from '@tanstack/react-table'
 import { DataTable } from '@raven/web/common/components/data.table'
-import {
-  sortingToSort,
-  sortToSorting,
-} from '@raven/web/common/utils/sorting-adapters'
-
-import { useMemo, useState } from 'react'
-
-import { useDeleteUser, useUpdateUser, useUsers } from '../hooks/users.hooks'
-
-import { createUsersColumns } from '../users.columns'
+import { sortingToSort, sortToSorting } from '@raven/web/common/utils/sorting-adapters'
+import { useState } from 'react'
+import { useUsers } from '../hooks/users.hooks'
+import { useUsersColumns } from '../users.columns'
 
 export function UsersPage() {
   const [criteria, setCriteria] = useState<Criteria>({
@@ -22,20 +16,9 @@ export function UsersPage() {
     },
   })
 
-  const {
-    data,
-    isLoading,
-    isError,
-    error,
-  } = useUsers(criteria)
+  const { data, isLoading, isError, error } = useUsers(criteria)
 
-  const deleteUser = useDeleteUser()
-  const updateUser = useUpdateUser()
-
-  const columns = useMemo(
-    () => createUsersColumns(deleteUser, updateUser),
-    [deleteUser, updateUser],
-  )
+  const columns = useUsersColumns()
 
   if (isLoading) {
     return <div>Loading users...</div>
