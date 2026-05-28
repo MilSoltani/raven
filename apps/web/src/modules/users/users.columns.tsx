@@ -5,13 +5,11 @@ import { AppDrawer } from '@raven/web/common/components/app.drawer'
 import { Button } from '@raven/web/common/components/ui/button'
 import { DrawerTrigger } from '@raven/web/common/components/ui/drawer'
 import { IconArrowsUpDown, IconLayoutSidebarRightExpandFilled } from '@tabler/icons-react'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { UsersForm } from './components/users.form'
 import { useUpdateUser } from './hooks/users.hooks'
 
 export function useUsersColumns(): ColumnDef<User>[] {
-  const [createDrawerOpen, setCreateDrawerOpen] = useState(false)
-
   const updateUser = useUpdateUser()
 
   return useMemo(
@@ -44,8 +42,6 @@ export function useUsersColumns(): ColumnDef<User>[] {
         cell: ({ row }) => (
           <div className="flex items-center gap-2">
             <AppDrawer
-              isOpen={createDrawerOpen}
-              setIsOpen={setCreateDrawerOpen}
               drawerTitle="User Details"
               drawerDescription=""
               drawerBody={(
