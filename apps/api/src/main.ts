@@ -1,8 +1,7 @@
 import type { AuthUser } from '@raven/api/modules/auth'
-import type { AppEnv, AuthPayload } from './common/types'
+import type { AuthPayload } from './common/types'
 import { serve } from '@hono/node-server'
 import { swaggerUI } from '@hono/swagger-ui'
-import { OpenAPIHono } from '@hono/zod-openapi'
 import { config } from '@raven/api/infrastructure/config/config'
 import { qsParser } from '@raven/api/infrastructure/query'
 import { cors } from 'hono/cors'
@@ -11,6 +10,7 @@ import { jwt } from 'hono/jwt'
 import { languageDetector } from 'hono/language'
 import { logger } from 'hono/logger'
 import { authModule, ticketsModule, usersModule } from './app'
+import { honoApp } from './infrastructure/http'
 
 const publicRoutes = [
   '/auth/signin',
@@ -19,7 +19,7 @@ const publicRoutes = [
   '/auth/signout',
 ]
 
-const app = new OpenAPIHono<AppEnv>()
+const app = honoApp()
   .doc('/doc', {
     openapi: '3.0.0',
     info: {

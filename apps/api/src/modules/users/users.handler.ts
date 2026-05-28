@@ -1,14 +1,13 @@
-import type { AppEnv } from '@raven/api/common/types'
 import type { UsersCode } from './users.codes'
 import type { UsersService } from './users.service'
-import { OpenAPIHono } from '@hono/zod-openapi'
 import { responseFactory } from '@raven/api/common/http'
+import { honoApp } from '@raven/api/infrastructure/http'
 import { UsersRoutes } from './users.routes'
 
 export function createUsersHandler(usersService: UsersService) {
   const response = responseFactory<UsersCode>()
 
-  return new OpenAPIHono<AppEnv>()
+  return honoApp()
 
     .openapi(UsersRoutes.getAll, async (c) => {
       const result = await usersService.getAll(c.var.query)

@@ -1,10 +1,9 @@
-import type { AppEnv } from '@raven/api/common/types'
 import type { AuthCode } from './auth.codes'
 import type { AuthService } from './auth.service'
 import type { CookieUtil } from './utils/cookie.util'
-import { OpenAPIHono } from '@hono/zod-openapi'
 import { responseFactory } from '@raven/api/common/http'
 import { appExceptionFactory } from '@raven/api/common/http/app.exception'
+import { honoApp } from '@raven/api/infrastructure/http'
 import { authCodesMap } from './auth.codes'
 import { AuthRoutes } from './auth.routes'
 
@@ -16,7 +15,7 @@ export function createAuthHandler(
 ) {
   const response = responseFactory<AuthCode>()
 
-  return new OpenAPIHono<AppEnv>()
+  return honoApp()
 
     .openapi(AuthRoutes.signin, async (c) => {
       const { email, password } = c.req.valid('json')
