@@ -1,3 +1,4 @@
+import { UpdateUserPayloadSchema } from '@raven/api/exports'
 import { useParams } from 'react-router-dom'
 import { UsersForm } from '../components/users.form'
 import { useUpdateUser, useUser } from '../hooks/users.hooks'
@@ -39,7 +40,7 @@ export function UserPage() {
 
         updateUser.mutate({
           id: data.id,
-          data,
+          data: UpdateUserPayloadSchema.parse(data),
         })
       }}
     />

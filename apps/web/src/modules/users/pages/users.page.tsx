@@ -1,9 +1,14 @@
 import type { Criteria } from '@raven/api/exports'
 import type { SortingState } from '@tanstack/react-table'
+import { CreateUserPayloadSchema } from '@raven/api/exports'
+import { AppDrawer } from '@raven/web/common/components/app.drawer'
 import { DataTable } from '@raven/web/common/components/data.table'
+import { Button } from '@raven/web/common/components/ui/button'
 import { sortingToSort, sortToSorting } from '@raven/web/common/utils/sorting-adapters'
+import { IconPlus } from '@tabler/icons-react'
 import { useState } from 'react'
-import { useUsers } from '../hooks/users.hooks'
+import { UsersForm } from '../components/users.form'
+import { useCreateUser, useUsers } from '../hooks/users.hooks'
 import { useUsersColumns } from '../users.columns'
 
 export function UsersPage() {
@@ -19,6 +24,8 @@ export function UsersPage() {
   const { data, isLoading, isError, error } = useUsers(criteria)
 
   const columns = useUsersColumns()
+
+  const createUser = useCreateUser()
 
   if (isLoading) {
     return <div>Loading users...</div>
@@ -49,6 +56,29 @@ export function UsersPage() {
 
   return (
     <div>
+      <AppDrawer
+        drawerTitle="New User"
+        drawerDescription=""
+        drawerBody={(
+          <UsersForm
+            mode="create"
+            user={{ name: '', email: '' }}
+            submitLabel="creact"
+            isPending={createUser.isPending}
+            error={createUser.error?.message}
+            onSubmit={(data) => {
+              createUser.mutate(CreateUserPayloadSchema.parse(data))
+            }}
+          />
+        )}
+        triggerButton={(
+          <Button variant="outline">
+            <IconPlus className="h-4 w-4 me-2" />
+            create
+          </Button>
+        )}
+      />
+
       <DataTable
         columns={columns}
         data={users}

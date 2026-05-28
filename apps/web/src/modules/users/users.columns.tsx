@@ -1,8 +1,9 @@
 import type { User } from '@raven/api/exports'
 import type { ColumnDef } from '@tanstack/react-table'
+import { UpdateUserPayloadSchema } from '@raven/api/exports'
 import { AppDrawer } from '@raven/web/common/components/app.drawer'
 import { Button } from '@raven/web/common/components/ui/button'
-import { IconArrowsUpDown } from '@tabler/icons-react'
+import { IconArrowsUpDown, IconLayoutSidebarRightExpandFilled } from '@tabler/icons-react'
 import { useMemo } from 'react'
 import { UsersForm } from './components/users.form'
 import { useUpdateUser } from './hooks/users.hooks'
@@ -52,12 +53,20 @@ export function useUsersColumns(): ColumnDef<User>[] {
                   onSubmit={(data) => {
                     updateUser.mutate({
                       id: row.original.id,
-                      data,
+                      data: UpdateUserPayloadSchema.parse(data),
                     })
                   }}
                 />
               )}
               pageLinkUrl={`/users/${row.original.id}`}
+              triggerButton={(
+                <Button
+                  variant="outline"
+                  size="icon"
+                >
+                  <IconLayoutSidebarRightExpandFilled className="h-4 w-4" />
+                </Button>
+              )}
             />
           </div>
         ),

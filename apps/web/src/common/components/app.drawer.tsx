@@ -1,6 +1,6 @@
 import { Button } from '@raven/web/common/components/ui/button'
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from '@raven/web/common/components/ui/drawer'
-import { IconArrowsMaximize, IconLayoutSidebarRightExpandFilled, IconX } from '@tabler/icons-react'
+import { IconArrowsMaximize, IconX } from '@tabler/icons-react'
 import { Link } from 'react-router-dom'
 
 type AppDrawerProps = {
@@ -9,6 +9,7 @@ type AppDrawerProps = {
   pageLinkUrl?: string
   drawerDescription: string
   width?: string
+  triggerButton: React.ReactNode
 }
 
 export function AppDrawer({
@@ -17,16 +18,12 @@ export function AppDrawer({
   pageLinkUrl,
   drawerDescription,
   width = 'w-[400px]',
+  triggerButton,
 }: AppDrawerProps) {
   return (
     <Drawer direction="right">
       <DrawerTrigger asChild>
-        <Button
-          variant="outline"
-          size="icon"
-        >
-          <IconLayoutSidebarRightExpandFilled className="h-4 w-4" />
-        </Button>
+        {triggerButton}
       </DrawerTrigger>
 
       <DrawerContent className={`${width} data-[vaul-drawer-direction=bottom]:max-h-[50vh] data-[vaul-drawer-direction=top]:max-h-[50vh]`}>
