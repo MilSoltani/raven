@@ -1,28 +1,34 @@
-import type { User } from '@raven/api/exports'
 import { UpdateUserPayloadSchema } from '@raven/api/exports'
 import { AppDrawer } from '@raven/web/common/components/app.drawer'
 import { Button } from '@raven/web/common/components/ui/button'
 import { IconLayoutSidebarRightExpandFilled } from '@tabler/icons-react'
 import { useState } from 'react'
-import { useUpdateUser } from '../hooks/users.hooks'
+import { useUpdateUser, useUser } from '../hooks/users.hooks'
 import { UsersForm } from './users.form'
 
 type UserActionCellProps = {
-  user: User
+  userId: number
 }
 
-export function UserActionCell({ user }: UserActionCellProps) {
+export function UserActionCell({ userId }: UserActionCellProps) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const { data, isLoading, isError, error } = useUser(userId, isOpen)
   const updateUser = useUpdateUser()
 
-  const [isOpen, setIsOpen] = useState(false)
+  if (!userId || Number.isNaN(userId)) {
+    return <div>Invalid user id</div>
+  }
 
   return (
     <AppDrawer
       open={isOpen}
       onOpenChange={setIsOpen}
       drawerTitle="User Details"
-      drawerDescription={`Editing details for ${user.name}`}
-      pageLinkUrl={`/users/${user.id}`}
+      drawerDescription={
+        data?.user ? `Editing details for ${data.user.name}` : 'Loading user...'
+      }
+      pageLinkUrl={data?.user ? `/users/${data.user.id}` : undefined}
       triggerButton={(
         <Button
           variant="outline"
@@ -31,27 +37,43 @@ export function UserActionCell({ user }: UserActionCellProps) {
           <IconLayoutSidebarRightExpandFilled className="h-4 w-4" />
         </Button>
       )}
-      drawerBody={(
-        <UsersForm
-          mode="edit"
-          user={user}
-          error={updateUser.error?.message}
-          onSubmit={(data) => {
-            updateUser.mutate({
-              id: user.id,
-              data: UpdateUserPayloadSchema.parse(data),
-            }, { onSuccess: () => setIsOpen(false) })
-          }}
-          footer={(
-            <Button
-              type="submit"
-              disabled={updateUser.isPending}
-            >
-              {updateUser.isPending ? 'Updating...' : 'Update'}
-            </Button>
-          )}
-        />
-      )}
+      drawerBody={
+        isLoading
+          ? (<div>Loading user...</div>)
+          : isError
+            ? (
+                <div>
+                  Error:
+                  {error instanceof Error ? error.message : ''}
+                </div>
+              )
+            : data?.user
+              ? (
+                  <UsersForm
+                    mode="edit"
+                    user={data.user}
+                    error={updateUser.error?.message}
+                    onSubmit={(formData) => {
+                      updateUser.mutate(
+                        {
+                          id: data.user.id,
+                          data: UpdateUserPayloadSchema.parse(formData),
+                        },
+                        { onSuccess: () => setIsOpen(false) },
+                      )
+                    }}
+                    footer={(
+                      <Button
+                        type="submit"
+                        disabled={updateUser.isPending}
+                      >
+                        {updateUser.isPending ? 'Updating...' : 'Update'}
+                      </Button>
+                    )}
+                  />
+                )
+              : (<div>Open drawer to load user</div>)
+      }
     />
   )
 }

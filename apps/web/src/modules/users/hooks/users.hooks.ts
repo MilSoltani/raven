@@ -46,7 +46,7 @@ export function useUsers(query?: Criteria) {
   })
 }
 
-export function useUser(id: number) {
+export function useUser(id: number, enabled: boolean = true) {
   return useQuery({
     queryKey: usersKeys.detail(id),
 
@@ -63,7 +63,7 @@ export function useUser(id: number) {
       apiError: response.error,
     }),
 
-    enabled: !!id,
+    enabled: !!id && enabled,
   })
 }
 

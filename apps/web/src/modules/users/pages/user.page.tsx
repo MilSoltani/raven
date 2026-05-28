@@ -17,7 +17,7 @@ export function UserPage() {
   }
 
   if (isLoading)
-    return <div>Loading users...</div>
+    return <div>Loading user...</div>
 
   if (isError || !data) {
     return (

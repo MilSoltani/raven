@@ -30,7 +30,7 @@ export const userColumns: ColumnDef<User>[] = [
   {
     accessorKey: 'details',
     header: 'Details',
-    cell: ({ row }) => <UserActionCell user={row.original} />,
+    cell: ({ row }) => <UserActionCell userId={row.original.id} />,
     size: 20,
   },
 ]
