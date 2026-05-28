@@ -4,15 +4,16 @@ import { CreateUserPayloadSchema } from '@raven/api/exports'
 import { AppDrawer } from '@raven/web/common/components/app.drawer'
 import { DataTable } from '@raven/web/common/components/data.table'
 import { Button } from '@raven/web/common/components/ui/button'
-import { DrawerTrigger } from '@raven/web/common/components/ui/drawer'
 import { sortingToSort, sortToSorting } from '@raven/web/common/utils/sorting-adapters'
 import { IconPlus } from '@tabler/icons-react'
 import { useState } from 'react'
 import { UsersForm } from '../components/users.form'
 import { useCreateUser, useUsers } from '../hooks/users.hooks'
-import { useUsersColumns } from '../users.columns'
+import { userColumns } from '../users.columns'
 
 export function UsersPage() {
+  const [drawerOpen, setDrawerOpen] = useState(false)
+
   const [criteria, setCriteria] = useState<Criteria>({
     select: ['name', 'email', 'createdAt', 'updatedAt'],
     page: 1,
@@ -23,8 +24,6 @@ export function UsersPage() {
   })
 
   const { data, isLoading, isError, error } = useUsers(criteria)
-
-  const columns = useUsersColumns()
 
   const createUser = useCreateUser()
 
@@ -58,6 +57,8 @@ export function UsersPage() {
   return (
     <div>
       <AppDrawer
+        open={drawerOpen}
+        onOpenChange={setDrawerOpen}
         drawerTitle="New User"
         drawerDescription=""
         drawerBody={(
@@ -66,17 +67,18 @@ export function UsersPage() {
             user={{ name: '', email: '' }}
             error={createUser.error?.message}
             onSubmit={(data) => {
-              createUser.mutate(CreateUserPayloadSchema.parse(data))
+              createUser.mutate(
+                CreateUserPayloadSchema.parse(data),
+                { onSuccess: () => setDrawerOpen(false) },
+              )
             }}
             footer={(
-              <DrawerTrigger asChild>
-                <Button
-                  type="submit"
-                  disabled={createUser.isPending}
-                >
-                  create
-                </Button>
-              </DrawerTrigger>
+              <Button
+                type="submit"
+                disabled={createUser.isPending}
+              >
+                create
+              </Button>
             )}
           />
         )}
@@ -89,7 +91,7 @@ export function UsersPage() {
       />
 
       <DataTable
-        columns={columns}
+        columns={userColumns}
         data={users}
         pagination={safePagination}
         sorting={sorting}

@@ -1,8 +1,20 @@
 import type { PaginationMeta } from '@raven/api/exports'
-import { generatePages } from '../utils/pages.generator'
 import { Field, FieldLabel } from './ui/field'
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from './ui/pagination'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from './ui/select'
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from './ui/pagination'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select'
 
 type AppPaginationProps = {
   pagination: PaginationMeta
@@ -15,11 +27,9 @@ export function AppPagination({
   pagination,
   onPageChange,
   onPageSizeChange,
-  pageSizeOptions = [1, 10, 25, 50, 100],
+  pageSizeOptions = [10, 25, 50, 100],
 }: AppPaginationProps) {
-  const { page, pageSize, totalPages, hasNextPage, hasPreviousPage } = pagination
-
-  const pages = generatePages(page, totalPages)
+  const { page, pageSize, hasNextPage, hasPreviousPage } = pagination
 
   return (
     <div className="flex items-center justify-between gap-4">
@@ -27,17 +37,18 @@ export function AppPagination({
         orientation="horizontal"
         className="w-fit"
       >
-        <FieldLabel htmlFor="select-rows-per-page">
-          Rows per page
-        </FieldLabel>
+        <FieldLabel htmlFor="rows-per-page">Rows per page</FieldLabel>
 
         <Select
           value={String(pageSize)}
-          onValueChange={value =>
-            onPageSizeChange(Number(value))}
+          onValueChange={(v) => {
+            const newSize = Number(v)
+            onPageSizeChange(newSize)
+            onPageChange(1)
+          }}
         >
           <SelectTrigger
-            id="select-rows-per-page"
+            id="rows-per-page"
             className="w-20"
           >
             <SelectValue />
@@ -58,64 +69,26 @@ export function AppPagination({
         </Select>
       </Field>
 
-      <Pagination className="mx-0 w-auto">
+      <Pagination className="w-auto">
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
               aria-disabled={!hasPreviousPage}
-              className={
-                !hasPreviousPage
-                  ? 'pointer-events-none opacity-50'
-                  : undefined
-              }
+              className={!hasPreviousPage ? 'pointer-events-none opacity-50' : undefined}
               onClick={(e) => {
                 e.preventDefault()
-
                 if (hasPreviousPage)
                   onPageChange(page - 1)
               }}
             />
           </PaginationItem>
 
-          {pages.map((item, index) => {
-            if (item === 'ellipsis') {
-              return (
-                <PaginationItem
-                  key={`ellipsis-${index}`}
-                >
-                  <PaginationEllipsis />
-                </PaginationItem>
-              )
-            }
-
-            return (
-              <PaginationItem key={item}>
-                <PaginationLink
-                  isActive={item === page}
-                  onClick={(e) => {
-                    e.preventDefault()
-
-                    if (item !== page)
-                      onPageChange(item)
-                  }}
-                >
-                  {item}
-                </PaginationLink>
-              </PaginationItem>
-            )
-          })}
-
           <PaginationItem>
             <PaginationNext
               aria-disabled={!hasNextPage}
-              className={
-                !hasNextPage
-                  ? 'pointer-events-none opacity-50'
-                  : undefined
-              }
+              className={!hasNextPage ? 'pointer-events-none opacity-50' : undefined}
               onClick={(e) => {
                 e.preventDefault()
-
                 if (hasNextPage)
                   onPageChange(page + 1)
               }}

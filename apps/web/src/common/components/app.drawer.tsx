@@ -4,6 +4,8 @@ import { IconArrowsMaximize, IconX } from '@tabler/icons-react'
 import { Link } from 'react-router-dom'
 
 type AppDrawerProps = {
+  open: boolean
+  onOpenChange: (open: boolean) => void
   drawerTitle: string
   drawerBody: React.ReactNode
   pageLinkUrl?: string
@@ -13,6 +15,8 @@ type AppDrawerProps = {
 }
 
 export function AppDrawer({
+  open,
+  onOpenChange,
   drawerTitle,
   drawerBody,
   pageLinkUrl,
@@ -21,7 +25,11 @@ export function AppDrawer({
   triggerButton,
 }: AppDrawerProps) {
   return (
-    <Drawer direction="right">
+    <Drawer
+      direction="right"
+      open={open}
+      onOpenChange={onOpenChange}
+    >
       <DrawerTrigger asChild>
         {triggerButton}
       </DrawerTrigger>
