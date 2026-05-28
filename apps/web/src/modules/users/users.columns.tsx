@@ -3,6 +3,7 @@ import type { ColumnDef } from '@tanstack/react-table'
 import { UpdateUserPayloadSchema } from '@raven/api/exports'
 import { AppDrawer } from '@raven/web/common/components/app.drawer'
 import { Button } from '@raven/web/common/components/ui/button'
+import { DrawerTrigger } from '@raven/web/common/components/ui/drawer'
 import { IconArrowsUpDown, IconLayoutSidebarRightExpandFilled } from '@tabler/icons-react'
 import { useMemo, useState } from 'react'
 import { UsersForm } from './components/users.form'
@@ -51,8 +52,6 @@ export function useUsersColumns(): ColumnDef<User>[] {
                 <UsersForm
                   mode="edit"
                   user={row.original}
-                  submitLabel="update"
-                  isPending={updateUser.isPending}
                   error={updateUser.error?.message}
                   onSubmit={(data) => {
                     updateUser.mutate({
@@ -60,6 +59,16 @@ export function useUsersColumns(): ColumnDef<User>[] {
                       data: UpdateUserPayloadSchema.parse(data),
                     })
                   }}
+                  footer={(
+                    <DrawerTrigger asChild>
+                      <Button
+                        type="submit"
+                        disabled={updateUser.isPending}
+                      >
+                        update
+                      </Button>
+                    </DrawerTrigger>
+                  )}
                 />
               )}
               pageLinkUrl={`/users/${row.original.id}`}

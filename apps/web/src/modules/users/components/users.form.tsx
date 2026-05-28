@@ -2,7 +2,6 @@ import type { User } from '@raven/api/exports'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CreateUserPayloadSchema, UpdateUserPayloadSchema } from '@raven/api/exports'
 import { Alert, AlertDescription } from '@raven/web/common/components/ui/alert'
-import { Button } from '@raven/web/common/components/ui/button'
 import { Field, FieldGroup, FieldLabel } from '@raven/web/common/components/ui/field'
 import { Input } from '@raven/web/common/components/ui/input'
 import { useForm } from 'react-hook-form'
@@ -10,8 +9,6 @@ import { useForm } from 'react-hook-form'
 type UsersFormProps = {
   mode?: 'edit' | 'create'
   user: Partial<User>
-  submitLabel: string
-  isPending?: boolean
   error?: string
   footer?: React.ReactNode
   onSubmit: (data: Partial<User>) => void
@@ -20,8 +17,6 @@ type UsersFormProps = {
 export function UsersForm({
   mode,
   user,
-  submitLabel,
-  isPending,
   error,
   footer,
   onSubmit,
@@ -96,13 +91,6 @@ export function UsersForm({
         </FieldGroup>
 
         <div className="mt-5 flex gap-2">
-          <Button
-            type="submit"
-            disabled={isPending}
-          >
-            {submitLabel}
-          </Button>
-
           {footer}
         </div>
       </div>

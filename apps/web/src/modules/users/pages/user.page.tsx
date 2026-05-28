@@ -1,4 +1,5 @@
 import { UpdateUserPayloadSchema } from '@raven/api/exports'
+import { Button } from '@raven/web/common/components/ui/button'
 import { useParams } from 'react-router-dom'
 import { UsersForm } from '../components/users.form'
 import { useUpdateUser, useUser } from '../hooks/users.hooks'
@@ -31,18 +32,21 @@ export function UserPage() {
     <UsersForm
       mode="edit"
       user={data.user}
-      submitLabel="update"
-      isPending={updateUser.isPending}
       error={updateUser.error?.message}
-      onSubmit={(data) => {
-        if (!data.id)
-          throw new Error('User missing id')
-
+      onSubmit={(formData) => {
         updateUser.mutate({
-          id: data.id,
-          data: UpdateUserPayloadSchema.parse(data),
+          id: userId,
+          data: UpdateUserPayloadSchema.parse(formData),
         })
       }}
+      footer={(
+        <Button
+          type="submit"
+          disabled={updateUser.isPending}
+        >
+          update
+        </Button>
+      )}
     />
   )
 }
