@@ -4,11 +4,10 @@ import { AppDrawer } from '@raven/web/common/components/app.drawer'
 import { Button } from '@raven/web/common/components/ui/button'
 import { IconArrowsUpDown } from '@tabler/icons-react'
 import { useMemo } from 'react'
-import { UsersDetails } from './components/users.details'
-import { useDeleteUser, useUpdateUser } from './hooks/users.hooks'
+import { UsersForm } from './components/users.form'
+import { useUpdateUser } from './hooks/users.hooks'
 
 export function useUsersColumns(): ColumnDef<User>[] {
-  const deleteUser = useDeleteUser()
   const updateUser = useUpdateUser()
 
   return useMemo(
@@ -44,19 +43,27 @@ export function useUsersColumns(): ColumnDef<User>[] {
               drawerTitle="User Details"
               drawerDescription=""
               drawerBody={(
-                <UsersDetails
+                <UsersForm
+                  mode="edit"
                   user={row.original}
-                  updateUser={updateUser}
-                  deleteUser={deleteUser}
+                  submitLabel="update"
+                  isPending={updateUser.isPending}
+                  error={updateUser.error?.message}
+                  onSubmit={(data) => {
+                    updateUser.mutate({
+                      id: row.original.id,
+                      data,
+                    })
+                  }}
                 />
               )}
-              editPageUrl={`/users/${row.original.id}`}
+              pageLinkUrl={`/users/${row.original.id}`}
             />
           </div>
         ),
         size: 20,
       },
     ],
-    [deleteUser, updateUser],
+    [updateUser],
   )
 }

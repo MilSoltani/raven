@@ -46,12 +46,12 @@ export function useUsers(query?: Criteria) {
   })
 }
 
-export function useUser(id: string | number) {
+export function useUser(id: number) {
   return useQuery({
     queryKey: usersKeys.detail(id),
 
     queryFn: async () => {
-      const res = await usersClient[':id'].$get({ param: { id: String(id) } })
+      const res = await usersClient[':id'].$get({ param: { id } })
       if (!res.ok)
         throw new Error('Failed to fetch user')
       return res.json()
@@ -90,9 +90,9 @@ export function useUpdateUser() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async ({ id, data }: { id: string | number, data: UpdateUserPayload }) => {
+    mutationFn: async ({ id, data }: { id: number, data: UpdateUserPayload }) => {
       const res = await usersClient[':id'].$put({
-        param: { id: String(id) },
+        param: { id },
         json: data,
       })
       if (!res.ok)
@@ -117,8 +117,8 @@ export function useDeleteUser() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (id: string | number) => {
-      const res = await usersClient[':id'].$delete({ param: { id: String(id) } })
+    mutationFn: async (id: number) => {
+      const res = await usersClient[':id'].$delete({ param: { id } })
       if (!res.ok)
         throw new Error('Failed to delete user')
       return res.json()
