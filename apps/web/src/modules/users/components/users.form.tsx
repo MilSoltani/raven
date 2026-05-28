@@ -3,6 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { CreateUserPayloadSchema, UpdateUserPayloadSchema } from '@raven/api/exports'
 import { Alert, AlertDescription } from '@raven/web/common/components/ui/alert'
 import { Button } from '@raven/web/common/components/ui/button'
+import { DrawerTrigger } from '@raven/web/common/components/ui/drawer'
 import { Field, FieldGroup, FieldLabel } from '@raven/web/common/components/ui/field'
 import { Input } from '@raven/web/common/components/ui/input'
 import { useForm } from 'react-hook-form'
@@ -96,13 +97,14 @@ export function UsersForm({
         </FieldGroup>
 
         <div className="mt-5 flex gap-2">
-          <Button
-            type="submit"
-            disabled={isPending}
-          >
-            {submitLabel}
-          </Button>
-
+          <DrawerTrigger asChild>
+            <Button
+              type="submit"
+              disabled={isPending}
+            >
+              {submitLabel}
+            </Button>
+          </DrawerTrigger>
           {footer}
         </div>
       </div>
