@@ -12,6 +12,8 @@ import { useCreateUser, useUsers } from '../hooks/users.hooks'
 import { useUsersColumns } from '../users.columns'
 
 export function UsersPage() {
+  const [createDrawerOpen, setCreateDrawerOpen] = useState(false)
+
   const [criteria, setCriteria] = useState<Criteria>({
     select: ['name', 'email', 'createdAt', 'updatedAt'],
     page: 1,
@@ -57,6 +59,8 @@ export function UsersPage() {
   return (
     <div>
       <AppDrawer
+        isOpen={createDrawerOpen}
+        setIsOpen={setCreateDrawerOpen}
         drawerTitle="New User"
         drawerDescription=""
         drawerBody={(
@@ -67,7 +71,12 @@ export function UsersPage() {
             isPending={createUser.isPending}
             error={createUser.error?.message}
             onSubmit={(data) => {
-              createUser.mutate(CreateUserPayloadSchema.parse(data))
+              createUser.mutate(
+                CreateUserPayloadSchema.parse(data),
+                {
+                  onSuccess: () => setCreateDrawerOpen(false),
+                },
+              )
             }}
           />
         )}
