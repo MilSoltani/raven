@@ -4,6 +4,7 @@ import { CreateUserPayloadSchema } from '@raven/api/exports'
 import { AppDrawer } from '@raven/web/common/components/app.drawer'
 import { DataTable } from '@raven/web/common/components/data.table'
 import { Button } from '@raven/web/common/components/ui/button'
+import { DrawerTrigger } from '@raven/web/common/components/ui/drawer'
 import { sortingToSort, sortToSorting } from '@raven/web/common/utils/sorting-adapters'
 import { IconPlus } from '@tabler/icons-react'
 import { useState } from 'react'
@@ -63,12 +64,20 @@ export function UsersPage() {
           <UsersForm
             mode="create"
             user={{ name: '', email: '' }}
-            submitLabel="creact"
-            isPending={createUser.isPending}
             error={createUser.error?.message}
             onSubmit={(data) => {
               createUser.mutate(CreateUserPayloadSchema.parse(data))
             }}
+            footer={(
+              <DrawerTrigger asChild>
+                <Button
+                  type="submit"
+                  disabled={createUser.isPending}
+                >
+                  create
+                </Button>
+              </DrawerTrigger>
+            )}
           />
         )}
         triggerButton={(
