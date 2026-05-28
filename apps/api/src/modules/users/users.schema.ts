@@ -1,25 +1,21 @@
 import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
-import { zodExceptionFactory } from '@raven/api/common/http'
-import { usersCodesMap } from './users.codes'
-
-const throwException = zodExceptionFactory(usersCodesMap)
 
 extendZodWithOpenApi(z)
 
 export const UserSchema = z.object({
   id: z.number().int(),
 
-  name: z.string(throwException('NAME_REQUIRED'))
-    .min(1, throwException('NAME_REQUIRED'))
-    .max(255, throwException('NAME_TOO_LONG')),
+  name: z.string('NAME_REQUIRED')
+    .min(1, 'NAME_REQUIRED')
+    .max(255, 'NAME_TOO_LONG'),
 
-  email: z.email(throwException('EMAIL_INVALID'))
-    .min(5, throwException('EMAIL_REQUIRED'))
-    .max(255, throwException('EMAIL_TOO_LONG')),
+  email: z.email('EMAIL_INVALID')
+    .min(5, 'EMAIL_REQUIRED')
+    .max(255, 'EMAIL_TOO_LONG'),
 
-  updatedAt: z.coerce.number(throwException('UPDATED_AT_INVALID')).nullable(),
+  updatedAt: z.coerce.number('UPDATED_AT_INVALID').nullable(),
 
-  createdAt: z.coerce.number(throwException('CREATED_AT_REQUIRED')),
+  createdAt: z.coerce.number('CREATED_AT_REQUIRED'),
 })
 
 export const CreateUserPayloadSchema = UserSchema.omit({

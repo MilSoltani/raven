@@ -1,20 +1,16 @@
 import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
-import { zodExceptionFactory } from '@raven/api/common/http'
-import { authCodesMap } from './auth.codes'
-
-const throwException = zodExceptionFactory(authCodesMap)
 
 extendZodWithOpenApi(z)
 
 const emailSchema = z
-  .email(throwException('EMAIL_INVALID'))
-  .min(5, throwException('EMAIL_REQUIRED'))
-  .max(255, throwException('EMAIL_TOO_LONG'))
+  .email('EMAIL_INVALID')
+  .min(5, 'EMAIL_REQUIRED')
+  .max(255, 'EMAIL_TOO_LONG')
 
 const passwordSchema = z
-  .string(throwException('PASSWORD_REQUIRED'))
-  .min(8, throwException('PASSWORD_TOO_SHORT'))
-  .max(255, throwException('PASSWORD_TOO_LONG'))
+  .string('PASSWORD_REQUIRED')
+  .min(8, 'PASSWORD_TOO_SHORT')
+  .max(255, 'PASSWORD_TOO_LONG')
 
 export const AuthUserSchema = z.object({
   id: z.number().int(),
@@ -32,8 +28,8 @@ export const SigninPayloadSchema = z.object({
 
 export const SignupPayloadSchema = z.object({
   name: z.string()
-    .min(1, throwException('NAME_REQUIRED'))
-    .max(255, throwException('NAME_TOO_LONG')),
+    .min(1, 'NAME_REQUIRED')
+    .max(255, 'NAME_TOO_LONG'),
   email: emailSchema,
   password: passwordSchema,
 }).openapi('SignupPayload')

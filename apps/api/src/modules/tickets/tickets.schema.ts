@@ -1,48 +1,43 @@
 import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
-import { zodExceptionFactory } from '@raven/api/common/http'
-import { ticketsCodesMap } from './tickets.codes'
-
-const throwException = zodExceptionFactory(ticketsCodesMap)
 
 extendZodWithOpenApi(z)
 
 export const TicketStatusEnum = z.enum(
   ['OPEN', 'PENDING', 'WORKING', 'RESOLVED', 'CLOSED'],
-  throwException('STATUS_INVALID'),
+  'STATUS_INVALID',
 ).openapi('TicketStatus')
 
 export const TicketPriorityEnum = z.enum(
   ['LOW', 'MEDIUM', 'HIGH', 'URGENT'],
-  throwException('PRIORITY_INVALID'),
+  'PRIORITY_INVALID',
 ).openapi('TicketPriority')
 
 export const TicketSchema = z.object({
-  id: z.number(throwException('TICKET_ID_REQUIRED'),
-  )
-    .int(throwException('TICKET_ID_INVALID')),
+  id: z.number('TICKET_ID_REQUIRED')
+    .int('TICKET_ID_INVALID'),
 
-  creatorId: z.number(throwException('CREATOR_ID_REQUIRED'))
-    .int(throwException('CREATOR_ID_INVALID')),
+  creatorId: z.number('CREATOR_ID_REQUIRED')
+    .int('CREATOR_ID_INVALID'),
 
-  agentId: z.number(throwException('AGENT_ID_INVALID'))
-    .int(throwException('AGENT_ID_INVALID'))
+  agentId: z.number('AGENT_ID_INVALID')
+    .int('AGENT_ID_INVALID')
     .nullable()
     .optional(),
 
-  subject: z.string(throwException('SUBJECT_REQUIRED'))
-    .min(1, throwException('SUBJECT_REQUIRED'))
-    .max(512, throwException('SUBJECT_TOO_LONG')),
+  subject: z.string('SUBJECT_REQUIRED')
+    .min(1, 'SUBJECT_REQUIRED')
+    .max(512, 'SUBJECT_TOO_LONG'),
 
-  description: z.string(throwException('DESCRIPTION_REQUIRED'))
-    .min(1, throwException('DESCRIPTION_REQUIRED')),
+  description: z.string('DESCRIPTION_REQUIRED')
+    .min(1, 'DESCRIPTION_REQUIRED'),
 
   status: TicketStatusEnum,
   priority: TicketPriorityEnum,
 
-  updatedAt: z.coerce.number(throwException('UPDATED_AT_INVALID'))
+  updatedAt: z.coerce.number('UPDATED_AT_INVALID')
     .nullable(),
 
-  createdAt: z.coerce.number(throwException('CREATED_AT_REQUIRED')),
+  createdAt: z.coerce.number('CREATED_AT_REQUIRED'),
 }).openapi('Ticket')
 
 export const CreateTicketSchema = TicketSchema.omit({
