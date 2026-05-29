@@ -1,21 +1,22 @@
 import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
+import { usersResponseKeys } from './users-response.keys'
 
 extendZodWithOpenApi(z)
 
 export const UserSchema = z.object({
   id: z.number().int(),
 
-  name: z.string('NAME_REQUIRED')
-    .min(1, 'NAME_REQUIRED')
-    .max(255, 'NAME_TOO_LONG'),
+  name: z.string(usersResponseKeys.validation.nameRequired)
+    .min(1, usersResponseKeys.validation.nameRequired)
+    .max(255, usersResponseKeys.validation.nameTooLong),
 
-  email: z.email('EMAIL_INVALID')
-    .min(5, 'EMAIL_REQUIRED')
-    .max(255, 'EMAIL_TOO_LONG'),
+  email: z.email(usersResponseKeys.validation.emailInvalid)
+    .min(5, usersResponseKeys.validation.emailInvalid)
+    .max(255, usersResponseKeys.validation.emailInvalid),
 
-  updatedAt: z.coerce.number('UPDATED_AT_INVALID').nullable(),
+  updatedAt: z.coerce.number(usersResponseKeys.validation.updatedAtInvalid).nullable(),
 
-  createdAt: z.coerce.number('CREATED_AT_REQUIRED'),
+  createdAt: z.coerce.number(usersResponseKeys.validation.createdAtInvalid),
 })
 
 export const CreateUserPayloadSchema = UserSchema.omit({

@@ -1,8 +1,8 @@
 import type { PrismaSelect, SelectOptions } from './types'
 import { appExceptionFactory } from '@raven/api/common/http/app.exception'
-import { queryCodesMap } from '../query.codes'
+import { queryResponseKeysMap } from '../query-response.keys'
 
-const appException = appExceptionFactory(queryCodesMap)
+const appException = appExceptionFactory(queryResponseKeysMap)
 
 export type SelectTransformer<TSelect> = {
   transform: (value: unknown) => TSelect | undefined

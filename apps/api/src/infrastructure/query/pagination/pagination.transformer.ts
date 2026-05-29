@@ -1,8 +1,8 @@
 import type { PaginationOptions, PrismaPagination } from './types'
 import { appExceptionFactory } from '@raven/api/common/http/app.exception'
-import { queryCodesMap } from '../query.codes'
+import { queryResponseKeysMap } from '../query-response.keys'
 
-const appException = appExceptionFactory(queryCodesMap)
+const appException = appExceptionFactory(queryResponseKeysMap)
 
 export type PaginationTransformer = {
   transform: (page: unknown, limit: unknown) => PrismaPagination

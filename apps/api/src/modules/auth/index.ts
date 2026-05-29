@@ -1,4 +1,4 @@
-export type { AuthCode } from './auth.codes'
+export type { AuthResponseKey } from './auth-response.keys'
 export { createAuthModule } from './auth.module'
 export * from './auth.schema'
-export type { SessionsCode } from './sessions/sessions.codes'
+export type { SessionsResponseKey } from './sessions/sessions-response.keys'

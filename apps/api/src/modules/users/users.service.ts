@@ -2,12 +2,13 @@ import type { PaginatedResult } from '@raven/api/exports'
 import type { UserOrderByWithRelationInput, UserSelect, UserWhereInput } from '@raven/api/infrastructure/database/generated/prisma/models'
 import type { FilterTransformer, PaginationTransformer, SelectTransformer, SortTransformer } from '@raven/api/infrastructure/query'
 import type { ParsedQs } from 'qs'
+import type { UsersResponseKeys } from './users-response.keys'
 import type { UsersRepository } from './users.repository'
 import type { CreateUserPayload, UpdateUserPayload, User } from './users.schema'
 import { appExceptionFactory } from '@raven/api/common/http/app.exception'
-import { usersCodesMap } from './users.codes'
+import { usersResponseKeys } from './users-response.keys'
 
-const appException = appExceptionFactory(usersCodesMap)
+const appException = appExceptionFactory<UsersResponseKeys>()
 
 export function createUsersService(
   usersRepository: UsersRepository,
@@ -35,7 +36,7 @@ export function createUsersService(
       const result = await usersRepository.getById(id)
 
       if (!result)
-        throw appException('USER_NOT_FOUND')
+        throw appException(usersResponseKeys.error.notFound, 404)
 
       return result
     },
@@ -44,7 +45,7 @@ export function createUsersService(
       const result = await usersRepository.create(data)
 
       if (!result)
-        throw appException('INTERNAL_ERROR')
+        throw appException(usersResponseKeys.error.internalError, 500)
 
       return result
     },
@@ -53,7 +54,7 @@ export function createUsersService(
       const result = await usersRepository.update(id, data)
 
       if (!result)
-        throw appException('USER_NOT_FOUND')
+        throw appException(usersResponseKeys.error.notFound, 404)
 
       return result
     },
@@ -62,7 +63,7 @@ export function createUsersService(
       const result = await usersRepository.delete(id)
 
       if (!result)
-        throw appException('USER_NOT_FOUND')
+        throw appException(usersResponseKeys.error.notFound, 404)
 
       return result
     },

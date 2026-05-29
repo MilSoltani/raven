@@ -1,10 +1,10 @@
 import type { Config } from '@raven/api/infrastructure/config/config'
 import type { Context } from 'hono'
 import { appExceptionFactory } from '@raven/api/common/http/app.exception'
-import { queryCodesMap } from '@raven/api/infrastructure/query/query.codes'
+import { queryResponseKeysMap } from '@raven/api/infrastructure/query/query-response.keys'
 import { getCookie, setCookie } from 'hono/cookie'
 
-const appException = appExceptionFactory(queryCodesMap)
+const appException = appExceptionFactory(queryResponseKeysMap)
 
 export function createCookieUtil(config: Config) {
   const secure = config.NODE_ENV === 'production'

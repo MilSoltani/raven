@@ -1,2 +1,2 @@
-export type { UsersCode } from './users.codes'
+export type { UsersResponseKey } from './users-response.keys'
 export { createUsersModule } from './users.module'

@@ -2,12 +2,13 @@ import type { PaginatedResult } from '@raven/api/exports'
 import type { TicketOrderByWithRelationInput, TicketSelect, TicketWhereInput } from '@raven/api/infrastructure/database/generated/prisma/models'
 import type { FilterTransformer, PaginationTransformer, SelectTransformer, SortTransformer } from '@raven/api/infrastructure/query'
 import type { ParsedQs } from 'qs'
+import type { TicketsResponseKeys } from './tickets-response.keys'
 import type { TicketsRepository } from './tickets.repository'
 import type { CreateTicketPayload, Ticket, UpdateTicketPayload } from './tickets.schema'
 import { appExceptionFactory } from '@raven/api/common/http/app.exception'
-import { ticketsCodesMap } from './tickets.codes'
+import { ticketsResponseKeys } from './tickets-response.keys'
 
-const appException = appExceptionFactory(ticketsCodesMap)
+const appException = appExceptionFactory<TicketsResponseKeys>()
 
 export function createTicketsService(
   ticketsRepository: TicketsRepository,
@@ -35,7 +36,7 @@ export function createTicketsService(
       const result = await ticketsRepository.getById(id)
 
       if (!result)
-        throw appException('TICKET_NOT_FOUND')
+        throw appException(ticketsResponseKeys.error.notFound, 404)
 
       return result
     },
@@ -44,7 +45,7 @@ export function createTicketsService(
       const result = await ticketsRepository.create(data, creatorId)
 
       if (!result)
-        throw appException('INTERNAL_ERROR')
+        throw appException(ticketsResponseKeys.error.internalError, 500)
 
       return result
     },
@@ -53,7 +54,7 @@ export function createTicketsService(
       const result = await ticketsRepository.update(id, data)
 
       if (!result)
-        throw appException('TICKET_NOT_FOUND')
+        throw appException(ticketsResponseKeys.error.notFound, 404)
 
       return result
     },
@@ -62,7 +63,7 @@ export function createTicketsService(
       const result = await ticketsRepository.delete(id)
 
       if (!result)
-        throw appException('TICKET_NOT_FOUND')
+        throw appException(ticketsResponseKeys.error.notFound, 404)
 
       return result
     },

@@ -1,9 +1,10 @@
+import type { SessionsResponseKeys } from './sessions-response.keys'
 import type { SessionsRepository } from './sessions.repository'
 import type { CreateSessionPayload } from './sessions.schema'
 import { appExceptionFactory } from '@raven/api/common/http/app.exception'
-import { sessionsCodesMap } from './sessions.codes'
+import { sessionsResponseKeys } from './sessions-response.keys'
 
-const appException = appExceptionFactory(sessionsCodesMap)
+const appException = appExceptionFactory<SessionsResponseKeys>()
 
 export function createSessionsService(
   sessionsRepository: SessionsRepository,
@@ -12,7 +13,7 @@ export function createSessionsService(
     const result = await sessionsRepository.findByHash(hash)
 
     if (!result)
-      throw appException('SESSION_NOT_FOUND')
+      throw appException(sessionsResponseKeys.error.notFound, 404)
 
     return result
   }
@@ -21,7 +22,7 @@ export function createSessionsService(
     const session = await sessionsRepository.create(data)
 
     if (!session)
-      throw appException('INTERNAL_ERROR')
+      throw appException(sessionsResponseKeys.error.internalError, 500)
 
     return { session }
   }
@@ -36,11 +37,11 @@ export function createSessionsService(
 
     if (!session || session.isRevoked) {
       await sessionsRepository.revokeAllForUser(userId)
-      throw appException('SESSION_REVOKED')
+      throw appException(sessionsResponseKeys.error.revoked, 401)
     }
 
     if (session.expiresAt < Date.now())
-      throw appException('SESSION_EXPIRED')
+      throw appException(sessionsResponseKeys.error.expired, 401)
 
     const updatedSession = await sessionsRepository.update(session.id, {
       refreshTokenHash: newRefreshTokenHash,
@@ -54,7 +55,7 @@ export function createSessionsService(
     const result = sessionsRepository.revoke(refreshTokenHash)
 
     if (!result)
-      throw appException('SESSION_NOT_FOUND')
+      throw appException(sessionsResponseKeys.error.notFound, 404)
 
     return result
   }

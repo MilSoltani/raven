@@ -1,11 +1,12 @@
-import type { TicketsCode } from './tickets.codes'
+import type { TicketsResponseKey } from './tickets-response.keys'
 import type { TicketsService } from './tickets.service'
 import { responseFactory } from '@raven/api/common/http'
 import { honoApp } from '@raven/api/infrastructure/http'
+import { ticketsResponseKeys } from './tickets-response.keys'
 import { TicketsRoutes } from './tickets.routes'
 
 export function createTicketsHandler(ticketsService: TicketsService) {
-  const response = responseFactory<TicketsCode>()
+  const response = responseFactory<TicketsResponseKey>()
 
   return honoApp()
 
@@ -13,7 +14,7 @@ export function createTicketsHandler(ticketsService: TicketsService) {
       const result = await ticketsService.getAll(c.var.query)
 
       return c.json(response({
-        code: 'TICKETS_FETCHED',
+        code: ticketsResponseKeys.success.fetched,
         data: result.data,
         meta: result.meta,
       }), 200)
@@ -25,7 +26,7 @@ export function createTicketsHandler(ticketsService: TicketsService) {
       const result = await ticketsService.getById(id)
 
       return c.json(response({
-        code: 'TICKET_FETCHED',
+        code: ticketsResponseKeys.success.fetched,
         data: result,
       }), 200)
     })
@@ -36,7 +37,7 @@ export function createTicketsHandler(ticketsService: TicketsService) {
       const result = await ticketsService.create(json, c.var.user.id)
 
       return c.json(response({
-        code: 'TICKET_CREATED',
+        code: ticketsResponseKeys.success.created,
         data: result,
       }), 201)
     })
@@ -48,7 +49,7 @@ export function createTicketsHandler(ticketsService: TicketsService) {
       const result = await ticketsService.update(id, json)
 
       return c.json(response({
-        code: 'TICKET_UPDATED',
+        code: ticketsResponseKeys.success.updated,
         data: result,
       }), 200)
     })
@@ -59,7 +60,7 @@ export function createTicketsHandler(ticketsService: TicketsService) {
       const result = await ticketsService.delete(id)
 
       return c.json(response({
-        code: 'TICKET_DELETED',
+        code: ticketsResponseKeys.success.deleted,
         data: result,
       }), 200)
     })

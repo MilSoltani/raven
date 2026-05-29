@@ -1,4 +1,4 @@
-import type { AppEnv } from '../common/types'
+import type { AppEnv } from '@raven/api/common/types'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { HTTPException } from 'hono/http-exception'
 import { ZodError } from 'zod'

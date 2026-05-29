@@ -1,2 +1,2 @@
-export type { TicketsCode } from './tickets.codes'
+export type { TicketsResponseKey } from './tickets-response.keys'
 export { createTicketsModule } from './tickets.module'

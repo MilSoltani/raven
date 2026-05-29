@@ -1,43 +1,44 @@
 import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
+import { ticketsResponseKeys } from './tickets-response.keys'
 
 extendZodWithOpenApi(z)
 
 export const TicketStatusEnum = z.enum(
   ['OPEN', 'PENDING', 'WORKING', 'RESOLVED', 'CLOSED'],
-  'STATUS_INVALID',
+  ticketsResponseKeys.validation.statusInvalid,
 ).openapi('TicketStatus')
 
 export const TicketPriorityEnum = z.enum(
   ['LOW', 'MEDIUM', 'HIGH', 'URGENT'],
-  'PRIORITY_INVALID',
+  ticketsResponseKeys.validation.priorityInvalid,
 ).openapi('TicketPriority')
 
 export const TicketSchema = z.object({
-  id: z.number('TICKET_ID_REQUIRED')
-    .int('TICKET_ID_INVALID'),
+  id: z.number(ticketsResponseKeys.validation.idRequired)
+    .int(ticketsResponseKeys.validation.idInvalid),
 
-  creatorId: z.number('CREATOR_ID_REQUIRED')
-    .int('CREATOR_ID_INVALID'),
+  creatorId: z.number(ticketsResponseKeys.validation.creatorIdRequired)
+    .int(ticketsResponseKeys.validation.creatorIdInvalid),
 
-  agentId: z.number('AGENT_ID_INVALID')
-    .int('AGENT_ID_INVALID')
+  agentId: z.number(ticketsResponseKeys.validation.agentIdInvalid)
+    .int(ticketsResponseKeys.validation.agentIdInvalid)
     .nullable()
     .optional(),
 
-  subject: z.string('SUBJECT_REQUIRED')
-    .min(1, 'SUBJECT_REQUIRED')
-    .max(512, 'SUBJECT_TOO_LONG'),
+  subject: z.string(ticketsResponseKeys.validation.subjectRequired)
+    .min(1, ticketsResponseKeys.validation.subjectRequired)
+    .max(512, ticketsResponseKeys.validation.subjectTooLong),
 
-  description: z.string('DESCRIPTION_REQUIRED')
-    .min(1, 'DESCRIPTION_REQUIRED'),
+  description: z.string(ticketsResponseKeys.validation.descriptionRequired)
+    .min(1, ticketsResponseKeys.validation.descriptionRequired),
 
   status: TicketStatusEnum,
   priority: TicketPriorityEnum,
 
-  updatedAt: z.coerce.number('UPDATED_AT_INVALID')
+  updatedAt: z.coerce.number(ticketsResponseKeys.validation.updatedAtInvalid)
     .nullable(),
 
-  createdAt: z.coerce.number('CREATED_AT_REQUIRED'),
+  createdAt: z.coerce.number(ticketsResponseKeys.validation.createdAtInvalid),
 }).openapi('Ticket')
 
 export const CreateTicketSchema = TicketSchema.omit({

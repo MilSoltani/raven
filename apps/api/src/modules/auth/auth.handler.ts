@@ -1,19 +1,19 @@
-import type { AuthCode } from './auth.codes'
+import type { AuthResponseKey, AuthResponseKeys } from './auth-response.keys'
 import type { AuthService } from './auth.service'
 import type { CookieUtil } from './utils/cookie.util'
 import { responseFactory } from '@raven/api/common/http'
 import { appExceptionFactory } from '@raven/api/common/http/app.exception'
 import { honoApp } from '@raven/api/infrastructure/http'
-import { authCodesMap } from './auth.codes'
+import { authResponseKeys } from './auth-response.keys'
 import { AuthRoutes } from './auth.routes'
 
-const appException = appExceptionFactory(authCodesMap)
+const appException = appExceptionFactory<AuthResponseKeys>()
 
 export function createAuthHandler(
   authService: AuthService,
   cookieUtil: CookieUtil,
 ) {
-  const response = responseFactory<AuthCode>()
+  const response = responseFactory<AuthResponseKey>()
 
   return honoApp()
 
@@ -27,7 +27,7 @@ export function createAuthHandler(
       cookieUtil.createRefreshToken(c, refreshToken)
 
       return c.json(response({
-        code: 'AUTH_SIGNIN',
+        code: authResponseKeys.success.signedIn,
         data: user,
       }), 200)
     })
@@ -41,7 +41,7 @@ export function createAuthHandler(
       cookieUtil.createRefreshToken(c, refreshToken)
 
       return c.json(response({
-        code: 'AUTH_SIGNUP',
+        code: authResponseKeys.success.signedUp,
         data: user,
       }), 201)
     })
@@ -55,7 +55,7 @@ export function createAuthHandler(
       cookieUtil.createRefreshToken(c, refreshToken)
 
       return c.json(response({
-        code: 'AUTH_REFRESHED',
+        code: authResponseKeys.success.refreshed,
         data: user,
       }), 200)
     })
@@ -68,7 +68,7 @@ export function createAuthHandler(
       cookieUtil.clearTokens(c)
 
       return c.json(response({
-        code: 'AUTH_SIGNOUT',
+        code: authResponseKeys.success.signedOut,
         data: c.var.user,
       }), 200)
     })
@@ -77,11 +77,11 @@ export function createAuthHandler(
       const user = c.var.user
 
       if (!user) {
-        throw appException('UNAUTHENTICATED')
+        throw appException(authResponseKeys.error.unauthenticated, 401)
       }
 
       return c.json(response({
-        code: 'AUTH_ME',
+        code: authResponseKeys.success.me,
         data: user,
       }), 200)
     })

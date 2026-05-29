@@ -3,8 +3,6 @@ import type { Criteria } from '@raven/api/infrastructure/query'
 import { hc } from 'hono/client'
 import qs from 'qs'
 
-// PRC Clients
-
 function buildSearchParams(query: Criteria) {
   const queryString = qs.stringify(query)
   return new URLSearchParams(queryString)
@@ -23,10 +21,9 @@ export const ticketsClient = hc<typeof ticketsModule.handler>(
   { init: { credentials: 'include' }, buildSearchParams },
 )
 
-// Types
-
 export * from '@raven/api/infrastructure/database/paginator/paginator.schema'
 export { type Criteria, CriteriaSchema, type Sort } from '@raven/api/infrastructure/query'
+
 export * from '@raven/api/modules/auth/auth.schema'
 export * from '@raven/api/modules/tickets/tickets.schema'
 export * from '@raven/api/modules/users/users.schema'

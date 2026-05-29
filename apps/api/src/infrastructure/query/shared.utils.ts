@@ -1,7 +1,7 @@
 import { appExceptionFactory } from '@raven/api/common/http/app.exception'
-import { queryCodesMap } from './query.codes'
+import { queryResponseKeysMap } from './query-response.keys'
 
-const appException = appExceptionFactory(queryCodesMap)
+const appException = appExceptionFactory(queryResponseKeysMap)
 
 export function isPlainObject(value: unknown): value is Record<string, unknown> {
   return (

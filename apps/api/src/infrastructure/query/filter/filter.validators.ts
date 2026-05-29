@@ -1,7 +1,7 @@
 import { appExceptionFactory } from '@raven/api/common/http/app.exception'
-import { queryCodesMap } from '../query.codes'
+import { queryResponseKeysMap } from '../query-response.keys'
 
-const appException = appExceptionFactory(queryCodesMap)
+const appException = appExceptionFactory(queryResponseKeysMap)
 
 export function validateOperatorObject(obj: Record<string, unknown>) {
   if (obj.eq !== undefined && Object.keys(obj).length > 1)

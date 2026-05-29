@@ -1,10 +1,10 @@
 import type { AuthPayload } from '@raven/api/common/types'
 import type { Config } from '@raven/api/infrastructure/config/config'
 import { appExceptionFactory } from '@raven/api/common/http/app.exception'
-import { queryCodesMap } from '@raven/api/infrastructure/query/query.codes'
+import { queryResponseKeysMap } from '@raven/api/infrastructure/query/query-response.keys'
 import { sign, verify } from 'hono/jwt'
 
-const appException = appExceptionFactory(queryCodesMap)
+const appException = appExceptionFactory(queryResponseKeysMap)
 
 export function createJwtUtil(config: Config) {
   async function generateAccessToken(sub: number, email: string): Promise<string> {
