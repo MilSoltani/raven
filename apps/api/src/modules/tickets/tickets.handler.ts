@@ -1,4 +1,3 @@
-import type { TicketsResponseKey } from './tickets-response.keys'
 import type { TicketsService } from './tickets.service'
 import { responseFactory } from '@raven/api/common/http'
 import { honoApp } from '@raven/api/infrastructure/http'
@@ -6,7 +5,7 @@ import { ticketsResponseKeys } from './tickets-response.keys'
 import { TicketsRoutes } from './tickets.routes'
 
 export function createTicketsHandler(ticketsService: TicketsService) {
-  const response = responseFactory<TicketsResponseKey>()
+  const response = responseFactory()
 
   return honoApp()
 

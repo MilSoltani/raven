@@ -1,8 +1,8 @@
 import { paginationMetaSchema } from '@raven/api/exports'
 import { z } from 'zod'
 
-export type ApiResponse<TData, TCode extends string, TMeta = null, TError = null> = {
-  code: TCode
+export type ApiResponse<TData, TMeta = null, TError = null> = {
+  code: string
   data: TData
   meta: TMeta
   error: TError

@@ -1,4 +1,3 @@
-import type { UsersResponseKey } from './users-response.keys'
 import type { UsersService } from './users.service'
 import { responseFactory } from '@raven/api/common/http'
 import { honoApp } from '@raven/api/infrastructure/http'
@@ -6,7 +5,7 @@ import { usersResponseKeys } from './users-response.keys'
 import { UsersRoutes } from './users.routes'
 
 export function createUsersHandler(usersService: UsersService) {
-  const response = responseFactory<UsersResponseKey>()
+  const response = responseFactory()
 
   return honoApp()
 

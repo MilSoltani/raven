@@ -1,4 +1,3 @@
-import type { AuthResponseKey } from './auth-response.keys'
 import type { AuthService } from './auth.service'
 import type { CookieUtil } from './utils/cookie.util'
 import { responseFactory } from '@raven/api/common/http'
@@ -11,7 +10,7 @@ export function createAuthHandler(
   authService: AuthService,
   cookieUtil: CookieUtil,
 ) {
-  const response = responseFactory<AuthResponseKey>()
+  const response = responseFactory()
 
   return honoApp()
 
