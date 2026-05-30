@@ -1,9 +1,8 @@
 import { apiException } from '@raven/api/common/http/api.exception'
-import { queryResponseKeys } from '../query-response.keys'
 
 export function validateOperatorObject(obj: Record<string, unknown>) {
   if (obj.eq !== undefined && Object.keys(obj).length > 1)
-    throw apiException(queryResponseKeys.error.operatorCombinationError, 400)
+    throw apiException('query.error.operatorCombinationError', 400)
 }
 
 export function isFilterCondition(obj: any) {

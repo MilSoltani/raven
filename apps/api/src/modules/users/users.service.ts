@@ -5,7 +5,6 @@ import type { ParsedQs } from 'qs'
 import type { UsersRepository } from './users.repository'
 import type { CreateUserPayload, UpdateUserPayload, User } from './users.schema'
 import { apiException } from '@raven/api/common/http/api.exception'
-import { usersResponseKeys } from './users-response.keys'
 
 export function createUsersService(
   usersRepository: UsersRepository,
@@ -33,7 +32,7 @@ export function createUsersService(
       const result = await usersRepository.getById(id)
 
       if (!result)
-        throw apiException(usersResponseKeys.error.notFound, 404)
+        throw apiException('users.error.notFound', 404)
 
       return result
     },
@@ -42,7 +41,7 @@ export function createUsersService(
       const result = await usersRepository.create(data)
 
       if (!result)
-        throw apiException(usersResponseKeys.error.internalError, 500)
+        throw apiException('users.error.internalError', 500)
 
       return result
     },
@@ -51,7 +50,7 @@ export function createUsersService(
       const result = await usersRepository.update(id, data)
 
       if (!result)
-        throw apiException(usersResponseKeys.error.notFound, 404)
+        throw apiException('users.error.notFound', 404)
 
       return result
     },
@@ -60,7 +59,7 @@ export function createUsersService(
       const result = await usersRepository.delete(id)
 
       if (!result)
-        throw apiException(usersResponseKeys.error.notFound, 404)
+        throw apiException('users.error.notFound', 404)
 
       return result
     },

@@ -5,7 +5,6 @@ import type { ParsedQs } from 'qs'
 import type { TicketsRepository } from './tickets.repository'
 import type { CreateTicketPayload, Ticket, UpdateTicketPayload } from './tickets.schema'
 import { apiException } from '@raven/api/common/http/api.exception'
-import { ticketsResponseKeys } from './tickets-response.keys'
 
 export function createTicketsService(
   ticketsRepository: TicketsRepository,
@@ -33,7 +32,7 @@ export function createTicketsService(
       const result = await ticketsRepository.getById(id)
 
       if (!result)
-        throw apiException(ticketsResponseKeys.error.notFound, 404)
+        throw apiException('tickets.error.notFound', 404)
 
       return result
     },
@@ -42,7 +41,7 @@ export function createTicketsService(
       const result = await ticketsRepository.create(data, creatorId)
 
       if (!result)
-        throw apiException(ticketsResponseKeys.error.internalError, 500)
+        throw apiException('tickets.error.internalError', 500)
 
       return result
     },
@@ -51,7 +50,7 @@ export function createTicketsService(
       const result = await ticketsRepository.update(id, data)
 
       if (!result)
-        throw apiException(ticketsResponseKeys.error.notFound, 404)
+        throw apiException('tickets.error.notFound', 404)
 
       return result
     },
@@ -60,7 +59,7 @@ export function createTicketsService(
       const result = await ticketsRepository.delete(id)
 
       if (!result)
-        throw apiException(ticketsResponseKeys.error.notFound, 404)
+        throw apiException('tickets.error.notFound', 404)
 
       return result
     },

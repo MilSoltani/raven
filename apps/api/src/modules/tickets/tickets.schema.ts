@@ -1,44 +1,43 @@
 import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
-import { ticketsResponseKeys } from './tickets-response.keys'
 
 extendZodWithOpenApi(z)
 
 export const TicketStatusEnum = z.enum(
   ['OPEN', 'PENDING', 'WORKING', 'RESOLVED', 'CLOSED'],
-  ticketsResponseKeys.validation.statusInvalid,
+  'auth.validation.statusInvalid,',
 ).openapi('TicketStatus')
 
 export const TicketPriorityEnum = z.enum(
   ['LOW', 'MEDIUM', 'HIGH', 'URGENT'],
-  ticketsResponseKeys.validation.priorityInvalid,
+  'auth.validation.priorityInvalid',
 ).openapi('TicketPriority')
 
 export const TicketSchema = z.object({
-  id: z.number(ticketsResponseKeys.validation.idRequired)
-    .int(ticketsResponseKeys.validation.idInvalid),
+  id: z.number('auth.validation.idRequired')
+    .int('auth.validation.idInvalid'),
 
-  creatorId: z.number(ticketsResponseKeys.validation.creatorIdRequired)
-    .int(ticketsResponseKeys.validation.creatorIdInvalid),
+  creatorId: z.number('auth.validation.creatorIdRequired')
+    .int('auth.validation.creatorIdInvalid'),
 
-  agentId: z.number(ticketsResponseKeys.validation.agentIdInvalid)
-    .int(ticketsResponseKeys.validation.agentIdInvalid)
+  agentId: z.number('auth.validation.agentIdInvalid')
+    .int('auth.validation.agentIdInvalid')
     .nullable()
     .optional(),
 
-  subject: z.string(ticketsResponseKeys.validation.subjectRequired)
-    .min(1, ticketsResponseKeys.validation.subjectRequired)
-    .max(512, ticketsResponseKeys.validation.subjectTooLong),
+  subject: z.string('auth.validation.subjectRequired')
+    .min(1, 'auth.validation.subjectRequired')
+    .max(512, 'auth.validation.subjectTooLong'),
 
-  description: z.string(ticketsResponseKeys.validation.descriptionRequired)
-    .min(1, ticketsResponseKeys.validation.descriptionRequired),
+  description: z.string('auth.validation.descriptionRequired')
+    .min(1, 'auth.validation.descriptionRequired'),
 
   status: TicketStatusEnum,
   priority: TicketPriorityEnum,
 
-  updatedAt: z.coerce.number(ticketsResponseKeys.validation.updatedAtInvalid)
+  updatedAt: z.coerce.number('auth.validation.updatedAtInvalid')
     .nullable(),
 
-  createdAt: z.coerce.number(ticketsResponseKeys.validation.createdAtInvalid),
+  createdAt: z.coerce.number('auth.validation.createdAtInvalid'),
 }).openapi('Ticket')
 
 export const CreateTicketSchema = TicketSchema.omit({

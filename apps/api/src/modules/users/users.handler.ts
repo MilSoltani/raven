@@ -1,7 +1,6 @@
 import type { UsersService } from './users.service'
 import { responseFactory } from '@raven/api/common/http'
 import { honoApp } from '@raven/api/infrastructure/http'
-import { usersResponseKeys } from './users-response.keys'
 import { UsersRoutes } from './users.routes'
 
 export function createUsersHandler(usersService: UsersService) {
@@ -13,7 +12,7 @@ export function createUsersHandler(usersService: UsersService) {
       const result = await usersService.getAll(c.var.query)
 
       return c.json(response({
-        code: usersResponseKeys.success.fetched,
+        code: 'users.response.fetched',
         data: result.data,
         meta: result.meta,
       }), 200)
@@ -25,7 +24,7 @@ export function createUsersHandler(usersService: UsersService) {
       const result = await usersService.getById(id)
 
       return c.json(response({
-        code: usersResponseKeys.success.fetched,
+        code: 'users.response.fetched',
         data: result,
       }), 200)
     })
@@ -36,7 +35,7 @@ export function createUsersHandler(usersService: UsersService) {
       const result = await usersService.create(json)
 
       return c.json(response({
-        code: usersResponseKeys.success.created,
+        code: 'users.response.created',
         data: result,
       }), 201)
     })
@@ -48,7 +47,7 @@ export function createUsersHandler(usersService: UsersService) {
       const result = await usersService.update(id, json)
 
       return c.json(response({
-        code: usersResponseKeys.success.updated,
+        code: 'users.response.updated',
         data: result,
       }), 200)
     })
@@ -59,7 +58,7 @@ export function createUsersHandler(usersService: UsersService) {
       const result = await usersService.delete(id)
 
       return c.json(response({
-        code: usersResponseKeys.success.deleted,
+        code: 'users.response.deleted',
         data: result,
       }), 200)
     })

@@ -4,7 +4,6 @@ import type { CryptoUtil } from './utils/crypto.util'
 import type { JwtUtil } from './utils/jwt.util'
 import { apiException } from '@raven/api/common/http/api.exception'
 import bcrypt from 'bcrypt'
-import { authResponseKeys } from './auth-response.keys'
 
 export function createAuthService(
   authRepository: AuthRepository,
@@ -27,7 +26,7 @@ export function createAuthService(
     })
 
     if (!session)
-      throw apiException(authResponseKeys.error.internalError, 500)
+      throw apiException('auth.error.internalError', 500)
 
     return session
   }
@@ -36,17 +35,17 @@ export function createAuthService(
     const ok = await bcrypt.compare(plain, hash)
 
     if (!ok)
-      throw apiException(authResponseKeys.error.invalidCredentials, 401)
+      throw apiException('auth.error.invalidCredentials', 401)
   }
 
   const signin = async (email: string, pass: string) => {
     const authUserInternal = await authRepository.getUserByEmail(email)
 
     if (!authUserInternal)
-      throw apiException(authResponseKeys.error.invalidCredentials, 401)
+      throw apiException('auth.error.invalidCredentials', 401)
 
     if (!authUserInternal.password)
-      throw apiException(authResponseKeys.error.invalidCredentials, 401)
+      throw apiException('auth.error.invalidCredentials', 401)
 
     await verifyPassword(pass, authUserInternal.password)
 
@@ -72,7 +71,7 @@ export function createAuthService(
     })
 
     if (!user)
-      throw apiException(authResponseKeys.error.internalError, 500)
+      throw apiException('auth.error.internalError', 500)
 
     const tokens = await issueTokens(user.id, user.email)
     await persistSession(user.id, tokens.refreshToken)

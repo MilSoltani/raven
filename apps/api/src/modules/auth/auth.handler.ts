@@ -3,7 +3,6 @@ import type { CookieUtil } from './utils/cookie.util'
 import { responseFactory } from '@raven/api/common/http'
 import { apiException } from '@raven/api/common/http/api.exception'
 import { honoApp } from '@raven/api/infrastructure/http'
-import { authResponseKeys } from './auth-response.keys'
 import { AuthRoutes } from './auth.routes'
 
 export function createAuthHandler(
@@ -24,7 +23,7 @@ export function createAuthHandler(
       cookieUtil.createRefreshToken(c, refreshToken)
 
       return c.json(response({
-        code: authResponseKeys.success.signedIn,
+        code: 'auth.success.signedIn',
         data: user,
       }), 200)
     })
@@ -38,7 +37,7 @@ export function createAuthHandler(
       cookieUtil.createRefreshToken(c, refreshToken)
 
       return c.json(response({
-        code: authResponseKeys.success.signedUp,
+        code: 'auth.success.signedUp',
         data: user,
       }), 201)
     })
@@ -52,7 +51,7 @@ export function createAuthHandler(
       cookieUtil.createRefreshToken(c, refreshToken)
 
       return c.json(response({
-        code: authResponseKeys.success.refreshed,
+        code: 'auth.success.refreshed',
         data: user,
       }), 200)
     })
@@ -65,7 +64,7 @@ export function createAuthHandler(
       cookieUtil.clearTokens(c)
 
       return c.json(response({
-        code: authResponseKeys.success.signedOut,
+        code: 'auth.success.signedOut',
         data: c.var.user,
       }), 200)
     })
@@ -74,11 +73,11 @@ export function createAuthHandler(
       const user = c.var.user
 
       if (!user) {
-        throw apiException(authResponseKeys.error.unauthenticated, 401)
+        throw apiException('auth.error.unauthenticated', 401)
       }
 
       return c.json(response({
-        code: authResponseKeys.success.me,
+        code: 'auth.success.me',
         data: user,
       }), 200)
     })

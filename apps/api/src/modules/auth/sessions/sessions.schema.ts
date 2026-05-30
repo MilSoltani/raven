@@ -1,5 +1,4 @@
 import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
-import { sessionsResponseKeys } from './sessions-response.keys'
 
 extendZodWithOpenApi(z)
 
