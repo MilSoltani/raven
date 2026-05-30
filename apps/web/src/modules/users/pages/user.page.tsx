@@ -15,13 +15,13 @@ export function UserPage() {
   const { t } = useTranslation('web')
 
   if (!id || Number.isNaN(userId)) {
-    return <div>{t('ui.invalidUserId')}</div>
+    return <div>{t('users.ui.invalidUserId')}</div>
   }
 
   if (isLoading) {
     return (
       <div>
-        {t('ui.loading')}
+        {t('users.ui.loading')}
         ...
       </div>
     )
@@ -30,7 +30,7 @@ export function UserPage() {
   if (isError || !data) {
     return (
       <div>
-        {t('ui.loadingError')}
+        {t('users.ui.loadingError')}
         :
         {error instanceof Error ? error.message : ''}
       </div>

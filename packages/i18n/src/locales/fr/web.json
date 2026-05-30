@@ -1,22 +1,24 @@
 {
-  "entity": {
-    "name": "Nom",
-    "email": "E-mail",
-    "createdAt": "Créé le",
-    "updatedAt": "Mis à jour le"
-  },
-  "form": {
-    "create": "Créer",
-    "creating": "Création en cours",
-    "update": "Mettre à jour",
-    "updating": "Mise à jour en cours"
-  },
-  "ui": {
-    "loading": "Chargement",
-    "loadingError": "Erreur de chargement",
-    "details": "Détails",
-    "invalidUserId": "ID utilisateur invalide",
-    "drawerDescription": "Afficher et modifier les détails de l'utilisateur",
-    "openDrawerNotice": "Sélectionnez un utilisateur"
+  "users": {
+    "entity": {
+      "name": "Nom",
+      "email": "E-mail",
+      "createdAt": "Créé le",
+      "updatedAt": "Mis à jour le"
+    },
+    "form": {
+      "create": "Créer",
+      "creating": "Création en cours",
+      "update": "Mettre à jour",
+      "updating": "Mise à jour en cours"
+    },
+    "ui": {
+      "loading": "Chargement",
+      "loadingError": "Erreur de chargement",
+      "details": "Détails",
+      "invalidUserId": "ID utilisateur invalide",
+      "drawerDescription": "Afficher et modifier les détails de l'utilisateur",
+      "openDrawerNotice": "Sélectionnez un utilisateur"
+    }
   }
 }

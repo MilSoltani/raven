@@ -19,7 +19,7 @@ export function UserActionCell({ userId }: UserActionCellProps) {
   const updateUser = useUpdateUser()
 
   if (!userId || Number.isNaN(userId)) {
-    return <div>{t('ui.invalidUserId')}</div>
+    return <div>{t('users.ui.invalidUserId')}</div>
   }
 
   return (
@@ -27,7 +27,7 @@ export function UserActionCell({ userId }: UserActionCellProps) {
       open={isOpen}
       onOpenChange={setIsOpen}
       drawerTitle="User Details"
-      drawerDescription={t('ui.drawerDescription')}
+      drawerDescription={t('users.ui.drawerDescription')}
       pageLinkUrl={data?.user ? `/users/${data.user.id}` : undefined}
       triggerButton={(
         <Button
@@ -39,11 +39,11 @@ export function UserActionCell({ userId }: UserActionCellProps) {
       )}
       drawerBody={
         isLoading
-          ? (<div>{t('ui.loading')}</div>)
+          ? (<div>{t('users.ui.loading')}</div>)
           : isError
             ? (
                 <div>
-                  {t('ui.loadingError')}
+                  {t('users.ui.loadingError')}
                   :
                   {error instanceof Error ? error.message : ''}
                 </div>
@@ -73,7 +73,7 @@ export function UserActionCell({ userId }: UserActionCellProps) {
                     )}
                   />
                 )
-              : (<div>{t('ui.openDrawerNotice')}</div>)
+              : (<div>{t('users.ui.openDrawerNotice')}</div>)
       }
     />
   )

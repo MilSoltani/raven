@@ -1,19 +1,21 @@
 {
-  "response": {
-    "fetched": "Erfolgreich geladen",
-    "created": "Erfolgreich erstellt",
-    "updated": "Erfolgreich aktualisiert",
-    "deleted": "Erfolgreich gelöscht"
-  },
-  "validation": {
-    "nameRequired": "Name ist erforderlich",
-    "nameTooLong": "Name ist zu lang",
-    "emailInvalid": "Ungültige E-Mail-Adresse",
-    "createdAtInvalid": "Ungültiges Erstellungsdatum",
-    "updatedAtInvalid": "Ungültiges Aktualisierungsdatum"
-  },
-  "errors": {
-    "notFound": "Benutzer nicht gefunden",
-    "internalError": "Interner Serverfehler"
+  "users": {
+    "response": {
+      "fetched": "Erfolgreich geladen",
+      "created": "Erfolgreich erstellt",
+      "updated": "Erfolgreich aktualisiert",
+      "deleted": "Erfolgreich gelöscht"
+    },
+    "validation": {
+      "nameRequired": "Name ist erforderlich",
+      "nameTooLong": "Name ist zu lang",
+      "emailInvalid": "Ungültige E-Mail-Adresse",
+      "createdAtInvalid": "Ungültiges Erstellungsdatum",
+      "updatedAtInvalid": "Ungültiges Aktualisierungsdatum"
+    },
+    "errors": {
+      "notFound": "Benutzer nicht gefunden",
+      "internalError": "Interner Serverfehler"
+    }
   }
 }

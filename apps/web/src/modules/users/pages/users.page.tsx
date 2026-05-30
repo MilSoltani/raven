@@ -34,7 +34,7 @@ export function UsersPage() {
   if (isLoading) {
     return (
       <div>
-        {t('ui.loading')}
+        {t('users.ui.loading')}
         ...
       </div>
     )
@@ -43,7 +43,7 @@ export function UsersPage() {
   if (isError || !data) {
     return (
       <div>
-        {t('ui.loadingError')}
+        {t('users.ui.loadingError')}
         :
         {error?.message}
       </div>
@@ -86,9 +86,9 @@ export function UsersPage() {
                 type="submit"
                 disabled={createUser.isPending}
               >
-                {t('form.create')}
+                {t('users.form.create')}
 
-                {createUser.isPending ? t('form.creating') : t('form.create')}
+                {createUser.isPending ? t('users.form.creating') : t('users.form.create')}
               </Button>
             )}
           />
@@ -96,7 +96,7 @@ export function UsersPage() {
         triggerButton={(
           <Button variant="outline">
             <IconPlus className="h-4 w-4 me-2" />
-            {t('form.create')}
+            {t('users.form.create')}
           </Button>
         )}
       />

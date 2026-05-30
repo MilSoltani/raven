@@ -53,7 +53,7 @@ export function UsersForm({
 
         <FieldGroup>
           <Field>
-            <FieldLabel>{t('entity.name')}</FieldLabel>
+            <FieldLabel>{t('users.entity.name')}</FieldLabel>
             <Input {...register('name')} />
             {errors.name?.message && (
               <p className="text-red-500 text-sm mt-1">
@@ -63,7 +63,7 @@ export function UsersForm({
           </Field>
 
           <Field>
-            <FieldLabel>{t('entity.email')}</FieldLabel>
+            <FieldLabel>{t('users.entity.email')}</FieldLabel>
             <Input {...register('email')} />
             {errors.email?.message && (
               <p className="text-red-500 text-sm mt-1">
@@ -74,7 +74,7 @@ export function UsersForm({
 
           {mode === 'edit' && (
             <Field>
-              <FieldLabel>{t('entity.createdAt')}</FieldLabel>
+              <FieldLabel>{t('users.entity.createdAt')}</FieldLabel>
               <Input
                 {...register('createdAt')}
                 disabled
@@ -84,7 +84,7 @@ export function UsersForm({
 
           {mode === 'edit' && (
             <Field>
-              <FieldLabel>{t('entity.updatedAt')}</FieldLabel>
+              <FieldLabel>{t('users.entity.updatedAt')}</FieldLabel>
               <Input
                 {...register('updatedAt')}
                 disabled

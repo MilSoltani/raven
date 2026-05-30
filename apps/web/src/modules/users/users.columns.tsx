@@ -22,18 +22,18 @@ export function useUserColumns(): ColumnDef<User>[] {
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           className="font-bold px-0"
         >
-          {t('entity.name')}
+          {t('users.entity.name')}
           <IconArrowsUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
     },
     {
       accessorKey: 'email',
-      header: t('entity.email'),
+      header: t('users.entity.email'),
     },
     {
       accessorKey: 'details',
-      header: t('ui.details'),
+      header: t('users.ui.details'),
       cell: ({ row }) => <UserActionCell userId={row.original.id} />,
       size: 20,
     },
