@@ -1,3 +1,4 @@
+import { Toaster } from '@raven/web/common/components/ui/sonner'
 import { Outlet } from 'react-router-dom'
 import { ThemeProvider } from './theme-provider'
 
@@ -13,6 +14,7 @@ export function AppLayout({ header, sidebar, footer }: LayoutProps) {
       defaultTheme="dark"
       storageKey="vite-ui-theme"
     >
+      <Toaster />
 
       <div className="min-h-screen flex flex-col">
         {header && <header>{header}</header>}
