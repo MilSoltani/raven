@@ -1,5 +1,5 @@
-export type SupportedLanguage = 'en' | 'de' | 'fr' | 'es'
-export type Translation = Record<string, string>
-export type Group = Record<string, Translation>
-export type Namespace = Record<string, Group>
-export type LocaleMap = Record<SupportedLanguage, Namespace>
+import type enApi from './locales/en/api.json'
+import type enWeb from './locales/en/web.json'
+
+export type ApiKeys = typeof enApi
+export type WebKeys = typeof enWeb

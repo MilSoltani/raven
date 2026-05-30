@@ -5,7 +5,8 @@
     "moduleResolution": "Bundler",
     "paths": {
       "@raven/web": ["./apps/web/src/"],
-      "@raven/api": ["./apps/api/src/"]
+      "@raven/api": ["./apps/api/src/"],
+      "@raven/i18n": ["./packages/i18n/src/"]
     },
     "strict": true,
     "declaration": true,

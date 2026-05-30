@@ -1,0 +1,19 @@
+{
+  "response": {
+    "fetched": "Récupération réussie",
+    "created": "Création réussie",
+    "updated": "Mise à jour réussie",
+    "deleted": "Suppression réussie"
+  },
+  "validation": {
+    "nameRequired": "Le nom est requis",
+    "nameTooLong": "Le nom est trop long",
+    "emailInvalid": "Adresse e-mail invalide",
+    "createdAtInvalid": "Date de création invalide",
+    "updatedAtInvalid": "Date de mise à jour invalide"
+  },
+  "errors": {
+    "notFound": "Utilisateur introuvable",
+    "internalError": "Erreur interne du serveur"
+  }
+}
