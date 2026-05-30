@@ -3,7 +3,9 @@ import { AppDrawer } from '@raven/web/common/components/app.drawer'
 import { Button } from '@raven/web/common/components/ui/button'
 import { IconLayoutSidebarRightExpandFilled } from '@tabler/icons-react'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useUpdateUser, useUser } from '../hooks/users.hooks'
+import { usersUiKeys } from '../locales/users-ui.keys'
 import { UsersForm } from './users.form'
 
 type UserActionCellProps = {
@@ -11,13 +13,14 @@ type UserActionCellProps = {
 }
 
 export function UserActionCell({ userId }: UserActionCellProps) {
+  const { t } = useTranslation('ui')
   const [isOpen, setIsOpen] = useState(false)
 
   const { data, isLoading, isError, error } = useUser(userId, isOpen)
   const updateUser = useUpdateUser()
 
   if (!userId || Number.isNaN(userId)) {
-    return <div>Invalid user id</div>
+    return <div>{t(usersUiKeys.ui.invalidUserId)}</div>
   }
 
   return (
@@ -25,9 +28,7 @@ export function UserActionCell({ userId }: UserActionCellProps) {
       open={isOpen}
       onOpenChange={setIsOpen}
       drawerTitle="User Details"
-      drawerDescription={
-        data?.user ? `Editing details for ${data.user.name}` : 'Loading user...'
-      }
+      drawerDescription={t(usersUiKeys.ui.drawerDescription)}
       pageLinkUrl={data?.user ? `/users/${data.user.id}` : undefined}
       triggerButton={(
         <Button
@@ -39,11 +40,12 @@ export function UserActionCell({ userId }: UserActionCellProps) {
       )}
       drawerBody={
         isLoading
-          ? (<div>Loading user...</div>)
+          ? (<div>{t(usersUiKeys.ui.loading)}</div>)
           : isError
             ? (
                 <div>
-                  Error:
+                  {t(usersUiKeys.ui.loadingError)}
+                  :
                   {error instanceof Error ? error.message : ''}
                 </div>
               )
@@ -67,12 +69,12 @@ export function UserActionCell({ userId }: UserActionCellProps) {
                         type="submit"
                         disabled={updateUser.isPending}
                       >
-                        {updateUser.isPending ? 'Updating...' : 'Update'}
+                        {updateUser.isPending ? t(usersUiKeys.form.updating) : t(usersUiKeys.form.update)}
                       </Button>
                     )}
                   />
                 )
-              : (<div>Open drawer to load user</div>)
+              : (<div>{t(usersUiKeys.ui.openDrawerNotice)}</div>)
       }
     />
   )

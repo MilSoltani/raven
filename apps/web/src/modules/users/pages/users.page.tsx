@@ -7,11 +7,15 @@ import { Button } from '@raven/web/common/components/ui/button'
 import { sortingToSort, sortToSorting } from '@raven/web/common/utils/sorting-adapters'
 import { IconPlus } from '@tabler/icons-react'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { UsersForm } from '../components/users.form'
 import { useCreateUser, useUsers } from '../hooks/users.hooks'
-import { userColumns } from '../users.columns'
+import { usersUiKeys } from '../locales/users-ui.keys'
+import { useUserColumns } from '../users.columns'
 
 export function UsersPage() {
+  const { t } = useTranslation('ui')
+
   const [drawerOpen, setDrawerOpen] = useState(false)
 
   const [criteria, setCriteria] = useState<Criteria>({
@@ -26,16 +30,22 @@ export function UsersPage() {
   const { data, isLoading, isError, error } = useUsers(criteria)
 
   const createUser = useCreateUser()
+  const columns = useUserColumns()
 
   if (isLoading) {
-    return <div>Loading users...</div>
+    return (
+      <div>
+        {t(usersUiKeys.ui.loading)}
+        ...
+      </div>
+    )
   }
 
   if (isError || !data) {
     return (
       <div>
-        Error:
-        {' '}
+        {t(usersUiKeys.ui.loadingError)}
+        :
         {error?.message}
       </div>
     )
@@ -77,7 +87,9 @@ export function UsersPage() {
                 type="submit"
                 disabled={createUser.isPending}
               >
-                create
+                {t(usersUiKeys.form.create)}
+
+                {createUser.isPending ? t(usersUiKeys.form.creating) : t(usersUiKeys.form.create)}
               </Button>
             )}
           />
@@ -85,13 +97,13 @@ export function UsersPage() {
         triggerButton={(
           <Button variant="outline">
             <IconPlus className="h-4 w-4 me-2" />
-            create
+            {t(usersUiKeys.form.create)}
           </Button>
         )}
       />
 
       <DataTable
-        columns={userColumns}
+        columns={columns}
         data={users}
         pagination={safePagination}
         sorting={sorting}

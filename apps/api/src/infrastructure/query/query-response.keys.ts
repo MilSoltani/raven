@@ -1,11 +1,11 @@
 export const queryResponseKeys = {
   error: {
-    operatorCombinationError: 'OPERATOR_COMBINATION_ERROR',
-    fieldNotAllowed: 'FIELD_NOT_ALLOWED',
-    maxDepthExceeded: 'MAX_DEPTH_EXCEEDED',
-    maxLimitExceeded: 'MAX_LIMIT_EXCEEDED',
-    nonNumberLimitPage: 'NON_NUMBER_LIMIT_PAGE',
-    invalidExpiredToken: 'INVALID_EXPIRED_TOKEN',
+    operatorCombinationError: 'operatorCombinationError',
+    maxDepthExceeded: 'maxDepthExceeded',
+    maxLimitExceeded: 'maxLimitExceeded',
+    nonNumberLimitPage: 'nonNumberLimitPage',
+    fieldNotAllowed: 'fieldNotAllowed',
+    nonNumberPageLimit: 'nonNumberPageLimit',
   },
 } as const
 

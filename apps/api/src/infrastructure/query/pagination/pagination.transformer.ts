@@ -1,8 +1,9 @@
+import type { QueryResponseKeys } from '../query-response.keys'
 import type { PaginationOptions, PrismaPagination } from './types'
 import { appExceptionFactory } from '@raven/api/common/http/app.exception'
-import { queryResponseKeysMap } from '../query-response.keys'
+import { queryResponseKeys } from '../query-response.keys'
 
-const appException = appExceptionFactory(queryResponseKeysMap)
+const appException = appExceptionFactory<QueryResponseKeys>()
 
 export type PaginationTransformer = {
   transform: (page: unknown, limit: unknown) => PrismaPagination
@@ -20,7 +21,7 @@ export function createPaginationTransformer(
       const parsedLimit = parseNumber(limit, defaultLimit)
 
       if (parsedLimit > maxLimit)
-        throw appException('MAX_LIMIT_EXCEEDED')
+        throw appException(queryResponseKeys.error.maxLimitExceeded, 400)
 
       return {
         skip: (parsedPage - 1) * parsedLimit,
@@ -40,7 +41,7 @@ export function createPaginationTransformer(
     const n = Number(value)
 
     if (!Number.isInteger(n) || n < 1)
-      throw appException('NON_NUMBER_LIMIT_PAGE')
+      throw appException(queryResponseKeys.error.nonNumberPageLimit, 400)
 
     return n
   }

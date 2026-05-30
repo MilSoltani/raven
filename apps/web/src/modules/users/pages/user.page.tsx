@@ -1,8 +1,10 @@
 import { UpdateUserPayloadSchema } from '@raven/api/exports'
 import { Button } from '@raven/web/common/components/ui/button'
+import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { UsersForm } from '../components/users.form'
 import { useUpdateUser, useUser } from '../hooks/users.hooks'
+import { usersUiKeys } from '../locales/users-ui.keys'
 
 export function UserPage() {
   const { id } = useParams<{ id: string }>()
@@ -11,18 +13,26 @@ export function UserPage() {
 
   const { data, isLoading, isError, error } = useUser(userId)
   const updateUser = useUpdateUser()
+  const { t } = useTranslation('ui')
 
   if (!id || Number.isNaN(userId)) {
-    return <div>Invalid user id</div>
+    return <div>{t(usersUiKeys.ui.invalidUserId)}</div>
   }
 
-  if (isLoading)
-    return <div>Loading user...</div>
+  if (isLoading) {
+    return (
+      <div>
+        {t(usersUiKeys.ui.loading)}
+        ...
+      </div>
+    )
+  }
 
   if (isError || !data) {
     return (
       <div>
-        Error:
+        {t(usersUiKeys.ui.loadingError)}
+        :
         {error instanceof Error ? error.message : ''}
       </div>
     )
@@ -44,7 +54,7 @@ export function UserPage() {
           type="submit"
           disabled={updateUser.isPending}
         >
-          update
+          {updateUser.isPending ? t(usersUiKeys.form.updating) : t(usersUiKeys.form.update)}
         </Button>
       )}
     />

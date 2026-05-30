@@ -1,11 +1,12 @@
+import type { QueryResponseKeys } from '../query-response.keys'
 import { appExceptionFactory } from '@raven/api/common/http/app.exception'
-import { queryResponseKeysMap } from '../query-response.keys'
+import { queryResponseKeys } from '../query-response.keys'
 
-const appException = appExceptionFactory(queryResponseKeysMap)
+const appException = appExceptionFactory<QueryResponseKeys>()
 
 export function validateOperatorObject(obj: Record<string, unknown>) {
   if (obj.eq !== undefined && Object.keys(obj).length > 1)
-    throw appException('OPERATOR_COMBINATION_ERROR')
+    throw appException(queryResponseKeys.error.operatorCombinationError, 400)
 }
 
 export function isFilterCondition(obj: any) {

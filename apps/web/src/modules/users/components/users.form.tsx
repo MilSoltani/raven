@@ -5,6 +5,8 @@ import { Alert, AlertDescription } from '@raven/web/common/components/ui/alert'
 import { Field, FieldGroup, FieldLabel } from '@raven/web/common/components/ui/field'
 import { Input } from '@raven/web/common/components/ui/input'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
+import { usersUiKeys } from '../locales/users-ui.keys'
 
 type UsersFormProps = {
   mode?: 'edit' | 'create'
@@ -31,6 +33,8 @@ export function UsersForm({
     mode: 'onBlur',
   })
 
+  const { t } = useTranslation('ui')
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -50,7 +54,7 @@ export function UsersForm({
 
         <FieldGroup>
           <Field>
-            <FieldLabel>Name</FieldLabel>
+            <FieldLabel>{t(usersUiKeys.entity.name)}</FieldLabel>
             <Input {...register('name')} />
             {errors.name?.message && (
               <p className="text-red-500 text-sm mt-1">
@@ -60,7 +64,7 @@ export function UsersForm({
           </Field>
 
           <Field>
-            <FieldLabel>Email</FieldLabel>
+            <FieldLabel>{t(usersUiKeys.entity.email)}</FieldLabel>
             <Input {...register('email')} />
             {errors.email?.message && (
               <p className="text-red-500 text-sm mt-1">
@@ -71,7 +75,7 @@ export function UsersForm({
 
           {mode === 'edit' && (
             <Field>
-              <FieldLabel>Created At</FieldLabel>
+              <FieldLabel>{t(usersUiKeys.entity.createdAt)}</FieldLabel>
               <Input
                 {...register('createdAt')}
                 disabled
@@ -81,7 +85,7 @@ export function UsersForm({
 
           {mode === 'edit' && (
             <Field>
-              <FieldLabel>Updated At</FieldLabel>
+              <FieldLabel>{t(usersUiKeys.entity.updatedAt)}</FieldLabel>
               <Input
                 {...register('updatedAt')}
                 disabled

@@ -23,6 +23,7 @@ export const authResponseKeys = {
     unauthenticated: 'unauthenticated',
     invalidCredentials: 'invalidCredentials',
     internalError: 'internalError',
+    invalidExpiredToken: 'invalidExpiredToken',
   },
 } as const
 

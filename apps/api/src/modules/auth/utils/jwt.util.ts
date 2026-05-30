@@ -1,10 +1,11 @@
 import type { AuthPayload } from '@raven/api/common/types'
 import type { Config } from '@raven/api/infrastructure/config/config'
+import type { AuthResponseKeys } from '../auth-response.keys'
 import { appExceptionFactory } from '@raven/api/common/http/app.exception'
-import { queryResponseKeysMap } from '@raven/api/infrastructure/query/query-response.keys'
 import { sign, verify } from 'hono/jwt'
+import { authResponseKeys } from '../auth-response.keys'
 
-const appException = appExceptionFactory(queryResponseKeysMap)
+const appException = appExceptionFactory<AuthResponseKeys>()
 
 export function createJwtUtil(config: Config) {
   async function generateAccessToken(sub: number, email: string): Promise<string> {
@@ -42,7 +43,7 @@ export function createJwtUtil(config: Config) {
       ) as AuthPayload
     }
     catch {
-      throw appException('INVALID_EXPIRED_TOKEN')
+      throw appException(authResponseKeys.error.invalidExpiredToken, 401)
     }
   }
 
@@ -55,7 +56,7 @@ export function createJwtUtil(config: Config) {
       ) as AuthPayload
     }
     catch {
-      throw appException('INVALID_EXPIRED_TOKEN')
+      throw appException(authResponseKeys.error.invalidExpiredToken, 401)
     }
   }
 
