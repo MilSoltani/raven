@@ -4,10 +4,9 @@ import { Button } from '@raven/web/common/components/ui/button'
 import { IconArrowsUpDown } from '@tabler/icons-react'
 import { useTranslation } from 'react-i18next'
 import { UserActionCell } from './components/user-action-cell'
-import { usersUiKeys } from './locales/users-ui.keys'
 
 export function useUserColumns(): ColumnDef<User>[] {
-  const { t } = useTranslation('ui')
+  const { t } = useTranslation('web')
 
   return [
     {
@@ -21,20 +20,20 @@ export function useUserColumns(): ColumnDef<User>[] {
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="font-bold"
+          className="font-bold px-0"
         >
-          {t(usersUiKeys.entity.name)}
+          {t('entity.name')}
           <IconArrowsUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
     },
     {
       accessorKey: 'email',
-      header: t(usersUiKeys.entity.email),
+      header: t('entity.email'),
     },
     {
       accessorKey: 'details',
-      header: t(usersUiKeys.ui.details),
+      header: t('ui.details'),
       cell: ({ row }) => <UserActionCell userId={row.original.id} />,
       size: 20,
     },

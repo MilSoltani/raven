@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { UsersForm } from '../components/users.form'
 import { useUpdateUser, useUser } from '../hooks/users.hooks'
-import { usersUiKeys } from '../locales/users-ui.keys'
 
 export function UserPage() {
   const { id } = useParams<{ id: string }>()
@@ -13,16 +12,16 @@ export function UserPage() {
 
   const { data, isLoading, isError, error } = useUser(userId)
   const updateUser = useUpdateUser()
-  const { t } = useTranslation('ui')
+  const { t } = useTranslation('web')
 
   if (!id || Number.isNaN(userId)) {
-    return <div>{t(usersUiKeys.ui.invalidUserId)}</div>
+    return <div>{t('ui.invalidUserId')}</div>
   }
 
   if (isLoading) {
     return (
       <div>
-        {t(usersUiKeys.ui.loading)}
+        {t('ui.loading')}
         ...
       </div>
     )
@@ -31,7 +30,7 @@ export function UserPage() {
   if (isError || !data) {
     return (
       <div>
-        {t(usersUiKeys.ui.loadingError)}
+        {t('ui.loadingError')}
         :
         {error instanceof Error ? error.message : ''}
       </div>
@@ -54,7 +53,7 @@ export function UserPage() {
           type="submit"
           disabled={updateUser.isPending}
         >
-          {updateUser.isPending ? t(usersUiKeys.form.updating) : t(usersUiKeys.form.update)}
+          {updateUser.isPending ? t('form.updating') : t('form.update')}
         </Button>
       )}
     />

@@ -10,11 +10,10 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { UsersForm } from '../components/users.form'
 import { useCreateUser, useUsers } from '../hooks/users.hooks'
-import { usersUiKeys } from '../locales/users-ui.keys'
 import { useUserColumns } from '../users.columns'
 
 export function UsersPage() {
-  const { t } = useTranslation('ui')
+  const { t } = useTranslation('web')
 
   const [drawerOpen, setDrawerOpen] = useState(false)
 
@@ -35,7 +34,7 @@ export function UsersPage() {
   if (isLoading) {
     return (
       <div>
-        {t(usersUiKeys.ui.loading)}
+        {t('ui.loading')}
         ...
       </div>
     )
@@ -44,7 +43,7 @@ export function UsersPage() {
   if (isError || !data) {
     return (
       <div>
-        {t(usersUiKeys.ui.loadingError)}
+        {t('ui.loadingError')}
         :
         {error?.message}
       </div>
@@ -87,9 +86,9 @@ export function UsersPage() {
                 type="submit"
                 disabled={createUser.isPending}
               >
-                {t(usersUiKeys.form.create)}
+                {t('form.create')}
 
-                {createUser.isPending ? t(usersUiKeys.form.creating) : t(usersUiKeys.form.create)}
+                {createUser.isPending ? t('form.creating') : t('form.create')}
               </Button>
             )}
           />
@@ -97,7 +96,7 @@ export function UsersPage() {
         triggerButton={(
           <Button variant="outline">
             <IconPlus className="h-4 w-4 me-2" />
-            {t(usersUiKeys.form.create)}
+            {t('form.create')}
           </Button>
         )}
       />

@@ -1,9 +1,9 @@
 {
   "entity": {
-    "name": "name",
-    "email": "email",
-    "createdAt": "createdAt",
-    "updatedAt": "updatedAt"
+    "name": "Name",
+    "email": "Email",
+    "createdAt": "Created at",
+    "updatedAt": "Updated at"
   },
   "form": {
     "create": "create",
@@ -12,9 +12,9 @@
     "updating": "updating"
   },
   "ui": {
-    "loading": "loading",
+    "loading": "Loading",
     "loadingError": "Failed to load data",
-    "details": "details",
+    "details": "Details",
     "invalidUserId": "Invalid user ID",
     "drawerDescription": "View and edit user details",
     "openDrawerNotice": "Select a user to view details"
