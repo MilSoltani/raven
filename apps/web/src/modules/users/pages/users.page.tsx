@@ -86,9 +86,9 @@ export function UsersPage() {
                 type="submit"
                 disabled={createUser.isPending}
               >
-                {t('users.form.create')}
-
-                {createUser.isPending ? t('users.form.creating') : t('users.form.create')}
+                {createUser.isPending
+                  ? t('users.form.creating')
+                  : t('users.form.create')}
               </Button>
             )}
           />

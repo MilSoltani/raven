@@ -2,6 +2,7 @@ import type { CreateUserPayload, Criteria, UpdateUserPayload } from '@raven/api/
 import { usersClient } from '@raven/api/exports'
 import { normalizeCriteria } from '@raven/web/common/utils/criteria-normalizer'
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 
 export const usersKeys = {
   all: ['users'] as const,
@@ -18,6 +19,8 @@ export const usersKeys = {
 }
 
 export function useUsers(query?: Criteria) {
+  const { t } = useTranslation('api')
+
   const normalizedQuery = normalizeCriteria(query)
 
   return useQuery({
@@ -36,7 +39,7 @@ export function useUsers(query?: Criteria) {
     select: response => ({
       users: response.data,
       pagination: response.meta,
-      responseMessage: response.messageKey,
+      responseMessage: t(response.messageKey),
       apiError: response.error,
     }),
 
@@ -44,6 +47,8 @@ export function useUsers(query?: Criteria) {
 }
 
 export function useUser(id: number, enabled: boolean = true) {
+  const { t } = useTranslation('api')
+
   return useQuery({
     queryKey: usersKeys.detail(id),
 
@@ -56,7 +61,7 @@ export function useUser(id: number, enabled: boolean = true) {
 
     select: response => ({
       user: response.data,
-      responseMessage: response.messageKey,
+      responseMessage: t(response.messageKey),
       apiError: response.error,
     }),
 
@@ -65,6 +70,7 @@ export function useUser(id: number, enabled: boolean = true) {
 }
 
 export function useCreateUser() {
+  const { t } = useTranslation('api')
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -72,7 +78,14 @@ export function useCreateUser() {
       const res = await usersClient.index.$post({ json: data })
       if (!res.ok)
         throw new Error('Failed to create user')
-      return res.json()
+
+      const response = await res.json()
+
+      return {
+        user: response.data,
+        responseMessage: t(response.messageKey),
+        apiError: response.error,
+      }
     },
 
     onSuccess: () => {
@@ -84,6 +97,7 @@ export function useCreateUser() {
 }
 
 export function useUpdateUser() {
+  const { t } = useTranslation('api')
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -94,23 +108,32 @@ export function useUpdateUser() {
       })
       if (!res.ok)
         throw new Error('Failed to update user')
-      return res.json()
+
+      const response = await res.json()
+
+      return {
+        user: response.data,
+        responseMessage: t(response.messageKey),
+        apiError: response.error,
+        _rawResponse: response,
+      }
     },
 
-    onSuccess: (response, variables) => {
+    onSuccess: (data, variables) => {
       queryClient.invalidateQueries({
         queryKey: usersKeys.lists(),
       })
 
       queryClient.setQueryData(
         usersKeys.detail(variables.id),
-        response,
+        data._rawResponse,
       )
     },
   })
 }
 
 export function useDeleteUser() {
+  const { t } = useTranslation('api')
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -118,7 +141,14 @@ export function useDeleteUser() {
       const res = await usersClient[':id'].$delete({ param: { id } })
       if (!res.ok)
         throw new Error('Failed to delete user')
-      return res.json()
+
+      const response = await res.json()
+
+      return {
+        data: response.data,
+        responseMessage: t(response.messageKey),
+        apiError: response.error,
+      }
     },
 
     onSuccess: (_, id) => {

@@ -33,6 +33,9 @@ export function UserActionCell({ userId }: UserActionCellProps) {
         <Button
           variant="outline"
           size="icon"
+          onClick={(e) => {
+            (e.currentTarget as HTMLButtonElement).blur()
+          }}
         >
           <IconLayoutSidebarRightExpandFilled className="h-4 w-4" />
         </Button>
@@ -68,7 +71,7 @@ export function UserActionCell({ userId }: UserActionCellProps) {
                         type="submit"
                         disabled={updateUser.isPending}
                       >
-                        {updateUser.isPending ? t('form.updating') : t('form.update')}
+                        {updateUser.isPending ? t('users.form.updating') : t('users.form.update')}
                       </Button>
                     )}
                   />

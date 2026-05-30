@@ -53,7 +53,7 @@ export function UserPage() {
           type="submit"
           disabled={updateUser.isPending}
         >
-          {updateUser.isPending ? t('form.updating') : t('form.update')}
+          {updateUser.isPending ? t('users.form.updating') : t('users.form.update')}
         </Button>
       )}
     />
