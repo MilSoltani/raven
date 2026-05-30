@@ -1,13 +1,10 @@
-import type { AuthResponseKeys } from './auth-response.keys'
 import type { AuthRepository } from './auth.repository'
 import type { SessionsService } from './sessions/sessions.service'
 import type { CryptoUtil } from './utils/crypto.util'
 import type { JwtUtil } from './utils/jwt.util'
-import { appExceptionFactory } from '@raven/api/common/http/app.exception'
+import { apiException } from '@raven/api/common/http/api.exception'
 import bcrypt from 'bcrypt'
 import { authResponseKeys } from './auth-response.keys'
-
-const appException = appExceptionFactory<AuthResponseKeys>()
 
 export function createAuthService(
   authRepository: AuthRepository,
@@ -30,7 +27,7 @@ export function createAuthService(
     })
 
     if (!session)
-      throw appException(authResponseKeys.error.internalError, 500)
+      throw apiException(authResponseKeys.error.internalError, 500)
 
     return session
   }
@@ -39,17 +36,17 @@ export function createAuthService(
     const ok = await bcrypt.compare(plain, hash)
 
     if (!ok)
-      throw appException(authResponseKeys.error.invalidCredentials, 401)
+      throw apiException(authResponseKeys.error.invalidCredentials, 401)
   }
 
   const signin = async (email: string, pass: string) => {
     const authUserInternal = await authRepository.getUserByEmail(email)
 
     if (!authUserInternal)
-      throw appException(authResponseKeys.error.invalidCredentials, 401)
+      throw apiException(authResponseKeys.error.invalidCredentials, 401)
 
     if (!authUserInternal.password)
-      throw appException(authResponseKeys.error.invalidCredentials, 401)
+      throw apiException(authResponseKeys.error.invalidCredentials, 401)
 
     await verifyPassword(pass, authUserInternal.password)
 
@@ -75,7 +72,7 @@ export function createAuthService(
     })
 
     if (!user)
-      throw appException(authResponseKeys.error.internalError, 500)
+      throw apiException(authResponseKeys.error.internalError, 500)
 
     const tokens = await issueTokens(user.id, user.email)
     await persistSession(user.id, tokens.refreshToken)

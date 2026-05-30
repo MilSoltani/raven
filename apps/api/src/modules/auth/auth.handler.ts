@@ -1,13 +1,11 @@
-import type { AuthResponseKey, AuthResponseKeys } from './auth-response.keys'
+import type { AuthResponseKey } from './auth-response.keys'
 import type { AuthService } from './auth.service'
 import type { CookieUtil } from './utils/cookie.util'
 import { responseFactory } from '@raven/api/common/http'
-import { appExceptionFactory } from '@raven/api/common/http/app.exception'
+import { apiException } from '@raven/api/common/http/api.exception'
 import { honoApp } from '@raven/api/infrastructure/http'
 import { authResponseKeys } from './auth-response.keys'
 import { AuthRoutes } from './auth.routes'
-
-const appException = appExceptionFactory<AuthResponseKeys>()
 
 export function createAuthHandler(
   authService: AuthService,
@@ -77,7 +75,7 @@ export function createAuthHandler(
       const user = c.var.user
 
       if (!user) {
-        throw appException(authResponseKeys.error.unauthenticated, 401)
+        throw apiException(authResponseKeys.error.unauthenticated, 401)
       }
 
       return c.json(response({

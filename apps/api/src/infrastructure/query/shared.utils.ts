@@ -1,8 +1,5 @@
-import type { QueryResponseKeys } from './query-response.keys'
-import { appExceptionFactory } from '@raven/api/common/http/app.exception'
+import { apiException } from '@raven/api/common/http/api.exception'
 import { queryResponseKeys } from './query-response.keys'
-
-const appException = appExceptionFactory<QueryResponseKeys>()
 
 export function isPlainObject(value: unknown): value is Record<string, unknown> {
   return (
@@ -14,7 +11,7 @@ export function isPlainObject(value: unknown): value is Record<string, unknown> 
 
 export function validatePath(path: string[], maxDepth: number, allowedPaths: string[]) {
   if (path.length > maxDepth)
-    throw appException(queryResponseKeys.error.maxDepthExceeded, 400)
+    throw apiException(queryResponseKeys.error.maxDepthExceeded, 400)
 
   const normalized = path.join('.')
 
@@ -24,6 +21,6 @@ export function validatePath(path: string[], maxDepth: number, allowedPaths: str
   )
 
   if (!isAllowed) {
-    throw appException(queryResponseKeys.error.fieldNotAllowed, 400)
+    throw apiException(queryResponseKeys.error.fieldNotAllowed, 400)
   }
 }

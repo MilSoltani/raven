@@ -1,9 +1,6 @@
-import type { QueryResponseKeys } from '../query-response.keys'
 import type { PrismaSelect, SelectOptions } from './types'
-import { appExceptionFactory } from '@raven/api/common/http/app.exception'
+import { apiException } from '@raven/api/common/http/api.exception'
 import { queryResponseKeys } from '../query-response.keys'
-
-const appException = appExceptionFactory<QueryResponseKeys>()
 
 export type SelectTransformer<TSelect> = {
   transform: (value: unknown) => TSelect | undefined
@@ -53,7 +50,7 @@ export function createSelectTransformer<TSelect>(
         continue
       }
 
-      throw appException(queryResponseKeys.error.fieldNotAllowed, 400)
+      throw apiException(queryResponseKeys.error.fieldNotAllowed, 400)
     }
 
     for (const field of requiredColumns) {
