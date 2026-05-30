@@ -36,7 +36,7 @@ export function useUsers(query?: Criteria) {
     select: response => ({
       users: response.data,
       pagination: response.meta,
-      message: response.code,
+      responseMessage: response.messageKey,
       apiError: response.error,
     }),
 
@@ -56,7 +56,7 @@ export function useUser(id: number, enabled: boolean = true) {
 
     select: response => ({
       user: response.data,
-      apiCode: response.code,
+      responseMessage: response.messageKey,
       apiError: response.error,
     }),
 

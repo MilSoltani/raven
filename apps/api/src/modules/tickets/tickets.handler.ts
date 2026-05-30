@@ -12,7 +12,7 @@ export function createTicketsHandler(ticketsService: TicketsService) {
       const result = await ticketsService.getAll(c.var.query)
 
       return c.json(response({
-        code: 'tickets.success.fetched',
+        messageKey: 'tickets.success.fetched',
         data: result.data,
         meta: result.meta,
       }), 200)
@@ -24,7 +24,7 @@ export function createTicketsHandler(ticketsService: TicketsService) {
       const result = await ticketsService.getById(id)
 
       return c.json(response({
-        code: 'tickets.success.fetched',
+        messageKey: 'tickets.success.fetched',
         data: result,
       }), 200)
     })
@@ -35,7 +35,7 @@ export function createTicketsHandler(ticketsService: TicketsService) {
       const result = await ticketsService.create(json, c.var.user.id)
 
       return c.json(response({
-        code: 'tickets.success.created',
+        messageKey: 'tickets.success.created',
         data: result,
       }), 201)
     })
@@ -47,7 +47,7 @@ export function createTicketsHandler(ticketsService: TicketsService) {
       const result = await ticketsService.update(id, json)
 
       return c.json(response({
-        code: 'tickets.success.updated',
+        messageKey: 'tickets.success.updated',
         data: result,
       }), 200)
     })
@@ -58,7 +58,7 @@ export function createTicketsHandler(ticketsService: TicketsService) {
       const result = await ticketsService.delete(id)
 
       return c.json(response({
-        code: 'tickets.success.deleted',
+        messageKey: 'tickets.success.deleted',
         data: result,
       }), 200)
     })

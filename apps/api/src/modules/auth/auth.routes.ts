@@ -31,7 +31,7 @@ export const AuthRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ code: z.string() }),
+              z.object({ messageKey: z.string() }),
             ),
           },
         },
@@ -41,7 +41,7 @@ export const AuthRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ code: z.string() }),
+              z.object({ messageKey: z.string() }),
             ),
           },
         },
@@ -51,7 +51,7 @@ export const AuthRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ code: z.string() }),
+              z.object({ messageKey: z.string() }),
             ),
           },
         },
@@ -61,7 +61,7 @@ export const AuthRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ code: z.string() }),
+              z.object({ messageKey: z.string() }),
             ),
           },
         },
@@ -97,7 +97,7 @@ export const AuthRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ code: z.string() }),
+              z.object({ messageKey: z.string() }),
             ),
           },
         },
@@ -107,7 +107,7 @@ export const AuthRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ code: z.string() }),
+              z.object({ messageKey: z.string() }),
             ),
           },
         },
@@ -117,7 +117,7 @@ export const AuthRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ code: z.string() }),
+              z.object({ messageKey: z.string() }),
             ),
           },
         },
@@ -143,7 +143,7 @@ export const AuthRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ code: z.string() }),
+              z.object({ message: z.string() }),
             ),
           },
         },
@@ -153,7 +153,7 @@ export const AuthRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ code: z.string() }),
+              z.object({ message: z.string() }),
             ),
           },
         },
@@ -179,7 +179,7 @@ export const AuthRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ code: z.string() }),
+              z.object({ message: z.string() }),
             ),
           },
         },
@@ -189,7 +189,7 @@ export const AuthRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ code: z.string() }),
+              z.object({ message: z.string() }),
             ),
           },
         },
@@ -215,7 +215,7 @@ export const AuthRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ code: z.string() }),
+              z.object({ message: z.string() }),
             ),
           },
         },
@@ -225,7 +225,7 @@ export const AuthRoutes = {
         content: {
           'application/json': {
             schema: ApiResponseSchema(
-              z.object({ code: z.string() }),
+              z.object({ message: z.string() }),
             ),
           },
         },

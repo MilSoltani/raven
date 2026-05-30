@@ -12,7 +12,7 @@ export function createUsersHandler(usersService: UsersService) {
       const result = await usersService.getAll(c.var.query)
 
       return c.json(response({
-        code: 'users.response.fetched',
+        messageKey: 'users.response.fetched',
         data: result.data,
         meta: result.meta,
       }), 200)
@@ -24,7 +24,7 @@ export function createUsersHandler(usersService: UsersService) {
       const result = await usersService.getById(id)
 
       return c.json(response({
-        code: 'users.response.fetched',
+        messageKey: 'users.response.fetched',
         data: result,
       }), 200)
     })
@@ -35,7 +35,7 @@ export function createUsersHandler(usersService: UsersService) {
       const result = await usersService.create(json)
 
       return c.json(response({
-        code: 'users.response.created',
+        messageKey: 'users.response.created',
         data: result,
       }), 201)
     })
@@ -47,7 +47,7 @@ export function createUsersHandler(usersService: UsersService) {
       const result = await usersService.update(id, json)
 
       return c.json(response({
-        code: 'users.response.updated',
+        messageKey: 'users.response.updated',
         data: result,
       }), 200)
     })
@@ -58,7 +58,7 @@ export function createUsersHandler(usersService: UsersService) {
       const result = await usersService.delete(id)
 
       return c.json(response({
-        code: 'users.response.deleted',
+        messageKey: 'users.response.deleted',
         data: result,
       }), 200)
     })

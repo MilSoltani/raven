@@ -23,7 +23,7 @@ export function createAuthHandler(
       cookieUtil.createRefreshToken(c, refreshToken)
 
       return c.json(response({
-        code: 'auth.success.signedIn',
+        messageKey: 'auth.success.signedIn',
         data: user,
       }), 200)
     })
@@ -37,7 +37,7 @@ export function createAuthHandler(
       cookieUtil.createRefreshToken(c, refreshToken)
 
       return c.json(response({
-        code: 'auth.success.signedUp',
+        messageKey: 'auth.success.signedUp',
         data: user,
       }), 201)
     })
@@ -51,7 +51,7 @@ export function createAuthHandler(
       cookieUtil.createRefreshToken(c, refreshToken)
 
       return c.json(response({
-        code: 'auth.success.refreshed',
+        messageKey: 'auth.success.refreshed',
         data: user,
       }), 200)
     })
@@ -64,7 +64,7 @@ export function createAuthHandler(
       cookieUtil.clearTokens(c)
 
       return c.json(response({
-        code: 'auth.success.signedOut',
+        messageKey: 'auth.success.signedOut',
         data: c.var.user,
       }), 200)
     })
@@ -77,7 +77,7 @@ export function createAuthHandler(
       }
 
       return c.json(response({
-        code: 'auth.success.me',
+        messageKey: 'auth.success.me',
         data: user,
       }), 200)
     })
