@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
 const schema = z.object({
+  VITE_ENV: z.enum(['development', 'production', 'test']),
   VITE_API_URL: z.url(),
 })
 
