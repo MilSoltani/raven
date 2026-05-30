@@ -17,5 +17,86 @@
       "notFound": "Benutzer nicht gefunden",
       "internalError": "Interner Serverfehler"
     }
+  },
+  "sessions": {
+    "response": {
+      "created": "Erfolgreich erstellt",
+      "updated": "Erfolgreich aktualisiert",
+      "deleted": "Erfolgreich gelöscht"
+    },
+    "validation": {
+      "idRequired": "ID ist erforderlich",
+      "idInvalid": "Ungültige ID",
+      "userIdRequired": "Benutzer-ID ist erforderlich",
+      "userIdInvalid": "Ungültige Benutzer-ID",
+      "refreshTokenHashRequired": "Refresh-Token-Hash ist erforderlich",
+      "isRevokedRequired": "Widerrufsstatus ist erforderlich",
+      "expiresAtRequired": "Ablaufdatum ist erforderlich",
+      "createdAtRequired": "Erstellungsdatum ist erforderlich"
+    },
+    "errors": {
+      "notFound": "Sitzung nicht gefunden",
+      "revoked": "Sitzung wurde widerrufen",
+      "expired": "Sitzung ist abgelaufen",
+      "internalError": "Interner Serverfehler"
+    }
+  },
+  "tickets": {
+    "response": {
+      "signedIn": "Erfolgreich angemeldet",
+      "refreshed": "Token erfolgreich aktualisiert",
+      "signedOut": "Erfolgreich abgemeldet",
+      "me": "Profil erfolgreich abgerufen",
+      "signedUp": "Konto erfolgreich erstellt"
+    },
+    "validation": {
+      "emailInvalid": "Ungültige E-Mail-Adresse",
+      "emailRequired": "E-Mail ist erforderlich",
+      "passwordRequired": "Passwort ist erforderlich",
+      "passwordTooShort": "Passwort ist zu kurz",
+      "passwordTooLong": "Passwort ist zu lang",
+      "nameRequired": "Name ist erforderlich",
+      "nameTooLong": "Name ist zu lang"
+    },
+    "errors": {
+      "unauthenticated": "Nicht authentifiziert",
+      "invalidCredentials": "Ungültige Anmeldedaten",
+      "internalError": "Interner Serverfehler",
+      "invalidExpiredToken": "Token ist ungültig oder abgelaufen"
+    }
+  },
+  "auth": {
+    "response": {
+      "signedIn": "Erfolgreich angemeldet",
+      "refreshed": "Token erfolgreich aktualisiert",
+      "signedOut": "Erfolgreich abgemeldet",
+      "me": "Profil erfolgreich abgerufen",
+      "signedUp": "Konto erfolgreich erstellt"
+    },
+    "validation": {
+      "emailInvalid": "Ungültige E-Mail-Adresse",
+      "emailRequired": "E-Mail ist erforderlich",
+      "passwordRequired": "Passwort ist erforderlich",
+      "passwordTooShort": "Passwort ist zu kurz",
+      "passwordTooLong": "Passwort ist zu lang",
+      "nameRequired": "Name ist erforderlich",
+      "nameTooLong": "Name ist zu lang"
+    },
+    "errors": {
+      "unauthenticated": "Nicht authentifiziert",
+      "invalidCredentials": "Ungültige Anmeldedaten",
+      "internalError": "Interner Serverfehler",
+      "invalidExpiredToken": "Token ist ungültig oder abgelaufen"
+    }
+  },
+  "query": {
+    "errors": {
+      "operatorCombinationError": "Ungültige Operator-Kombination",
+      "maxDepthExceeded": "Maximale Abfragentiefe überschritten",
+      "maxLimitExceeded": "Maximales Limit überschritten",
+      "nonNumberLimitPage": "Limit und Seite müssen Zahlen sein",
+      "fieldNotAllowed": "Feld in der Abfrage nicht erlaubt",
+      "nonNumberPageLimit": "Seite und Limit müssen Zahlen sein"
+    }
   }
 }
