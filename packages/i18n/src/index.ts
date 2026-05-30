@@ -1,0 +1,5 @@
+export * from './locales/auth.locale'
+export * from './locales/query.locale'
+export * from './locales/sessions.locale'
+export * from './locales/tickets.locale'
+export * from './locales/users.locale'

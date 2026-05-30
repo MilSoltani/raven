@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2023",
+    "ignoreDeprecations": "6.0",
+    "rootDir": ".",
+    "paths": {
+      "@raven/i18n/*": ["./*"]
+    },
+    "types": ["node"],
+    "outDir": "dist"
+  },
+  "include": ["src"]
+}
