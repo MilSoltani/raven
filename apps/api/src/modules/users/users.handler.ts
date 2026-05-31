@@ -1,67 +1,90 @@
+import type { AppEnv } from '@raven/api/common/types'
 import type { UsersService } from './users.service'
-import { responseFactory } from '@raven/api/common/http'
-import { honoApp } from '@raven/api/infrastructure/http'
-import { UsersRoutes } from './users.routes'
+import { zValidator } from '@hono/zod-validator'
+import { IdParamSchema, responseFactory } from '@raven/api/common/http'
+import { CreateUserPayloadSchema, CriteriaSchema, UpdateUserPayloadSchema } from '@raven/api/exports'
+import { Hono } from 'hono'
 
 export function createUsersHandler(usersService: UsersService) {
   const response = responseFactory()
 
-  return honoApp()
+  return new Hono<AppEnv>()
 
-    .openapi(UsersRoutes.getAll, async (c) => {
-      const result = await usersService.getAll(c.var.query)
+    .get(
+      '/',
+      zValidator('query', CriteriaSchema),
+      async (c) => {
+        const result = await usersService.getAll(c.var.query)
 
-      return c.json(response({
-        messageKey: 'users.response.fetched',
-        data: result.data,
-        meta: result.meta,
-      }), 200)
-    })
+        return c.json(response({
+          messageKey: 'users.response.fetched',
+          data: result.data,
+          meta: result.meta,
+        }), 200)
+      },
+    )
 
-    .openapi(UsersRoutes.getById, async (c) => {
-      const { id } = c.req.valid('param')
+    .get(
+      '/:id',
+      zValidator('param', IdParamSchema),
+      async (c) => {
+        const { id } = c.req.valid('param')
 
-      const result = await usersService.getById(id)
+        const result = await usersService.getById(id)
 
-      return c.json(response({
-        messageKey: 'users.response.fetched',
-        data: result,
-      }), 200)
-    })
+        return c.json(response({
+          messageKey: 'users.response.fetched',
+          data: result,
+        }), 200)
+      },
+    )
 
-    .openapi(UsersRoutes.create, async (c) => {
-      const json = c.req.valid('json')
+    .post(
+      '/',
+      zValidator('json', CreateUserPayloadSchema),
+      async (c) => {
+        const json = c.req.valid('json')
 
-      const result = await usersService.create(json)
+        const result = await usersService.create(json)
 
-      return c.json(response({
-        messageKey: 'users.response.created',
-        data: result,
-      }), 201)
-    })
+        return c.json(response({
+          messageKey: 'users.response.created',
+          data: result,
+        }), 201)
+      },
+    )
 
-    .openapi(UsersRoutes.update, async (c) => {
-      const { id } = c.req.valid('param')
-      const json = c.req.valid('json')
+    .put(
+      '/:id',
+      zValidator('param', IdParamSchema),
+      zValidator('json', UpdateUserPayloadSchema),
+      async (c) => {
+        const { id } = c.req.valid('param')
+        const json = c.req.valid('json')
 
-      const result = await usersService.update(id, json)
+        const result = await usersService.update(id, json)
 
-      return c.json(response({
-        messageKey: 'users.response.updated',
-        data: result,
-      }), 200)
-    })
+        return c.json(response({
+          messageKey: 'users.response.updated',
+          data: result,
+        }), 200)
+      },
+    )
 
-    .openapi(UsersRoutes.remove, async (c) => {
-      const { id } = c.req.valid('param')
+    .delete(
+      '/:id',
+      zValidator('param', IdParamSchema),
+      async (c) => {
+        const { id } = c.req.valid('param')
 
-      const result = await usersService.delete(id)
+        const result = await usersService.delete(id)
 
-      return c.json(response({
-        messageKey: 'users.response.deleted',
-        data: result,
-      }), 200)
-    })
+        return c.json(response({
+          messageKey: 'users.response.deleted',
+          data: result,
+        }), 200)
+      },
+    )
 }
 
 export type UsersHandler = ReturnType<typeof createUsersHandler>

@@ -1,6 +1,4 @@
-import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
-
-extendZodWithOpenApi(z)
+import z from 'zod'
 
 const OperatorSchema = z.object({
   equals: z.union([z.string(), z.number(), z.boolean(), z.null()]).optional(),
@@ -27,7 +25,7 @@ const OperatorSchema = z.object({
   gte: z.union([z.string(), z.number()]).optional(),
   lt: z.union([z.string(), z.number()]).optional(),
   lte: z.union([z.string(), z.number()]).optional(),
-}).strict().openapi('Operator')
+}).strict()
 
 type FilterNode
   = | z.infer<typeof OperatorSchema>
@@ -38,20 +36,19 @@ const FilterNodeSchema: z.ZodType<FilterNode> = z.lazy(() =>
     OperatorSchema.strict(),
     z.record(z.string(), FilterNodeSchema),
   ]),
-).openapi('FilterNode')
+)
 
 const FilterSchema = z.record(z.string(), FilterNodeSchema)
-  .openapi('Filter')
 
 const SortSchema = z.record(
   z.string(),
   z.enum(['asc', 'desc']),
-).openapi('Sort')
+)
 
 const SelectSchema = z.union([
   z.string(),
   z.array(z.string()),
-]).openapi('Select')
+])
 
 export const CriteriaSchema = z.object({
   select: SelectSchema.optional(),
@@ -60,7 +57,7 @@ export const CriteriaSchema = z.object({
   q: z.string().trim().optional(),
   page: z.coerce.number().int().min(1).default(1).optional(),
   limit: z.coerce.number().int().min(1).max(100).default(10).optional(),
-}).openapi('Criteria')
+})
 
 export type Criteria = z.infer<typeof CriteriaSchema>
 export type Sort = z.infer<typeof SortSchema>

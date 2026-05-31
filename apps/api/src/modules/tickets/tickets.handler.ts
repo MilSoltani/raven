@@ -1,67 +1,90 @@
+import type { AppEnv } from '@raven/api/common/types'
 import type { TicketsService } from './tickets.service'
-import { responseFactory } from '@raven/api/common/http'
-import { honoApp } from '@raven/api/infrastructure/http'
-import { TicketsRoutes } from './tickets.routes'
+import { zValidator } from '@hono/zod-validator'
+import { IdParamSchema, responseFactory } from '@raven/api/common/http'
+import { CreateTicketSchema, CriteriaSchema, UpdateTicketSchema } from '@raven/api/exports'
+import { Hono } from 'hono'
 
 export function createTicketsHandler(ticketsService: TicketsService) {
   const response = responseFactory()
 
-  return honoApp()
+  return new Hono<AppEnv>()
 
-    .openapi(TicketsRoutes.getAll, async (c) => {
-      const result = await ticketsService.getAll(c.var.query)
+    .get(
+      '/',
+      zValidator('query', CriteriaSchema),
+      async (c) => {
+        const result = await ticketsService.getAll(c.var.query)
 
-      return c.json(response({
-        messageKey: 'tickets.success.fetched',
-        data: result.data,
-        meta: result.meta,
-      }), 200)
-    })
+        return c.json(response({
+          messageKey: 'tickets.success.fetched',
+          data: result.data,
+          meta: result.meta,
+        }), 200)
+      },
+    )
 
-    .openapi(TicketsRoutes.getById, async (c) => {
-      const { id } = c.req.valid('param')
+    .get(
+      '/:id',
+      zValidator('param', IdParamSchema),
+      async (c) => {
+        const { id } = c.req.valid('param')
 
-      const result = await ticketsService.getById(id)
+        const result = await ticketsService.getById(id)
 
-      return c.json(response({
-        messageKey: 'tickets.success.fetched',
-        data: result,
-      }), 200)
-    })
+        return c.json(response({
+          messageKey: 'tickets.success.fetched',
+          data: result,
+        }), 200)
+      },
+    )
 
-    .openapi(TicketsRoutes.create, async (c) => {
-      const json = c.req.valid('json')
+    .post(
+      '/',
+      zValidator('json', CreateTicketSchema),
+      async (c) => {
+        const json = c.req.valid('json')
 
-      const result = await ticketsService.create(json, c.var.user.id)
+        const result = await ticketsService.create(json, c.var.user.id)
 
-      return c.json(response({
-        messageKey: 'tickets.success.created',
-        data: result,
-      }), 201)
-    })
+        return c.json(response({
+          messageKey: 'tickets.success.created',
+          data: result,
+        }), 201)
+      },
+    )
 
-    .openapi(TicketsRoutes.update, async (c) => {
-      const { id } = c.req.valid('param')
-      const json = c.req.valid('json')
+    .put(
+      '/:id',
+      zValidator('param', IdParamSchema),
+      zValidator('json', UpdateTicketSchema),
+      async (c) => {
+        const { id } = c.req.valid('param')
+        const json = c.req.valid('json')
 
-      const result = await ticketsService.update(id, json)
+        const result = await ticketsService.update(id, json)
 
-      return c.json(response({
-        messageKey: 'tickets.success.updated',
-        data: result,
-      }), 200)
-    })
+        return c.json(response({
+          messageKey: 'tickets.success.updated',
+          data: result,
+        }), 200)
+      },
+    )
 
-    .openapi(TicketsRoutes.remove, async (c) => {
-      const { id } = c.req.valid('param')
+    .delete(
+      '/:id',
+      zValidator('param', IdParamSchema),
+      async (c) => {
+        const { id } = c.req.valid('param')
 
-      const result = await ticketsService.delete(id)
+        const result = await ticketsService.delete(id)
 
-      return c.json(response({
-        messageKey: 'tickets.success.deleted',
-        data: result,
-      }), 200)
-    })
+        return c.json(response({
+          messageKey: 'tickets.success.deleted',
+          data: result,
+        }), 200)
+      },
+    )
 }
 
 export type TicketsHandler = ReturnType<typeof createTicketsHandler>

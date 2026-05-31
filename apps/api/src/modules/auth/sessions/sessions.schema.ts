@@ -1,28 +1,26 @@
-import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
-
-extendZodWithOpenApi(z)
+import z from 'zod'
 
 export const SessionSchema = z.object({
-  id: z.number(sessionsResponseKeys.validation.idRequired)
-    .int(sessionsResponseKeys.validation.idInvalid),
+  id: z.number('sessions.validation.idRequired')
+    .int('sessions.validation.idInvalid'),
 
-  userId: z.number(sessionsResponseKeys.validation.userIdRequired)
-    .int(sessionsResponseKeys.validation.userIdInvalid),
+  userId: z.number('sessions.validation.userIdRequired')
+    .int('sessions.validation.userIdInvalid'),
 
-  refreshTokenHash: z.string(sessionsResponseKeys.validation.refreshTokenHashRequired),
+  refreshTokenHash: z.string('sessions.validation.refreshTokenHashRequired'),
 
-  isRevoked: z.boolean(sessionsResponseKeys.validation.isRevokedRequired),
+  isRevoked: z.boolean('sessions.validation.isRevokedRequired'),
 
-  expiresAt: z.coerce.number(sessionsResponseKeys.validation.expiresAtRequired),
+  expiresAt: z.coerce.number('sessions.validation.expiresAtRequired'),
 
-  createdAt: z.coerce.number(sessionsResponseKeys.validation.createdAtRequired),
-}).openapi('Session')
+  createdAt: z.coerce.number('sessions.validation.createdAtRequired'),
+})
 
 export const CreateSessionPayloadSchema = SessionSchema.omit({
   id: true,
   createdAt: true,
   isRevoked: true,
-}).openapi('CreateSession')
+})
 
 export const UpdateSessionPayloadSchema = SessionSchema.pick({
   refreshTokenHash: true,
@@ -30,7 +28,6 @@ export const UpdateSessionPayloadSchema = SessionSchema.pick({
   expiresAt: true,
 })
   .partial()
-  .openapi('UpdateSession')
 
 export type Session = z.infer<typeof SessionSchema>
 export type CreateSessionPayload = z.infer<typeof CreateSessionPayloadSchema>

@@ -1,6 +1,4 @@
-import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
-
-extendZodWithOpenApi(z)
+import z from 'zod'
 
 const emailSchema = z
   .email('auth.validation.emailInvalid')
@@ -15,7 +13,7 @@ const passwordSchema = z
 export const AuthUserSchema = z.object({
   id: z.number().int(),
   email: emailSchema,
-}).openapi('AuthUser')
+})
 
 export const AuthUserInternalSchema = AuthUserSchema.extend({
   password: passwordSchema.nullable(),
@@ -24,7 +22,7 @@ export const AuthUserInternalSchema = AuthUserSchema.extend({
 export const SigninPayloadSchema = z.object({
   email: emailSchema,
   password: passwordSchema,
-}).openapi('SigninPayload')
+})
 
 export const SignupPayloadSchema = z.object({
   name: z.string()
@@ -32,7 +30,7 @@ export const SignupPayloadSchema = z.object({
     .max(255, 'auth.validation.nameTooLong'),
   email: emailSchema,
   password: passwordSchema,
-}).openapi('SignupPayload')
+})
 
 export type AuthUser = z.infer<typeof AuthUserSchema>
 export type AuthUserInternal = z.infer<typeof AuthUserInternalSchema>

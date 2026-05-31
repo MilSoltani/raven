@@ -1,9 +1,11 @@
+import type { AppEnv } from '@raven/api/common/types'
 import type { AuthService } from './auth.service'
 import type { CookieUtil } from './utils/cookie.util'
+import { zValidator } from '@hono/zod-validator'
 import { responseFactory } from '@raven/api/common/http'
 import { apiException } from '@raven/api/common/http/api.exception'
-import { honoApp } from '@raven/api/infrastructure/http'
-import { AuthRoutes } from './auth.routes'
+import { Hono } from 'hono'
+import { SigninPayloadSchema, SignupPayloadSchema } from './auth.schema'
 
 export function createAuthHandler(
   authService: AuthService,
@@ -11,9 +13,9 @@ export function createAuthHandler(
 ) {
   const response = responseFactory()
 
-  return honoApp()
+  return new Hono<AppEnv>()
 
-    .openapi(AuthRoutes.signin, async (c) => {
+    .post('/signin', zValidator('json', SigninPayloadSchema), async (c) => {
       const { email, password } = c.req.valid('json')
 
       const { user, accessToken, refreshToken }
@@ -28,7 +30,7 @@ export function createAuthHandler(
       }), 200)
     })
 
-    .openapi(AuthRoutes.signup, async (c) => {
+    .post('/signup', zValidator('json', SignupPayloadSchema), async (c) => {
       const data = c.req.valid('json')
 
       const { user, accessToken, refreshToken } = await authService.signup(data)
@@ -42,7 +44,7 @@ export function createAuthHandler(
       }), 201)
     })
 
-    .openapi(AuthRoutes.refresh, async (c) => {
+    .post('/refresh', async (c) => {
       const tokenToRefresh = cookieUtil.getRefreshToken(c)
 
       const { user, accessToken, refreshToken } = await authService.refresh(tokenToRefresh)
@@ -56,7 +58,7 @@ export function createAuthHandler(
       }), 200)
     })
 
-    .openapi(AuthRoutes.signout, async (c) => {
+    .post('/signout', async (c) => {
       const refreshToken = cookieUtil.getRefreshToken(c)
 
       await authService.signout(refreshToken)
@@ -69,7 +71,7 @@ export function createAuthHandler(
       }), 200)
     })
 
-    .openapi(AuthRoutes.me, async (c) => {
+    .get('/me', (c) => {
       const user = c.var.user
 
       if (!user) {
