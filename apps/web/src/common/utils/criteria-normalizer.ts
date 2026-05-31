@@ -1,14 +1,10 @@
-import type { Criteria } from '@raven/api/exports'
-
-export function normalizeCriteria(criteria?: Criteria): Criteria {
+export function normalizeCriteria(criteria: any) {
   if (!criteria)
-    return { page: 1, limit: 10 }
+    return undefined
 
-  const normalized: Criteria = {
+  return {
     ...criteria,
-    page: criteria.page ?? 1,
-    limit: criteria.limit ?? 10,
+    page: criteria.page ? String(criteria.page) : undefined,
+    limit: criteria.limit ? String(criteria.limit) : undefined,
   }
-
-  return JSON.parse(JSON.stringify(normalized))
 }
