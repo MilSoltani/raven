@@ -72,6 +72,8 @@ const app = new Hono<AppEnv>()
       return c.json({ message: err.message }, err.status)
     }
 
+    // TODO: formating of zod errors
+
     console.error(err)
     return c.text('Internal Server Error', 500)
   })
