@@ -40,7 +40,7 @@ export function UserPage() {
   return (
     <UsersForm
       mode="edit"
-      user={data.user}
+      user={data}
       error={updateUser.error?.message}
       onSubmit={(formData) => {
         updateUser.mutate({

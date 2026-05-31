@@ -50,9 +50,9 @@ export function UsersPage() {
     )
   }
 
-  const { users, pagination } = data
+  const { items, meta } = data
 
-  const safePagination = pagination ?? {
+  const safePagination = meta ?? {
     page: 1,
     pageSize: 10,
     totalItems: 0,
@@ -103,7 +103,7 @@ export function UsersPage() {
 
       <DataTable
         columns={columns}
-        data={users}
+        data={items}
         pagination={safePagination}
         sorting={sorting}
         onPaginationChange={p =>

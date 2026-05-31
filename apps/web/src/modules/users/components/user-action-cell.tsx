@@ -28,7 +28,7 @@ export function UserActionCell({ userId }: UserActionCellProps) {
       onOpenChange={setIsOpen}
       drawerTitle="User Details"
       drawerDescription={t('users.ui.drawerDescription')}
-      pageLinkUrl={data?.user ? `/users/${data.user.id}` : undefined}
+      pageLinkUrl={data ? `/users/${data.id}` : undefined}
       triggerButton={(
         <Button
           variant="outline"
@@ -51,16 +51,16 @@ export function UserActionCell({ userId }: UserActionCellProps) {
                   {error instanceof Error ? error.message : ''}
                 </div>
               )
-            : data?.user
+            : data
               ? (
                   <UsersForm
                     mode="edit"
-                    user={data.user}
+                    user={data}
                     error={updateUser.error?.message}
                     onSubmit={(formData) => {
                       updateUser.mutate(
                         {
-                          id: data.user.id,
+                          id: data.id,
                           data: UpdateUserPayloadSchema.parse(formData),
                         },
                         { onSuccess: () => setIsOpen(false) },
