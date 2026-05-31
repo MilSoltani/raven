@@ -1,13 +1,11 @@
 import type { AppEnv } from '@raven/api/common/types'
 import type { TicketsService } from './tickets.service'
 import { zValidator } from '@hono/zod-validator'
-import { IdParamSchema, responseFactory } from '@raven/api/common/http'
+import { IdParamSchema } from '@raven/api/common/http'
 import { CreateTicketSchema, CriteriaSchema, UpdateTicketSchema } from '@raven/api/exports'
 import { Hono } from 'hono'
 
 export function createTicketsHandler(ticketsService: TicketsService) {
-  const response = responseFactory()
-
   return new Hono<AppEnv>()
 
     .get(
@@ -16,11 +14,10 @@ export function createTicketsHandler(ticketsService: TicketsService) {
       async (c) => {
         const result = await ticketsService.getAll(c.var.query)
 
-        return c.json(response({
-          messageKey: 'tickets.success.fetched',
-          data: result.data,
+        return c.json({
+          items: result.data,
           meta: result.meta,
-        }), 200)
+        }, 200)
       },
     )
 
@@ -32,10 +29,7 @@ export function createTicketsHandler(ticketsService: TicketsService) {
 
         const result = await ticketsService.getById(id)
 
-        return c.json(response({
-          messageKey: 'tickets.success.fetched',
-          data: result,
-        }), 200)
+        return c.json(result, 200)
       },
     )
 
@@ -47,10 +41,7 @@ export function createTicketsHandler(ticketsService: TicketsService) {
 
         const result = await ticketsService.create(json, c.var.user.id)
 
-        return c.json(response({
-          messageKey: 'tickets.success.created',
-          data: result,
-        }), 201)
+        return c.json(result, 201)
       },
     )
 
@@ -64,10 +55,7 @@ export function createTicketsHandler(ticketsService: TicketsService) {
 
         const result = await ticketsService.update(id, json)
 
-        return c.json(response({
-          messageKey: 'tickets.success.updated',
-          data: result,
-        }), 200)
+        return c.json(result, 200)
       },
     )
 
@@ -79,10 +67,7 @@ export function createTicketsHandler(ticketsService: TicketsService) {
 
         const result = await ticketsService.delete(id)
 
-        return c.json(response({
-          messageKey: 'tickets.success.deleted',
-          data: result,
-        }), 200)
+        return c.json(result, 200)
       },
     )
 }

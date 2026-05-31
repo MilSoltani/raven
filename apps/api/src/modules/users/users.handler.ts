@@ -1,13 +1,11 @@
 import type { AppEnv } from '@raven/api/common/types'
 import type { UsersService } from './users.service'
 import { zValidator } from '@hono/zod-validator'
-import { IdParamSchema, responseFactory } from '@raven/api/common/http'
+import { IdParamSchema } from '@raven/api/common/http'
 import { CreateUserPayloadSchema, CriteriaSchema, UpdateUserPayloadSchema } from '@raven/api/exports'
 import { Hono } from 'hono'
 
 export function createUsersHandler(usersService: UsersService) {
-  const response = responseFactory()
-
   return new Hono<AppEnv>()
 
     .get(
@@ -16,11 +14,10 @@ export function createUsersHandler(usersService: UsersService) {
       async (c) => {
         const result = await usersService.getAll(c.var.query)
 
-        return c.json(response({
-          messageKey: 'users.response.fetched',
-          data: result.data,
+        return c.json({
+          items: result.data,
           meta: result.meta,
-        }), 200)
+        }, 200)
       },
     )
 
@@ -32,10 +29,7 @@ export function createUsersHandler(usersService: UsersService) {
 
         const result = await usersService.getById(id)
 
-        return c.json(response({
-          messageKey: 'users.response.fetched',
-          data: result,
-        }), 200)
+        return c.json(result, 200)
       },
     )
 
@@ -47,10 +41,7 @@ export function createUsersHandler(usersService: UsersService) {
 
         const result = await usersService.create(json)
 
-        return c.json(response({
-          messageKey: 'users.response.created',
-          data: result,
-        }), 201)
+        return c.json(result, 201)
       },
     )
 
@@ -64,10 +55,7 @@ export function createUsersHandler(usersService: UsersService) {
 
         const result = await usersService.update(id, json)
 
-        return c.json(response({
-          messageKey: 'users.response.updated',
-          data: result,
-        }), 200)
+        return c.json(result, 200)
       },
     )
 
@@ -79,10 +67,7 @@ export function createUsersHandler(usersService: UsersService) {
 
         const result = await usersService.delete(id)
 
-        return c.json(response({
-          messageKey: 'users.response.deleted',
-          data: result,
-        }), 200)
+        return c.json(result, 200)
       },
     )
 }
