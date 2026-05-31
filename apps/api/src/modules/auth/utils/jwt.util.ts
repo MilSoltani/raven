@@ -1,6 +1,6 @@
 import type { AuthPayload } from '@raven/api/common/types'
 import type { Config } from '@raven/api/infrastructure/config/config'
-import { apiException } from '@raven/api/common/http/api.exception'
+import { HTTPException } from 'hono/http-exception'
 import { sign, verify } from 'hono/jwt'
 
 export function createJwtUtil(config: Config) {
@@ -39,7 +39,7 @@ export function createJwtUtil(config: Config) {
       ) as AuthPayload
     }
     catch {
-      throw apiException('auth.error.invalidExpiredToken', 401)
+      throw new HTTPException(401, { message: 'auth.error.invalidExpiredToken' })
     }
   }
 
@@ -52,7 +52,7 @@ export function createJwtUtil(config: Config) {
       ) as AuthPayload
     }
     catch {
-      throw apiException('auth.error.invalidExpiredToken', 401)
+      throw new HTTPException(401, { message: 'auth.error.invalidExpiredToken' })
     }
   }
 

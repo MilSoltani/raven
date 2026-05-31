@@ -1,5 +1,5 @@
 import type { PrismaSelect, SelectOptions } from './types'
-import { apiException } from '@raven/api/common/http/api.exception'
+import { HTTPException } from 'hono/http-exception'
 
 export type SelectTransformer<TSelect> = {
   transform: (value: unknown) => TSelect | undefined
@@ -49,7 +49,7 @@ export function createSelectTransformer<TSelect>(
         continue
       }
 
-      throw apiException('query.error.fieldNotAllowed', 400)
+      throw new HTTPException(400, { message: 'query.error.fieldNotAllowed' })
     }
 
     for (const field of requiredColumns) {

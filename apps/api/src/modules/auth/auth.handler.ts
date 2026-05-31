@@ -2,8 +2,8 @@ import type { AppEnv } from '@raven/api/common/types'
 import type { AuthService } from './auth.service'
 import type { CookieUtil } from './utils/cookie.util'
 import { zValidator } from '@hono/zod-validator'
-import { apiException } from '@raven/api/common/http/api.exception'
 import { Hono } from 'hono'
+import { HTTPException } from 'hono/http-exception'
 import { SigninPayloadSchema, SignupPayloadSchema } from './auth.schema'
 
 export function createAuthHandler(
@@ -62,7 +62,7 @@ export function createAuthHandler(
       const user = c.var.user
 
       if (!user) {
-        throw apiException('auth.error.unauthenticated', 401)
+        throw new HTTPException(401, { message: 'auth.error.unauthenticated' })
       }
 
       return c.json(user, 200)

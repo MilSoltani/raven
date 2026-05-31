@@ -2,8 +2,8 @@ import type { AuthRepository } from './auth.repository'
 import type { SessionsService } from './sessions/sessions.service'
 import type { CryptoUtil } from './utils/crypto.util'
 import type { JwtUtil } from './utils/jwt.util'
-import { apiException } from '@raven/api/common/http/api.exception'
 import bcrypt from 'bcrypt'
+import { HTTPException } from 'hono/http-exception'
 
 export function createAuthService(
   authRepository: AuthRepository,
@@ -26,7 +26,7 @@ export function createAuthService(
     })
 
     if (!session)
-      throw apiException('auth.error.internalError', 500)
+      throw new HTTPException(500, { message: 'auth.error.internalError' })
 
     return session
   }
@@ -35,17 +35,17 @@ export function createAuthService(
     const ok = await bcrypt.compare(plain, hash)
 
     if (!ok)
-      throw apiException('auth.error.invalidCredentials', 401)
+      throw new HTTPException(401, { message: 'auth.error.invalidCredentials' })
   }
 
   const signin = async (email: string, pass: string) => {
     const authUserInternal = await authRepository.getUserByEmail(email)
 
     if (!authUserInternal)
-      throw apiException('auth.error.invalidCredentials', 401)
+      throw new HTTPException(401, { message: 'auth.error.invalidCredentials' })
 
     if (!authUserInternal.password)
-      throw apiException('auth.error.invalidCredentials', 401)
+      throw new HTTPException(401, { message: 'auth.error.invalidCredentials' })
 
     await verifyPassword(pass, authUserInternal.password)
 
@@ -71,7 +71,7 @@ export function createAuthService(
     })
 
     if (!user)
-      throw apiException('auth.error.internalError', 500)
+      throw new HTTPException(500, { message: 'auth.error.internalError' })
 
     const tokens = await issueTokens(user.id, user.email)
     await persistSession(user.id, tokens.refreshToken)

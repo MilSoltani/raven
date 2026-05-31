@@ -1,8 +1,8 @@
-import { apiException } from '@raven/api/common/http/api.exception'
+import { HTTPException } from 'hono/http-exception'
 
 export function validateOperatorObject(obj: Record<string, unknown>) {
   if (obj.eq !== undefined && Object.keys(obj).length > 1)
-    throw apiException('query.error.operatorCombinationError', 400)
+    throw new HTTPException(400, { message: 'query.error.operatorCombinationError' })
 }
 
 export function isFilterCondition(obj: any) {

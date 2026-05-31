@@ -1,5 +1,5 @@
 import type { PaginationOptions, PrismaPagination } from './types'
-import { apiException } from '@raven/api/common/http/api.exception'
+import { HTTPException } from 'hono/http-exception'
 
 export type PaginationTransformer = {
   transform: (page: unknown, limit: unknown) => PrismaPagination
@@ -17,7 +17,7 @@ export function createPaginationTransformer(
       const parsedLimit = parseNumber(limit, defaultLimit)
 
       if (parsedLimit > maxLimit)
-        throw apiException('query.error.maxLimitExceeded', 400)
+        throw new HTTPException(400, { message: 'query.error.maxLimitExceeded' })
 
       return {
         skip: (parsedPage - 1) * parsedLimit,
@@ -37,7 +37,7 @@ export function createPaginationTransformer(
     const n = Number(value)
 
     if (!Number.isInteger(n) || n < 1)
-      throw apiException('query.error.nonNumberPageLimit', 400)
+      throw new HTTPException(400, { message: 'query.error.nonNumberPageLimit' })
 
     return n
   }

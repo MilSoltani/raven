@@ -1,6 +1,6 @@
 import type { SessionsRepository } from './sessions.repository'
 import type { CreateSessionPayload } from './sessions.schema'
-import { apiException } from '@raven/api/common/http/api.exception'
+import { HTTPException } from 'hono/http-exception'
 
 export function createSessionsService(
   sessionsRepository: SessionsRepository,
@@ -9,7 +9,7 @@ export function createSessionsService(
     const result = await sessionsRepository.findByHash(hash)
 
     if (!result)
-      throw apiException('sessions.error.notFound', 404)
+      throw new HTTPException(404, { message: 'session.error.notFound' })
 
     return result
   }
@@ -18,7 +18,7 @@ export function createSessionsService(
     const session = await sessionsRepository.create(data)
 
     if (!session)
-      throw apiException('sessions.error.internalError', 500)
+      throw new HTTPException(500, { message: 'session.error.internalError' })
 
     return { session }
   }
@@ -33,11 +33,11 @@ export function createSessionsService(
 
     if (!session || session.isRevoked) {
       await sessionsRepository.revokeAllForUser(userId)
-      throw apiException('sessions.error.revoked', 401)
+      throw new HTTPException(401, { message: 'session.error.revoked' })
     }
 
     if (session.expiresAt < Date.now())
-      throw apiException('sessions.error.expired', 401)
+      throw new HTTPException(401, { message: 'session.error.expired' })
 
     const updatedSession = await sessionsRepository.update(session.id, {
       refreshTokenHash: newRefreshTokenHash,
@@ -51,7 +51,7 @@ export function createSessionsService(
     const result = sessionsRepository.revoke(refreshTokenHash)
 
     if (!result)
-      throw apiException('sessions.error.notFound', 404)
+      throw new HTTPException(404, { message: 'session.error.notFound' })
 
     return result
   }

@@ -1,7 +1,7 @@
 import type { Config } from '@raven/api/infrastructure/config/config'
 import type { Context } from 'hono'
-import { apiException } from '@raven/api/common/http/api.exception'
 import { getCookie, setCookie } from 'hono/cookie'
+import { HTTPException } from 'hono/http-exception'
 
 export function createCookieUtil(config: Config) {
   const secure = config.NODE_ENV === 'production'
@@ -31,7 +31,7 @@ export function createCookieUtil(config: Config) {
     const accessToken = getCookie(c, 'accessToken')
 
     if (!accessToken) {
-      throw apiException('auth.error.invalidExpiredToken', 401)
+      throw new HTTPException(401, { message: 'auth.error.invalidExpiredToken' })
     }
 
     return accessToken
@@ -40,9 +40,8 @@ export function createCookieUtil(config: Config) {
   function getRefreshToken(c: Context): string {
     const refreshToken = getCookie(c, 'refreshToken')
 
-    if (!refreshToken) {
-      throw apiException('auth.error.invalidExpiredToken', 401)
-    }
+    if (!refreshToken)
+      throw new HTTPException(401, { message: 'auth.error.invalidExpiredToken' })
 
     return refreshToken
   }
