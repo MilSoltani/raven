@@ -1,7 +1,7 @@
 import type { AppEnv } from '@raven/api/common/types'
 import type { AuthService } from './auth.service'
 import type { CookieUtil } from './utils/cookie.util'
-import { zValidator } from '@hono/zod-validator'
+import { zValidator } from '@raven/api/common/zvalidator-wrapper'
 import { Hono } from 'hono'
 import { HTTPException } from 'hono/http-exception'
 import { SigninPayloadSchema, SignupPayloadSchema } from './auth.schema'

@@ -10,6 +10,7 @@ import { jwt } from 'hono/jwt'
 import { languageDetector } from 'hono/language'
 import { logger } from 'hono/logger'
 import { authModule, ticketsModule, usersModule } from './app'
+import { ValidationException } from './common/zvalidator-wrapper'
 
 const publicRoutes = [
   '/auth/signin',
@@ -72,7 +73,12 @@ const app = new Hono<AppEnv>()
       return c.json({ message: err.message }, err.status)
     }
 
-    // TODO: formating of zod errors
+    if (err instanceof ValidationException) {
+      return c.json({
+        message: 'validationError',
+        issues: err.issues,
+      }, 400)
+    }
 
     console.error(err)
     return c.text('Internal Server Error', 500)

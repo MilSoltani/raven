@@ -1,7 +1,8 @@
 import type { AppEnv } from '@raven/api/common/types'
 import type { UsersService } from './users.service'
-import { zValidator } from '@hono/zod-validator'
+import { } from '@hono/zod-validator'
 import { IdParamSchema } from '@raven/api/common/types'
+import { zValidator } from '@raven/api/common/zvalidator-wrapper'
 import { CreateUserPayloadSchema, CriteriaSchema, UpdateUserPayloadSchema } from '@raven/api/exports'
 import { Hono } from 'hono'
 

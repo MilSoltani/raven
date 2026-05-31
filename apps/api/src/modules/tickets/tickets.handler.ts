@@ -1,7 +1,7 @@
 import type { AppEnv } from '@raven/api/common/types'
 import type { TicketsService } from './tickets.service'
-import { zValidator } from '@hono/zod-validator'
 import { IdParamSchema } from '@raven/api/common/types'
+import { zValidator } from '@raven/api/common/zvalidator-wrapper'
 import { CreateTicketSchema, CriteriaSchema, UpdateTicketSchema } from '@raven/api/exports'
 import { Hono } from 'hono'
 
