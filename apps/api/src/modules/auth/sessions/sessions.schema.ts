@@ -11,9 +11,8 @@ export const SessionSchema = z.object({
 
   isRevoked: z.boolean('sessions.validation.isRevokedRequired'),
 
-  expiresAt: z.coerce.number('sessions.validation.expiresAtRequired'),
-
-  createdAt: z.coerce.number('sessions.validation.createdAtRequired'),
+  expiresAt: z.date(),
+  createdAt: z.date(),
 })
 
 export const CreateSessionPayloadSchema = SessionSchema.omit({

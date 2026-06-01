@@ -1,4 +1,4 @@
-import type { AuthUser } from '@raven/api/modules/auth'
+import type { AuthUser } from '@xenon/api/modules/auth'
 import type { JWTPayload } from 'hono/utils/jwt/types'
 import type { ParsedQs } from 'qs'
 import z from 'zod'

@@ -1,23 +1,23 @@
-import type { SignupPayload } from '@raven/api/exports'
+import type { SignupPayload } from '@xenon/api/exports'
 import type { FieldErrors, UseFormRegister } from 'react-hook-form'
-import { Alert, AlertDescription, AlertTitle } from '@raven/web/common/components/ui/alert'
-import { Button } from '@raven/web/common/components/ui/button'
+import { IconAlertCircle } from '@tabler/icons-react'
+import { Alert, AlertDescription, AlertTitle } from '@xenon/web/common/components/ui/alert'
+import { Button } from '@xenon/web/common/components/ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@raven/web/common/components/ui/card'
+} from '@xenon/web/common/components/ui/card'
 import {
   Field,
   FieldDescription,
   FieldGroup,
   FieldLabel,
-} from '@raven/web/common/components/ui/field'
-import { Input } from '@raven/web/common/components/ui/input'
-import { cn } from '@raven/web/common/lib/utils'
-import { IconAlertCircle } from '@tabler/icons-react'
+} from '@xenon/web/common/components/ui/field'
+import { Input } from '@xenon/web/common/components/ui/input'
+import { cn } from '@xenon/web/common/lib/utils'
 import { Link } from 'react-router-dom'
 
 type Props = {

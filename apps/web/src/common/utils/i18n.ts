@@ -1,5 +1,5 @@
-import resources from '@raven/i18n'
-import { env } from '@raven/web/env'
+import resources from '@xenon/i18n'
+import { env } from '@xenon/web/env'
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 

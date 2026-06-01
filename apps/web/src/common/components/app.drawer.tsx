@@ -1,6 +1,6 @@
-import { Button } from '@raven/web/common/components/ui/button'
-import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from '@raven/web/common/components/ui/drawer'
 import { IconArrowsMaximize, IconX } from '@tabler/icons-react'
+import { Button } from '@xenon/web/common/components/ui/button'
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from '@xenon/web/common/components/ui/drawer'
 import { Link } from 'react-router-dom'
 
 type AppDrawerProps = {

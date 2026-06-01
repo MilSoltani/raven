@@ -1,5 +1,5 @@
 {
-  "name": "@raven/i18n",
+  "name": "@xenon/i18n",
   "type": "module",
   "exports": {
     ".": "./src/index.ts"

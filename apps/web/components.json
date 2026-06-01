@@ -13,11 +13,11 @@
   "iconLibrary": "tabler",
   "rtl": false,
   "aliases": {
-    "components": "@raven/web/common/components",
-    "utils": "@raven/web/common/lib/utils",
-    "ui": "@raven/web/common/components/ui",
-    "lib": "@raven/web/common/lib",
-    "hooks": "@raven/web/common/hooks"
+    "components": "@xenon/web/common/components",
+    "utils": "@xenon/web/common/lib/utils",
+    "ui": "@xenon/web/common/components/ui",
+    "lib": "@xenon/web/common/lib",
+    "hooks": "@xenon/web/common/hooks"
   },
   "menuColor": "default",
   "menuAccent": "subtle",

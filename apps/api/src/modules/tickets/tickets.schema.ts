@@ -32,10 +32,8 @@ export const TicketSchema = z.object({
   status: TicketStatusEnum,
   priority: TicketPriorityEnum,
 
-  updatedAt: z.coerce.number('auth.validation.updatedAtInvalid')
-    .nullable(),
-
-  createdAt: z.coerce.number('auth.validation.createdAtInvalid'),
+  createdAt: z.date(),
+  updatedAt: z.date().nullable(),
 })
 
 export const CreateTicketSchema = TicketSchema.omit({

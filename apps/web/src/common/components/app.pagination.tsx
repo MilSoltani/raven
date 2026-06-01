@@ -1,4 +1,4 @@
-import type { PaginationMeta } from '@raven/api/exports'
+import type { PaginationMeta } from '@xenon/api/exports'
 import { Field, FieldLabel } from './ui/field'
 import {
   Pagination,

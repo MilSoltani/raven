@@ -1,4 +1,4 @@
-import type { Config } from '@raven/api/infrastructure/config/config'
+import type { Config } from '@xenon/api/infrastructure/config/config'
 import type { Context } from 'hono'
 import { getCookie, setCookie } from 'hono/cookie'
 import { HTTPException } from 'hono/http-exception'

@@ -1,28 +1,46 @@
 {
   "compilerOptions": {
-
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "es2023",
     "jsx": "react-jsx",
-    "lib": ["ES2023", "DOM"],
+    "lib": [
+      "ES2023",
+      "DOM"
+    ],
     "moduleDetection": "force",
     "module": "esnext",
-
     /* Bundler mode */
     "moduleResolution": "bundler",
     "paths": {
-      "@raven/web": ["./src/"],
-      "@raven/web/*": ["./src/*"],
-      "@raven/api/*": ["../api/src/*"],
-      "components/*": ["./src/common/components/*"],
-      "ui/*": ["./src/common/components/ui/*"],
-      "lib/*": ["./src/common/lib/*"],
-      "hooks/*": ["./src/common/hooks/*"],
-      "utils/*": ["./src/common/utils/*"]
+      "@xenon/web": [
+        "./src/"
+      ],
+      "@xenon/web/*": [
+        "./src/*"
+      ],
+      "@xenon/api/*": [
+        "../api/src/*"
+      ],
+      "components/*": [
+        "./src/common/components/*"
+      ],
+      "ui/*": [
+        "./src/common/components/ui/*"
+      ],
+      "lib/*": [
+        "./src/common/lib/*"
+      ],
+      "hooks/*": [
+        "./src/common/hooks/*"
+      ],
+      "utils/*": [
+        "./src/common/utils/*"
+      ]
     },
-    "types": ["vite/client"],
+    "types": [
+      "vite/client"
+    ],
     "allowImportingTsExtensions": true,
-
     "noFallthroughCasesInSwitch": true,
     /* Linting */
     "noUnusedLocals": true,
@@ -32,5 +50,7 @@
     "erasableSyntaxOnly": true,
     "skipLibCheck": true
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }

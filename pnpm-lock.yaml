@@ -91,12 +91,6 @@ importers:
       '@hookform/resolvers':
         specifier: ^5.2.2
         version: 5.4.0(react-hook-form@7.76.1(react@19.2.6))
-      '@raven/api':
-        specifier: workspace:*
-        version: link:../api
-      '@raven/i18n':
-        specifier: workspace:*
-        version: link:../../packages/i18n
       '@tabler/icons-react':
         specifier: ^3.44.0
         version: 3.44.0(react@19.2.6)
@@ -109,6 +103,12 @@ importers:
       '@tanstack/react-table':
         specifier: ^8.21.3
         version: 8.21.3(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      '@xenon/api':
+        specifier: workspace:*
+        version: link:../api
+      '@xenon/i18n':
+        specifier: workspace:*
+        version: link:../../packages/i18n
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -4482,11 +4482,11 @@ packages:
     resolution: {integrity: sha512-Pugqs6M0m7Lv1I7FtxN4aoyToKg1C4tu+/381vH35y8oENM/Ai7f7C4StcoK4/+BSw9ebcS8jRiVrORFKCALLw==}
     engines: {node: ^20.0.0 || >=22.0.0}
 
-  tldts-core@7.3.0:
-    resolution: {integrity: sha512-vO+0KOlqXKs+Vb27iDcbPcAMVInMpGdIBrPKzVxb1LyTbvHi1LTPzaxRFleSfAPGEN89yG6Z6iLTpm410Wxl3w==}
+  tldts-core@7.3.1:
+    resolution: {integrity: sha512-CSjiLuHll9lt9l+jf0poLVfgddqGAj4vUHoipeTPx3RvVjgCu/krg7t7lsW000y9vNBP34FbXH8S6BuciRtoIw==}
 
-  tldts@7.3.0:
-    resolution: {integrity: sha512-J6Pfd7TrW18RudBT/2J0p2ufKh0xr+pEe8lM5eYhYG8CRC7lhsUk8UjzcD25vtyhs8AC2/5IahXuC/X0y0pKHA==}
+  tldts@7.3.1:
+    resolution: {integrity: sha512-+tHFHaNlvYCC1g4cwAcPWy/0BXvWZCMVk6WwohwXUupkcFYKpX3EH1jD8gRMIbDBbVKGKzacFf9aSsdXISKz0g==}
     hasBin: true
 
   to-regex-range@5.0.1:
@@ -9347,11 +9347,11 @@ snapshots:
 
   tinypool@2.1.0: {}
 
-  tldts-core@7.3.0: {}
+  tldts-core@7.3.1: {}
 
-  tldts@7.3.0:
+  tldts@7.3.1:
     dependencies:
-      tldts-core: 7.3.0
+      tldts-core: 7.3.1
 
   to-regex-range@5.0.1:
     dependencies:
@@ -9370,7 +9370,7 @@ snapshots:
 
   tough-cookie@6.0.1:
     dependencies:
-      tldts: 7.3.0
+      tldts: 7.3.1
 
   ts-api-utils@2.5.0(typescript@6.0.3):
     dependencies:

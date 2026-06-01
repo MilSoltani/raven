@@ -1,7 +1,7 @@
-import { Button } from '@raven/web/common/components/ui/button'
-import { cn } from '@raven/web/common/lib/utils'
-
 import { IconX } from '@tabler/icons-react'
+import { Button } from '@xenon/web/common/components/ui/button'
+
+import { cn } from '@xenon/web/common/lib/utils'
 import { Dialog as DialogPrimitive } from 'radix-ui'
 import * as React from 'react'
 

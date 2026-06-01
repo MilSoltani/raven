@@ -26,7 +26,7 @@ export function createSessionsService(
   const rotateSession = async (
     refreshTokenHash: string,
     newRefreshTokenHash: string,
-    expiresAt: number,
+    expiresAt: Date,
     userId: number,
   ) => {
     const session = await sessionsRepository.findByHash(refreshTokenHash)
@@ -36,7 +36,7 @@ export function createSessionsService(
       throw new HTTPException(401, { message: 'session.error.revoked' })
     }
 
-    if (session.expiresAt < Date.now())
+    if (session.expiresAt < new Date())
       throw new HTTPException(401, { message: 'session.error.expired' })
 
     const updatedSession = await sessionsRepository.update(session.id, {

@@ -1,5 +1,5 @@
 {
-  "name": "@raven/api",
+  "name": "@xenon/api",
   "type": "module",
   "exports": {
     "./exports": "./src/exports.ts"

@@ -21,7 +21,7 @@ export function createAuthService(
   const persistSession = async (userId: number, refreshToken: string) => {
     const { session } = await sessionsService.createSession({
       userId,
-      expiresAt: jwtUtil.getRefreshTokenExpiresAt(),
+      expiresAt: new Date(jwtUtil.getRefreshTokenExpiresAt()),
       refreshTokenHash: cryptoUtil.hash(refreshToken),
     })
 
@@ -85,7 +85,7 @@ export function createAuthService(
 
     const newTokens = await issueTokens(user.id, user.email)
     const newRefreshTokenHash = cryptoUtil.hash(newTokens.refreshToken)
-    const newExpireAt = jwtUtil.getRefreshTokenExpiresAt()
+    const newExpireAt = new Date(jwtUtil.getRefreshTokenExpiresAt())
 
     const refreshTokenHash = cryptoUtil.hash(refreshToken)
     await sessionsService.rotateSession(

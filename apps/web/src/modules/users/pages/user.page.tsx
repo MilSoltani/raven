@@ -1,5 +1,5 @@
-import { UpdateUserPayloadSchema } from '@raven/api/exports'
-import { Button } from '@raven/web/common/components/ui/button'
+import { UpdateUserPayloadSchema } from '@xenon/api/exports'
+import { Button } from '@xenon/web/common/components/ui/button'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { UsersForm } from '../components/users.form'

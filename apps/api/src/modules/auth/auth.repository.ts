@@ -1,4 +1,4 @@
-import type { PrismaClient } from '@raven/api/infrastructure/database/prisma'
+import type { PrismaClient } from '@xenon/api/infrastructure/database/prisma'
 import type { AuthUser, AuthUserInternal, SignupPayload } from './auth.schema'
 
 export function createAuthRepository(prisma: PrismaClient) {
@@ -14,7 +14,7 @@ export function createAuthRepository(prisma: PrismaClient) {
       select: { id: true, email: true },
       data: {
         ...data,
-        createdAt: Date.now(),
+        createdAt: new Date(),
       },
     })
   }

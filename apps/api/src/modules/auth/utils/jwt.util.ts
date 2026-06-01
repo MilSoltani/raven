@@ -1,5 +1,5 @@
-import type { AuthPayload } from '@raven/api/common/types'
-import type { Config } from '@raven/api/infrastructure/config/config'
+import type { AuthPayload } from '@xenon/api/common/types'
+import type { Config } from '@xenon/api/infrastructure/config/config'
 import { HTTPException } from 'hono/http-exception'
 import { sign, verify } from 'hono/jwt'
 

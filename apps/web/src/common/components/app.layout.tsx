@@ -1,4 +1,4 @@
-import { Toaster } from '@raven/web/common/components/ui/sonner'
+import { Toaster } from '@xenon/web/common/components/ui/sonner'
 import { Outlet } from 'react-router-dom'
 import { ThemeProvider } from './theme-provider'
 

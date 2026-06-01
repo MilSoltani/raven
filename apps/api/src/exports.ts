@@ -1,5 +1,5 @@
-import type { authModule, ticketsModule, usersModule } from '@raven/api/app'
-import type { Criteria } from '@raven/api/infrastructure/query'
+import type { authModule, ticketsModule, usersModule } from '@xenon/api/app'
+import type { Criteria } from '@xenon/api/infrastructure/query'
 import { hc } from 'hono/client'
 import qs from 'qs'
 
@@ -21,9 +21,9 @@ export const ticketsClient = hc<typeof ticketsModule.handler>(
   { init: { credentials: 'include' }, buildSearchParams },
 )
 
-export * from '@raven/api/infrastructure/database/paginator/paginator.schema'
-export { type Criteria, CriteriaSchema, type Sort } from '@raven/api/infrastructure/query'
+export * from '@xenon/api/infrastructure/database/paginator/paginator.schema'
+export { type Criteria, CriteriaSchema, type Sort } from '@xenon/api/infrastructure/query'
 
-export * from '@raven/api/modules/auth/auth.schema'
-export * from '@raven/api/modules/tickets/tickets.schema'
-export * from '@raven/api/modules/users/users.schema'
+export * from '@xenon/api/modules/auth/auth.schema'
+export * from '@xenon/api/modules/tickets/tickets.schema'
+export * from '@xenon/api/modules/users/users.schema'

@@ -11,9 +11,8 @@ export const UserSchema = z.object({
     .min(5, 'users.validation.emailInvalid')
     .max(255, 'users.validation.emailInvalid'),
 
-  updatedAt: z.coerce.number('users.validation.updatedAtInvalid').nullable(),
-
-  createdAt: z.coerce.number('users.validation.createdAtInvalid'),
+  createdAt: z.date(),
+  updatedAt: z.date().nullable(),
 })
 
 export const CreateUserPayloadSchema = UserSchema.omit({

@@ -2,14 +2,24 @@
   "extends": "./tsconfig.app.json",
   "compilerOptions": {
     "paths": {
-      "@raven/web": ["./src/"],
-      "@raven/web/*": ["./src/*"],
-      "@raven/api/*": ["../api/src/*"]
+      "@xenon/web": [
+        "./src/"
+      ],
+      "@xenon/web/*": [
+        "./src/*"
+      ],
+      "@xenon/api/*": [
+        "../api/src/*"
+      ]
     }
   },
   "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.node.json"
+    }
   ],
   "files": []
 }

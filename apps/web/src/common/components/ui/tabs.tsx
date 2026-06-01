@@ -1,5 +1,5 @@
 import type { VariantProps } from 'class-variance-authority'
-import { cn } from '@raven/web/common/lib/utils'
+import { cn } from '@xenon/web/common/lib/utils'
 import { Tabs as TabsPrimitive } from 'radix-ui'
 
 import * as React from 'react'

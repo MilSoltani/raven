@@ -7,8 +7,8 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      '@raven/web': path.resolve(__dirname, './src'),
-      '@raven/api': path.resolve(__dirname, '../api/src'),
+      '@xenon/web': path.resolve(__dirname, './src'),
+      '@xenon/api': path.resolve(__dirname, '../api/src'),
       'components': path.resolve(__dirname, 'src/components'),
       'ui': path.resolve(__dirname, 'src/common/components/ui'),
       'lib': path.resolve(__dirname, 'src/common/lib'),

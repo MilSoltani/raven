@@ -1,9 +1,9 @@
-import type { PaginatedResult } from '@raven/api/infrastructure/database'
-import type { UserOrderByWithRelationInput, UserSelect, UserWhereInput } from '@raven/api/infrastructure/database/generated/prisma/models'
-import type { PrismaClient } from '@raven/api/infrastructure/database/prisma'
-import type { PrismaPagination } from '@raven/api/infrastructure/query'
+import type { PaginatedResult } from '@xenon/api/infrastructure/database'
+import type { UserOrderByWithRelationInput, UserSelect, UserWhereInput } from '@xenon/api/infrastructure/database/generated/prisma/models'
+import type { PrismaClient } from '@xenon/api/infrastructure/database/prisma'
+import type { PrismaPagination } from '@xenon/api/infrastructure/query'
 import type { CreateUserPayload, UpdateUserPayload, User } from './users.schema'
-import { paginatePrisma } from '@raven/api/infrastructure/database'
+import { paginatePrisma } from '@xenon/api/infrastructure/database'
 
 export function createUsersRepository(prisma: PrismaClient) {
   const getAll = async (
@@ -32,7 +32,7 @@ export function createUsersRepository(prisma: PrismaClient) {
     return prisma.user.create({
       data: {
         ...data,
-        createdAt: Date.now(),
+        createdAt: new Date(),
       },
       omit: { password: true },
     })
@@ -46,7 +46,7 @@ export function createUsersRepository(prisma: PrismaClient) {
       where: { id },
       data: {
         ...data,
-        updatedAt: Date.now(),
+        updatedAt: new Date(),
       },
       omit: { password: true },
     })

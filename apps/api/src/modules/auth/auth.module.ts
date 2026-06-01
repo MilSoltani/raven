@@ -1,5 +1,5 @@
-import type { PrismaClient } from '@raven/api/infrastructure/database/prisma'
-import { config } from '@raven/api/infrastructure/config/config'
+import type { PrismaClient } from '@xenon/api/infrastructure/database/prisma'
+import { config } from '@xenon/api/infrastructure/config/config'
 import { createAuthHandler } from './auth.handler'
 import { createAuthRepository } from './auth.repository'
 import { createAuthService } from './auth.service'

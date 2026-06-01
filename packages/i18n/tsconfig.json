@@ -5,10 +5,16 @@
     "ignoreDeprecations": "6.0",
     "rootDir": ".",
     "paths": {
-      "@raven/i18n/*": ["./*"]
+      "@xenon/i18n/*": [
+        "./*"
+      ]
     },
-    "types": ["node"],
+    "types": [
+      "node"
+    ],
     "outDir": "dist"
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }

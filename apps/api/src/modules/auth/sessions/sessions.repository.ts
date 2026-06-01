@@ -1,4 +1,4 @@
-import type { PrismaClient } from '@raven/api/infrastructure/database/prisma'
+import type { PrismaClient } from '@xenon/api/infrastructure/database/prisma'
 import type { Session, UpdateSessionPayload } from './sessions.schema'
 
 export function createSessionsRepository(prisma: PrismaClient) {
@@ -11,12 +11,12 @@ export function createSessionsRepository(prisma: PrismaClient) {
   const create = async (data: {
     userId: number
     refreshTokenHash: string
-    expiresAt: number
+    expiresAt: Date
   }): Promise<Session> => {
     return prisma.session.create({
       data: {
         ...data,
-        createdAt: Date.now(),
+        createdAt: new Date(),
       },
     })
   }
@@ -29,7 +29,7 @@ export function createSessionsRepository(prisma: PrismaClient) {
       where: { id },
       data: {
         ...data,
-        updatedAt: Date.now(),
+        updatedAt: new Date(),
       },
     })
   }

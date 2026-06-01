@@ -1,5 +1,5 @@
-import type { Sort } from '@raven/api/exports'
 import type { SortingState } from '@tanstack/react-table'
+import type { Sort } from '@xenon/api/exports'
 
 export function sortToSorting(sort?: Sort): SortingState {
   if (!sort)

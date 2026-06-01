@@ -2,9 +2,15 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "paths": {
-      "@raven/api/*": ["./src/*"]
+      "@xenon/api/*": [
+        "./src/*"
+      ]
     },
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }

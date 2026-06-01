@@ -1,6 +1,6 @@
-import type { AuthUser } from '@raven/api/exports'
-import { authClient } from '@raven/api/exports'
-import { queryClient } from '@raven/web/common/lib/query-client'
+import type { AuthUser } from '@xenon/api/exports'
+import { authClient } from '@xenon/api/exports'
+import { queryClient } from '@xenon/web/common/lib/query-client'
 import { authKeys } from '../auth.keys'
 
 let refreshPromise: Promise<AuthUser | null> | null = null

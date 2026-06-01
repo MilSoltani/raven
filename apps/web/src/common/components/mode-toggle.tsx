@@ -1,5 +1,5 @@
-import { Button } from '@raven/web/common/components/ui/button'
 import { IconMoon, IconSun } from '@tabler/icons-react'
+import { Button } from '@xenon/web/common/components/ui/button'
 import { useTheme } from './theme-provider'
 
 export function ModeToggle() {

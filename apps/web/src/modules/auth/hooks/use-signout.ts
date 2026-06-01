@@ -1,5 +1,5 @@
-import { authClient } from '@raven/api/exports'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { authClient } from '@xenon/api/exports'
 import { authKeys } from '../auth.keys'
 
 async function signoutRequest(): Promise<void> {

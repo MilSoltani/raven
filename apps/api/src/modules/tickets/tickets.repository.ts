@@ -1,9 +1,9 @@
-import type { PaginatedResult } from '@raven/api/infrastructure/database'
-import type { TicketOrderByWithRelationInput, TicketSelect, TicketWhereInput } from '@raven/api/infrastructure/database/generated/prisma/models'
-import type { PrismaClient } from '@raven/api/infrastructure/database/prisma'
-import type { PrismaPagination } from '@raven/api/infrastructure/query'
+import type { PaginatedResult } from '@xenon/api/infrastructure/database'
+import type { TicketOrderByWithRelationInput, TicketSelect, TicketWhereInput } from '@xenon/api/infrastructure/database/generated/prisma/models'
+import type { PrismaClient } from '@xenon/api/infrastructure/database/prisma'
+import type { PrismaPagination } from '@xenon/api/infrastructure/query'
 import type { CreateTicketPayload, Ticket, UpdateTicketPayload } from './tickets.schema'
-import { paginatePrisma } from '@raven/api/infrastructure/database'
+import { paginatePrisma } from '@xenon/api/infrastructure/database'
 
 export function createTicketsRepository(prisma: PrismaClient) {
   const getAll = async (
@@ -30,7 +30,7 @@ export function createTicketsRepository(prisma: PrismaClient) {
   const create = async (data: CreateTicketPayload, creatorId: number): Promise<Ticket> => {
     return prisma.ticket.create({
       data: {
-        createdAt: Date.now(),
+        createdAt: new Date(),
         creatorId,
         ...data,
       },
@@ -45,7 +45,7 @@ export function createTicketsRepository(prisma: PrismaClient) {
       where: { id },
       data: {
         ...data,
-        updatedAt: Date.now(),
+        updatedAt: new Date(),
       },
     })
   }

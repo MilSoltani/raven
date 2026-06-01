@@ -1,7 +1,7 @@
-import type { CreateUserPayload, Criteria, UpdateUserPayload } from '@raven/api/exports'
-import { usersClient } from '@raven/api/exports'
-import { normalizeCriteria } from '@raven/web/common/utils/criteria-normalizer'
+import type { CreateUserPayload, Criteria, UpdateUserPayload } from '@xenon/api/exports'
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { usersClient } from '@xenon/api/exports'
+import { normalizeCriteria } from '@xenon/web/common/utils/criteria-normalizer'
 
 export const usersKeys = {
   all: ['users'] as const,

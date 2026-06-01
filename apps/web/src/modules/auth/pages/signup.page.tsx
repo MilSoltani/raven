@@ -1,6 +1,6 @@
-import type { SignupPayload } from '@raven/api/exports'
+import type { SignupPayload } from '@xenon/api/exports'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { SignupPayloadSchema } from '@raven/api/exports'
+import { SignupPayloadSchema } from '@xenon/api/exports'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { useSignup } from '../hooks/use-signup'

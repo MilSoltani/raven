@@ -1,8 +1,8 @@
 import type { VariantProps } from 'class-variance-authority'
-import { Label } from '@raven/web/common/components/ui/label'
+import { Label } from '@xenon/web/common/components/ui/label'
 
-import { Separator } from '@raven/web/common/components/ui/separator'
-import { cn } from '@raven/web/common/lib/utils'
+import { Separator } from '@xenon/web/common/components/ui/separator'
+import { cn } from '@xenon/web/common/lib/utils'
 import { cva } from 'class-variance-authority'
 import { useMemo } from 'react'
 

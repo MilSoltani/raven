@@ -1,7 +1,7 @@
-import type { User } from '@raven/api/exports'
 import type { ColumnDef } from '@tanstack/react-table'
-import { Button } from '@raven/web/common/components/ui/button'
+import type { User } from '@xenon/api/exports'
 import { IconArrowsUpDown } from '@tabler/icons-react'
+import { Button } from '@xenon/web/common/components/ui/button'
 import { useTranslation } from 'react-i18next'
 import { UserActionCell } from './components/user-action-cell'
 

@@ -1,5 +1,5 @@
 {
-  "name": "@raven/web",
+  "name": "@xenon/web",
   "type": "module",
   "version": "0.0.0",
   "private": true,
@@ -12,12 +12,12 @@
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.8",
     "@hookform/resolvers": "^5.2.2",
-    "@raven/api": "workspace:*",
-    "@raven/i18n": "workspace:*",
     "@tabler/icons-react": "^3.44.0",
     "@tailwindcss/vite": "^4.3.0",
     "@tanstack/react-query": "^5.100.9",
     "@tanstack/react-table": "^8.21.3",
+    "@xenon/api": "workspace:*",
+    "@xenon/i18n": "workspace:*",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "i18next": "^26.2.0",

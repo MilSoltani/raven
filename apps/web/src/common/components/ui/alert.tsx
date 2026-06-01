@@ -1,5 +1,5 @@
 import type { VariantProps } from 'class-variance-authority'
-import { cn } from '@raven/web/common/lib/utils'
+import { cn } from '@xenon/web/common/lib/utils'
 import { cva } from 'class-variance-authority'
 
 import * as React from 'react'

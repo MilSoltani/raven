@@ -1,4 +1,4 @@
-import type { PrismaPagination } from '@raven/api/infrastructure/query'
+import type { PrismaPagination } from '@xenon/api/infrastructure/query'
 import type { PaginatedResult } from './paginator.schema'
 
 export async function paginatePrisma<T, W, O, S>(args: {

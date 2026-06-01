@@ -1,7 +1,7 @@
-import { Button } from '@raven/web/common/components/ui/button'
-
-import { cn } from '@raven/web/common/lib/utils'
 import { IconChevronLeft, IconChevronRight, IconDots } from '@tabler/icons-react'
+
+import { Button } from '@xenon/web/common/components/ui/button'
+import { cn } from '@xenon/web/common/lib/utils'
 import * as React from 'react'
 
 function Pagination({ className, ...props }: React.ComponentProps<'nav'>) {

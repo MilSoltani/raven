@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@raven/web/common/lib/utils'
+import { cn } from '@xenon/web/common/lib/utils'
 import { Label as LabelPrimitive } from 'radix-ui'
 
 import * as React from 'react'

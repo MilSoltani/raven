@@ -4,9 +4,15 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "paths": {
-      "@raven/web": ["./apps/web/src/"],
-      "@raven/api": ["./apps/api/src/"],
-      "@raven/i18n": ["./packages/i18n/src/"]
+      "@xenon/web": [
+        "./apps/web/src/"
+      ],
+      "@xenon/api": [
+        "./apps/api/src/"
+      ],
+      "@xenon/i18n": [
+        "./packages/i18n/src/"
+      ]
     },
     "strict": true,
     "declaration": true,
