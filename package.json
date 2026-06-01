@@ -12,9 +12,8 @@
     "studio": "cd apps/api && prisma studio",
     "prepare": "husky"
   },
-  "dependencies": {
-  },
   "devDependencies": {
+    "@biomejs/biome": "2.4.15",
     "husky": "^9.1.7",
     "nano-staged": "^1.0.2"
   }
