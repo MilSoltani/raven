@@ -2,19 +2,13 @@ import { Navigate, Outlet } from 'react-router-dom'
 import { useMe } from './hooks/use-me'
 
 export function AuthGate() {
-  const { data: me, isLoading } = useMe()
+	const { data: me, isLoading } = useMe()
 
-  if (isLoading)
-    return null
+	if (isLoading) return null
 
-  if (!me) {
-    return (
-      <Navigate
-        to="/signin"
-        replace
-      />
-    )
-  }
+	if (!me) {
+		return <Navigate to="/signin" replace />
+	}
 
-  return <Outlet />
+	return <Outlet />
 }

@@ -6,56 +6,54 @@ import { UsersForm } from '../components/users.form'
 import { useUpdateUser, useUser } from '../hooks/users.hooks'
 
 export function UserPage() {
-  const { id } = useParams<{ id: string }>()
+	const { id } = useParams<{ id: string }>()
 
-  const userId = id ? Number(id) : Number.NaN
+	const userId = id ? Number(id) : Number.NaN
 
-  const { data, isLoading, isError, error } = useUser(userId)
-  const updateUser = useUpdateUser()
-  const { t } = useTranslation('web')
+	const { data, isLoading, isError, error } = useUser(userId)
+	const updateUser = useUpdateUser()
+	const { t } = useTranslation('web')
 
-  if (!id || Number.isNaN(userId)) {
-    return <div>{t('users.ui.invalidUserId')}</div>
-  }
+	if (!id || Number.isNaN(userId)) {
+		return <div>{t('users.ui.invalidUserId')}</div>
+	}
 
-  if (isLoading) {
-    return (
-      <div>
-        {t('users.ui.loading')}
-        ...
-      </div>
-    )
-  }
+	if (isLoading) {
+		return (
+			<div>
+				{t('users.ui.loading')}
+				...
+			</div>
+		)
+	}
 
-  if (isError || !data) {
-    return (
-      <div>
-        {t('users.ui.loadingError')}
-        :
-        {error instanceof Error ? error.message : ''}
-      </div>
-    )
-  }
+	if (isError || !data) {
+		return (
+			<div>
+				{t('users.ui.loadingError')}:
+				{error instanceof Error ? error.message : ''}
+			</div>
+		)
+	}
 
-  return (
-    <UsersForm
-      mode="edit"
-      user={data}
-      error={updateUser.error?.message}
-      onSubmit={(formData) => {
-        updateUser.mutate({
-          id: userId,
-          data: UpdateUserPayloadSchema.parse(formData),
-        })
-      }}
-      footer={(
-        <Button
-          type="submit"
-          disabled={updateUser.isPending}
-        >
-          {updateUser.isPending ? t('users.form.updating') : t('users.form.update')}
-        </Button>
-      )}
-    />
-  )
+	return (
+		<UsersForm
+			mode="edit"
+			user={data}
+			error={updateUser.error?.message}
+			onSubmit={(formData) => {
+				updateUser.mutate({
+					id: userId,
+					data: UpdateUserPayloadSchema.parse(formData),
+				})
+			}}
+			footer={
+				<Button type="submit" disabled={updateUser.isPending}>
+					{updateUser.isPending
+						? t('users.form.updating')
+						: t('users.form.update')}
+				</Button>
+			}
+		/>
+	)
 }

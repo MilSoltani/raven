@@ -1,75 +1,66 @@
 import type { AppEnv } from '@xenon/api/common/types'
-import type { TicketsService } from './tickets.service'
 import { IdParamSchema } from '@xenon/api/common/types'
 import { zValidator } from '@xenon/api/common/zvalidator-wrapper'
-import { CreateTicketSchema, CriteriaSchema, UpdateTicketSchema } from '@xenon/api/exports'
+import {
+	CreateTicketSchema,
+	CriteriaSchema,
+	UpdateTicketSchema,
+} from '@xenon/api/exports'
 import { Hono } from 'hono'
+import type { TicketsService } from './tickets.service'
 
 export function createTicketsHandler(ticketsService: TicketsService) {
-  return new Hono<AppEnv>()
+	return new Hono<AppEnv>()
 
-    .get(
-      '/',
-      zValidator('query', CriteriaSchema),
-      async (c) => {
-        const result = await ticketsService.getAll(c.var.query)
+		.get('/', zValidator('query', CriteriaSchema), async (c) => {
+			const result = await ticketsService.getAll(c.var.query)
 
-        return c.json({
-          items: result.data,
-          meta: result.meta,
-        }, 200)
-      },
-    )
+			return c.json(
+				{
+					items: result.data,
+					meta: result.meta,
+				},
+				200,
+			)
+		})
 
-    .get(
-      '/:id',
-      zValidator('param', IdParamSchema),
-      async (c) => {
-        const { id } = c.req.valid('param')
+		.get('/:id', zValidator('param', IdParamSchema), async (c) => {
+			const { id } = c.req.valid('param')
 
-        const result = await ticketsService.getById(id)
+			const result = await ticketsService.getById(id)
 
-        return c.json(result, 200)
-      },
-    )
+			return c.json(result, 200)
+		})
 
-    .post(
-      '/',
-      zValidator('json', CreateTicketSchema),
-      async (c) => {
-        const json = c.req.valid('json')
+		.post('/', zValidator('json', CreateTicketSchema), async (c) => {
+			const json = c.req.valid('json')
 
-        const result = await ticketsService.create(json, c.var.user.id)
+			const result = await ticketsService.create(json, c.var.user.id)
 
-        return c.json(result, 201)
-      },
-    )
+			return c.json(result, 201)
+		})
 
-    .put(
-      '/:id',
-      zValidator('param', IdParamSchema),
-      zValidator('json', UpdateTicketSchema),
-      async (c) => {
-        const { id } = c.req.valid('param')
-        const json = c.req.valid('json')
+		.put(
+			'/:id',
+			zValidator('param', IdParamSchema),
+			zValidator('json', UpdateTicketSchema),
+			async (c) => {
+				const { id } = c.req.valid('param')
+				const json = c.req.valid('json')
 
-        const result = await ticketsService.update(id, json)
+				const result = await ticketsService.update(id, json)
 
-        return c.json(result, 200)
-      },
-    )
+				return c.json(result, 200)
+			},
+		)
 
-    .delete(
-      '/:id',
-      zValidator('param', IdParamSchema),
-      async (c) => {
-        const { id } = c.req.valid('param')
+		.delete('/:id', zValidator('param', IdParamSchema), async (c) => {
+			const { id } = c.req.valid('param')
 
-        const result = await ticketsService.delete(id)
+			const result = await ticketsService.delete(id)
 
-        return c.json(result, 200)
-      },
-    )
+			return c.json(result, 200)
+		})
 }
 
 export type TicketsHandler = ReturnType<typeof createTicketsHandler>

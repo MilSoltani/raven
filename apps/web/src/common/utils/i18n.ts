@@ -7,15 +7,15 @@ export const supportedLanguages = ['en', 'de', 'fr', 'es'] as const
 export type SupportedLanguage = (typeof supportedLanguages)[number]
 
 i18n.use(initReactI18next).init({
-  resources,
-  lng: 'en',
-  fallbackLng: 'en',
-  ns: ['api', 'web'],
-  defaultNS: 'web',
-  interpolation: {
-    escapeValue: false,
-  },
-  debug: env.VITE_ENV === 'development',
+	resources,
+	lng: 'en',
+	fallbackLng: 'en',
+	ns: ['api', 'web'],
+	defaultNS: 'web',
+	interpolation: {
+		escapeValue: false,
+	},
+	debug: env.VITE_ENV === 'development',
 })
 
 export default i18n

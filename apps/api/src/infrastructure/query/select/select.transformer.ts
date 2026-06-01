@@ -1,75 +1,80 @@
-import type { PrismaSelect, SelectOptions } from './types'
 import { HTTPException } from 'hono/http-exception'
+import type { PrismaSelect, SelectOptions } from './types'
 
 export type SelectTransformer<TSelect> = {
-  transform: (value: unknown) => TSelect | undefined
+	transform: (value: unknown) => TSelect | undefined
 }
 
 export function createSelectTransformer<TSelect>(
-  options: SelectOptions,
+	options: SelectOptions,
 ): SelectTransformer<TSelect> {
-  const allowedColumns = new Set(options.allowedColumns)
-  const requiredColumns = new Set(options.requiredColumns ?? [])
+	const allowedColumns = new Set(options.allowedColumns)
+	const requiredColumns = new Set(options.requiredColumns ?? [])
 
-  const allowedRelations = options.allowedRelations
+	const allowedRelations = options.allowedRelations
 
-  return {
-    transform(rawSelectData: unknown): TSelect | undefined {
-      const fields = parseFields(rawSelectData)
-      return processFields(fields) as TSelect
-    },
-  }
+	return {
+		transform(rawSelectData: unknown): TSelect | undefined {
+			const fields = parseFields(rawSelectData)
+			return processFields(fields) as TSelect
+		},
+	}
 
-  function parseFields(value: unknown): string[] {
-    if (typeof value === 'string')
-      return value.split(',').map(v => v.trim()).filter(Boolean)
+	function parseFields(value: unknown): string[] {
+		if (typeof value === 'string')
+			return value
+				.split(',')
+				.map((v) => v.trim())
+				.filter(Boolean)
 
-    if (Array.isArray(value))
-      return value
+		if (Array.isArray(value)) return value
 
-    return []
-  }
+		return []
+	}
 
-  function processFields(fields: string[]): PrismaSelect | undefined {
-    const select: PrismaSelect = {}
+	function processFields(fields: string[]): PrismaSelect | undefined {
+		const select: PrismaSelect = {}
 
-    for (const field of fields) {
-      if (allowedColumns.has(field)) {
-        select[field] = true
-        continue
-      }
+		for (const field of fields) {
+			if (allowedColumns.has(field)) {
+				select[field] = true
+				continue
+			}
 
-      const relationFields = allowedRelations[field]
+			const relationFields = allowedRelations[field]
 
-      if (relationFields) {
-        select[field] = {
-          select: buildRelationSelect(relationFields),
-        }
+			if (relationFields) {
+				select[field] = {
+					select: buildRelationSelect(relationFields),
+				}
 
-        continue
-      }
+				continue
+			}
 
-      throw new HTTPException(400, { message: 'query.error.fieldNotAllowed' })
-    }
+			throw new HTTPException(400, { message: 'query.error.fieldNotAllowed' })
+		}
 
-    for (const field of requiredColumns) {
-      select[field] = true
-    }
+		for (const field of requiredColumns) {
+			select[field] = true
+		}
 
-    return Object.keys(select).length ? select : undefined
-  }
+		return Object.keys(select).length ? select : undefined
+	}
 
-  function buildRelationSelect(fields: readonly string[]) {
-    const result: Record<string, true> = {}
+	function buildRelationSelect(fields: readonly string[]) {
+		const result: Record<string, true> = {}
 
-    for (const field of fields) {
-      const normalized = field.split(',').map(v => v.trim()).filter(Boolean)
+		for (const field of fields) {
+			const normalized = field
+				.split(',')
+				.map((v) => v.trim())
+				.filter(Boolean)
 
-      for (const f of normalized) {
-        result[f] = true
-      }
-    }
+			for (const f of normalized) {
+				result[f] = true
+			}
+		}
 
-    return result
-  }
+		return result
+	}
 }

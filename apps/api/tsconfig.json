@@ -1,16 +1,10 @@
 {
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "paths": {
-      "@xenon/api/*": [
-        "./src/*"
-      ]
-    },
-    "types": [
-      "node"
-    ]
-  },
-  "include": [
-    "src"
-  ]
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"paths": {
+			"@xenon/api/*": ["./src/*"]
+		},
+		"types": ["node"]
+	},
+	"include": ["src"]
 }

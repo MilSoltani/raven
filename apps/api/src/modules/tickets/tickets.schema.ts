@@ -1,49 +1,52 @@
 import z from 'zod'
 
 export const TicketStatusEnum = z.enum(
-  ['OPEN', 'PENDING', 'WORKING', 'RESOLVED', 'CLOSED'],
-  'auth.validation.statusInvalid,',
+	['OPEN', 'PENDING', 'WORKING', 'RESOLVED', 'CLOSED'],
+	'auth.validation.statusInvalid,',
 )
 
 export const TicketPriorityEnum = z.enum(
-  ['LOW', 'MEDIUM', 'HIGH', 'URGENT'],
-  'auth.validation.priorityInvalid',
+	['LOW', 'MEDIUM', 'HIGH', 'URGENT'],
+	'auth.validation.priorityInvalid',
 )
 
 export const TicketSchema = z.object({
-  id: z.number('auth.validation.idRequired')
-    .int('auth.validation.idInvalid'),
+	id: z.number('auth.validation.idRequired').int('auth.validation.idInvalid'),
 
-  creatorId: z.number('auth.validation.creatorIdRequired')
-    .int('auth.validation.creatorIdInvalid'),
+	creatorId: z
+		.number('auth.validation.creatorIdRequired')
+		.int('auth.validation.creatorIdInvalid'),
 
-  agentId: z.number('auth.validation.agentIdInvalid')
-    .int('auth.validation.agentIdInvalid')
-    .nullable()
-    .optional(),
+	agentId: z
+		.number('auth.validation.agentIdInvalid')
+		.int('auth.validation.agentIdInvalid')
+		.nullable()
+		.optional(),
 
-  subject: z.string('auth.validation.subjectRequired')
-    .min(1, 'auth.validation.subjectRequired')
-    .max(512, 'auth.validation.subjectTooLong'),
+	subject: z
+		.string('auth.validation.subjectRequired')
+		.min(1, 'auth.validation.subjectRequired')
+		.max(512, 'auth.validation.subjectTooLong'),
 
-  description: z.string('auth.validation.descriptionRequired')
-    .min(1, 'auth.validation.descriptionRequired'),
+	description: z
+		.string('auth.validation.descriptionRequired')
+		.min(1, 'auth.validation.descriptionRequired'),
 
-  status: TicketStatusEnum,
-  priority: TicketPriorityEnum,
+	status: TicketStatusEnum,
+	priority: TicketPriorityEnum,
 
-  createdAt: z.date(),
-  updatedAt: z.date().nullable(),
+	createdAt: z.date(),
+	updatedAt: z.date().nullable(),
 })
 
 export const CreateTicketSchema = TicketSchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-  creatorId: true,
+	id: true,
+	createdAt: true,
+	updatedAt: true,
+	creatorId: true,
 }).extend({
-  status: TicketStatusEnum.optional(),
-  priority: TicketPriorityEnum.optional(),
+	status: TicketStatusEnum.optional(),
+	priority: TicketPriorityEnum.optional(),
 })
 
 export const UpdateTicketSchema = CreateTicketSchema.partial()

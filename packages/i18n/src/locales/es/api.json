@@ -1,102 +1,102 @@
 {
-  "users": {
-    "response": {
-      "fetched": "Obtenido correctamente",
-      "created": "Creado correctamente",
-      "updated": "Actualizado correctamente",
-      "deleted": "Eliminado correctamente"
-    },
-    "validation": {
-      "nameRequired": "El nombre es obligatorio",
-      "nameTooLong": "El nombre es demasiado largo",
-      "emailInvalid": "Dirección de correo inválida",
-      "createdAtInvalid": "Fecha de creación inválida",
-      "updatedAtInvalid": "Fecha de actualización inválida"
-    },
-    "errors": {
-      "notFound": "Usuario no encontrado",
-      "internalError": "Error interno del servidor"
-    }
-  },
-  "sessions": {
-    "response": {
-      "created": "Creado correctamente",
-      "updated": "Actualizado correctamente",
-      "deleted": "Eliminado correctamente"
-    },
-    "validation": {
-      "idRequired": "El ID es obligatorio",
-      "idInvalid": "ID no válido",
-      "userIdRequired": "El ID de usuario es obligatorio",
-      "userIdInvalid": "ID de usuario no válido",
-      "refreshTokenHashRequired": "El hash del token de actualización es obligatorio",
-      "isRevokedRequired": "El estado de revocación es obligatorio",
-      "expiresAtRequired": "La fecha de expiración es obligatoria",
-      "createdAtRequired": "La fecha de creación es obligatoria"
-    },
-    "errors": {
-      "notFound": "Sesión no encontrada",
-      "revoked": "Sesión revocada",
-      "expired": "Sesión expirada",
-      "internalError": "Error interno del servidor"
-    }
-  },
-  "tickets": {
-    "response": {
-      "signedIn": "Inicio de sesión exitoso",
-      "refreshed": "Token actualizado correctamente",
-      "signedOut": "Cierre de sesión exitoso",
-      "me": "Perfil recuperado correctamente",
-      "signedUp": "Cuenta creada correctamente"
-    },
-    "validation": {
-      "emailInvalid": "Dirección de correo inválida",
-      "emailRequired": "El correo es obligatorio",
-      "passwordRequired": "La contraseña es obligatoria",
-      "passwordTooShort": "La contraseña es demasiado corta",
-      "passwordTooLong": "La contraseña es demasiado larga",
-      "nameRequired": "El nombre es obligatorio",
-      "nameTooLong": "El nombre es demasiado largo"
-    },
-    "errors": {
-      "unauthenticated": "No autenticado",
-      "invalidCredentials": "Credenciales inválidas",
-      "internalError": "Error interno del servidor",
-      "invalidExpiredToken": "Token no válido o expirado"
-    }
-  },
-  "auth": {
-    "response": {
-      "signedIn": "Inicio de sesión exitoso",
-      "refreshed": "Token actualizado correctamente",
-      "signedOut": "Cierre de sesión exitoso",
-      "me": "Perfil recuperado correctamente",
-      "signedUp": "Cuenta creada correctamente"
-    },
-    "validation": {
-      "emailInvalid": "Dirección de correo inválida",
-      "emailRequired": "El correo es obligatorio",
-      "passwordRequired": "La contraseña es obligatoria",
-      "passwordTooShort": "La contraseña es demasiado corta",
-      "passwordTooLong": "La contraseña es demasiado larga",
-      "nameRequired": "El nombre es obligatorio",
-      "nameTooLong": "El nombre es demasiado largo"
-    },
-    "errors": {
-      "unauthenticated": "No autenticado",
-      "invalidCredentials": "Credenciales inválidas",
-      "internalError": "Error interno del servidor",
-      "invalidExpiredToken": "Token no válido o expirado"
-    }
-  },
-  "query": {
-    "errors": {
-      "operatorCombinationError": "Combinación de operadores no válida",
-      "maxDepthExceeded": "Profundidad máxima de consulta excedida",
-      "maxLimitExceeded": "Límite máximo excedido",
-      "nonNumberLimitPage": "El límite y la página deben ser números",
-      "fieldNotAllowed": "Campo no permitido en la consulta",
-      "nonNumberPageLimit": "La página y el límite deben ser números"
-    }
-  }
+	"users": {
+		"response": {
+			"fetched": "Obtenido correctamente",
+			"created": "Creado correctamente",
+			"updated": "Actualizado correctamente",
+			"deleted": "Eliminado correctamente"
+		},
+		"validation": {
+			"nameRequired": "El nombre es obligatorio",
+			"nameTooLong": "El nombre es demasiado largo",
+			"emailInvalid": "Dirección de correo inválida",
+			"createdAtInvalid": "Fecha de creación inválida",
+			"updatedAtInvalid": "Fecha de actualización inválida"
+		},
+		"errors": {
+			"notFound": "Usuario no encontrado",
+			"internalError": "Error interno del servidor"
+		}
+	},
+	"sessions": {
+		"response": {
+			"created": "Creado correctamente",
+			"updated": "Actualizado correctamente",
+			"deleted": "Eliminado correctamente"
+		},
+		"validation": {
+			"idRequired": "El ID es obligatorio",
+			"idInvalid": "ID no válido",
+			"userIdRequired": "El ID de usuario es obligatorio",
+			"userIdInvalid": "ID de usuario no válido",
+			"refreshTokenHashRequired": "El hash del token de actualización es obligatorio",
+			"isRevokedRequired": "El estado de revocación es obligatorio",
+			"expiresAtRequired": "La fecha de expiración es obligatoria",
+			"createdAtRequired": "La fecha de creación es obligatoria"
+		},
+		"errors": {
+			"notFound": "Sesión no encontrada",
+			"revoked": "Sesión revocada",
+			"expired": "Sesión expirada",
+			"internalError": "Error interno del servidor"
+		}
+	},
+	"tickets": {
+		"response": {
+			"signedIn": "Inicio de sesión exitoso",
+			"refreshed": "Token actualizado correctamente",
+			"signedOut": "Cierre de sesión exitoso",
+			"me": "Perfil recuperado correctamente",
+			"signedUp": "Cuenta creada correctamente"
+		},
+		"validation": {
+			"emailInvalid": "Dirección de correo inválida",
+			"emailRequired": "El correo es obligatorio",
+			"passwordRequired": "La contraseña es obligatoria",
+			"passwordTooShort": "La contraseña es demasiado corta",
+			"passwordTooLong": "La contraseña es demasiado larga",
+			"nameRequired": "El nombre es obligatorio",
+			"nameTooLong": "El nombre es demasiado largo"
+		},
+		"errors": {
+			"unauthenticated": "No autenticado",
+			"invalidCredentials": "Credenciales inválidas",
+			"internalError": "Error interno del servidor",
+			"invalidExpiredToken": "Token no válido o expirado"
+		}
+	},
+	"auth": {
+		"response": {
+			"signedIn": "Inicio de sesión exitoso",
+			"refreshed": "Token actualizado correctamente",
+			"signedOut": "Cierre de sesión exitoso",
+			"me": "Perfil recuperado correctamente",
+			"signedUp": "Cuenta creada correctamente"
+		},
+		"validation": {
+			"emailInvalid": "Dirección de correo inválida",
+			"emailRequired": "El correo es obligatorio",
+			"passwordRequired": "La contraseña es obligatoria",
+			"passwordTooShort": "La contraseña es demasiado corta",
+			"passwordTooLong": "La contraseña es demasiado larga",
+			"nameRequired": "El nombre es obligatorio",
+			"nameTooLong": "El nombre es demasiado largo"
+		},
+		"errors": {
+			"unauthenticated": "No autenticado",
+			"invalidCredentials": "Credenciales inválidas",
+			"internalError": "Error interno del servidor",
+			"invalidExpiredToken": "Token no válido o expirado"
+		}
+	},
+	"query": {
+		"errors": {
+			"operatorCombinationError": "Combinación de operadores no válida",
+			"maxDepthExceeded": "Profundidad máxima de consulta excedida",
+			"maxLimitExceeded": "Límite máximo excedido",
+			"nonNumberLimitPage": "El límite y la página deben ser números",
+			"fieldNotAllowed": "Campo no permitido en la consulta",
+			"nonNumberPageLimit": "La página y el límite deben ser números"
+		}
+	}
 }

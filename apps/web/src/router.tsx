@@ -7,34 +7,34 @@ import { UsersPage } from './modules/users'
 import { UserPage } from './modules/users/pages/user.page'
 
 export const router = createBrowserRouter([
-  {
-    element: <AuthGate />,
-    children: [
-      {
-        element: <AppLayout sidebar={<AppSidebar />} />,
-        children: [
-          {
-            path: '/',
-            element: <HomePage />,
-          },
-          {
-            path: '/users',
-            element: <UsersPage />,
-          },
-          {
-            path: '/users/:id',
-            element: <UserPage />,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    path: '/signin',
-    element: <SigninPage />,
-  },
-  {
-    path: '/signup',
-    element: <SignupPage />,
-  },
+	{
+		element: <AuthGate />,
+		children: [
+			{
+				element: <AppLayout sidebar={<AppSidebar />} />,
+				children: [
+					{
+						path: '/',
+						element: <HomePage />,
+					},
+					{
+						path: '/users',
+						element: <UsersPage />,
+					},
+					{
+						path: '/users/:id',
+						element: <UserPage />,
+					},
+				],
+			},
+		],
+	},
+	{
+		path: '/signin',
+		element: <SigninPage />,
+	},
+	{
+		path: '/signup',
+		element: <SignupPage />,
+	},
 ])

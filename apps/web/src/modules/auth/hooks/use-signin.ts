@@ -1,45 +1,40 @@
-import type { AuthUser, SigninPayload } from '@xenon/api/exports'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import type { AuthUser, SigninPayload } from '@xenon/api/exports'
 import { authClient } from '@xenon/api/exports'
 import { authKeys } from '../auth.keys'
 
-async function signinRequest(
-  payload: SigninPayload,
-): Promise<AuthUser> {
-  const res = await authClient.signin.$post({ json: payload })
+async function signinRequest(payload: SigninPayload): Promise<AuthUser> {
+	const res = await authClient.signin.$post({ json: payload })
 
-  const data = await res.json()
+	const data = await res.json()
 
-  if (!res.ok) {
-    const message = 'message' in data
-      ? data.message
-      : 'Signin failed'
+	if (!res.ok) {
+		const message = 'message' in data ? data.message : 'Signin failed'
 
-    throw new Error(message)
-  }
+		throw new Error(message)
+	}
 
-  if ('message' in data)
-    throw new Error(data.message)
+	if ('message' in data) throw new Error(data.message)
 
-  return data
+	return data
 }
 
 export function useSignin() {
-  const queryClient = useQueryClient()
+	const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationKey: authKeys.signin(),
+	return useMutation({
+		mutationKey: authKeys.signin(),
 
-    mutationFn: signinRequest,
+		mutationFn: signinRequest,
 
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: authKeys.me(),
-      })
-    },
+		onSuccess: async () => {
+			await queryClient.invalidateQueries({
+				queryKey: authKeys.me(),
+			})
+		},
 
-    onError: () => {
-      queryClient.setQueryData(authKeys.me(), null)
-    },
-  })
+		onError: () => {
+			queryClient.setQueryData(authKeys.me(), null)
+		},
+	})
 }

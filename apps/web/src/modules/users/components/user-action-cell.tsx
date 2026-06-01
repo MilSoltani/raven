@@ -8,76 +8,72 @@ import { useUpdateUser, useUser } from '../hooks/users.hooks'
 import { UsersForm } from './users.form'
 
 type UserActionCellProps = {
-  userId: number
+	userId: number
 }
 
 export function UserActionCell({ userId }: UserActionCellProps) {
-  const { t } = useTranslation('web')
-  const [isOpen, setIsOpen] = useState(false)
+	const { t } = useTranslation('web')
+	const [isOpen, setIsOpen] = useState(false)
 
-  const { data, isLoading, isError, error } = useUser(userId, isOpen)
-  const updateUser = useUpdateUser()
+	const { data, isLoading, isError, error } = useUser(userId, isOpen)
+	const updateUser = useUpdateUser()
 
-  if (!userId || Number.isNaN(userId)) {
-    return <div>{t('users.ui.invalidUserId')}</div>
-  }
+	if (!userId || Number.isNaN(userId)) {
+		return <div>{t('users.ui.invalidUserId')}</div>
+	}
 
-  return (
-    <AppDrawer
-      open={isOpen}
-      onOpenChange={setIsOpen}
-      drawerTitle="User Details"
-      drawerDescription={t('users.ui.drawerDescription')}
-      pageLinkUrl={data ? `/users/${data.id}` : undefined}
-      triggerButton={(
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={(e) => {
-            (e.currentTarget as HTMLButtonElement).blur()
-          }}
-        >
-          <IconLayoutSidebarRightExpandFilled className="h-4 w-4" />
-        </Button>
-      )}
-      drawerBody={
-        isLoading
-          ? (<div>{t('users.ui.loading')}</div>)
-          : isError
-            ? (
-                <div>
-                  {t('users.ui.loadingError')}
-                  :
-                  {error instanceof Error ? error.message : ''}
-                </div>
-              )
-            : data
-              ? (
-                  <UsersForm
-                    mode="edit"
-                    user={data}
-                    error={updateUser.error?.message}
-                    onSubmit={(formData) => {
-                      updateUser.mutate(
-                        {
-                          id: data.id,
-                          data: UpdateUserPayloadSchema.parse(formData),
-                        },
-                        { onSuccess: () => setIsOpen(false) },
-                      )
-                    }}
-                    footer={(
-                      <Button
-                        type="submit"
-                        disabled={updateUser.isPending}
-                      >
-                        {updateUser.isPending ? t('users.form.updating') : t('users.form.update')}
-                      </Button>
-                    )}
-                  />
-                )
-              : (<div>{t('users.ui.openDrawerNotice')}</div>)
-      }
-    />
-  )
+	return (
+		<AppDrawer
+			open={isOpen}
+			onOpenChange={setIsOpen}
+			drawerTitle="User Details"
+			drawerDescription={t('users.ui.drawerDescription')}
+			pageLinkUrl={data ? `/users/${data.id}` : undefined}
+			triggerButton={
+				<Button
+					variant="outline"
+					size="icon"
+					onClick={(e) => {
+						;(e.currentTarget as HTMLButtonElement).blur()
+					}}
+				>
+					<IconLayoutSidebarRightExpandFilled className="h-4 w-4" />
+				</Button>
+			}
+			drawerBody={
+				isLoading ? (
+					<div>{t('users.ui.loading')}</div>
+				) : isError ? (
+					<div>
+						{t('users.ui.loadingError')}:
+						{error instanceof Error ? error.message : ''}
+					</div>
+				) : data ? (
+					<UsersForm
+						mode="edit"
+						user={data}
+						error={updateUser.error?.message}
+						onSubmit={(formData) => {
+							updateUser.mutate(
+								{
+									id: data.id,
+									data: UpdateUserPayloadSchema.parse(formData),
+								},
+								{ onSuccess: () => setIsOpen(false) },
+							)
+						}}
+						footer={
+							<Button type="submit" disabled={updateUser.isPending}>
+								{updateUser.isPending
+									? t('users.form.updating')
+									: t('users.form.update')}
+							</Button>
+						}
+					/>
+				) : (
+					<div>{t('users.ui.openDrawerNotice')}</div>
+				)
+			}
+		/>
+	)
 }

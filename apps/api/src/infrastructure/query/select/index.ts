@@ -1,1 +1,4 @@
-export { createSelectTransformer, type SelectTransformer } from './select.transformer'
+export {
+	createSelectTransformer,
+	type SelectTransformer,
+} from './select.transformer'

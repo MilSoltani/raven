@@ -1,5 +1,5 @@
-import type { PrismaClient } from '@xenon/api/infrastructure/database/prisma'
 import { config } from '@xenon/api/infrastructure/config/config'
+import type { PrismaClient } from '@xenon/api/infrastructure/database/prisma'
 import { createAuthHandler } from './auth.handler'
 import { createAuthRepository } from './auth.repository'
 import { createAuthService } from './auth.service'
@@ -14,19 +14,19 @@ const cookieUtil = createCookieUtil(config)
 const jwtUtil = createJwtUtil(config)
 
 export function createAuthModule(prisma: PrismaClient) {
-  const sessionRepository = createSessionsRepository(prisma)
-  const sessionService = createSessionsService(sessionRepository)
+	const sessionRepository = createSessionsRepository(prisma)
+	const sessionService = createSessionsService(sessionRepository)
 
-  const authRepository = createAuthRepository(prisma)
-  const authService = createAuthService(
-    authRepository,
-    sessionService,
-    cryptoUtil,
-    jwtUtil,
-  )
-  const handler = createAuthHandler(authService, cookieUtil)
+	const authRepository = createAuthRepository(prisma)
+	const authService = createAuthService(
+		authRepository,
+		sessionService,
+		cryptoUtil,
+		jwtUtil,
+	)
+	const handler = createAuthHandler(authService, cookieUtil)
 
-  return { handler }
+	return { handler }
 }
 
 export type AuthModule = ReturnType<typeof createAuthModule>

@@ -1,25 +1,25 @@
 {
-  "$schema": "https://ui.shadcn.com/schema.json",
-  "style": "radix-mira",
-  "rsc": false,
-  "tsx": true,
-  "tailwind": {
-    "config": "",
-    "css": "src/main.css",
-    "baseColor": "neutral",
-    "cssVariables": true,
-    "prefix": ""
-  },
-  "iconLibrary": "tabler",
-  "rtl": false,
-  "aliases": {
-    "components": "@xenon/web/common/components",
-    "utils": "@xenon/web/common/lib/utils",
-    "ui": "@xenon/web/common/components/ui",
-    "lib": "@xenon/web/common/lib",
-    "hooks": "@xenon/web/common/hooks"
-  },
-  "menuColor": "default",
-  "menuAccent": "subtle",
-  "registries": {}
+	"$schema": "https://ui.shadcn.com/schema.json",
+	"style": "radix-mira",
+	"rsc": false,
+	"tsx": true,
+	"tailwind": {
+		"config": "",
+		"css": "src/main.css",
+		"baseColor": "neutral",
+		"cssVariables": true,
+		"prefix": ""
+	},
+	"iconLibrary": "tabler",
+	"rtl": false,
+	"aliases": {
+		"components": "@xenon/web/common/components",
+		"utils": "@xenon/web/common/lib/utils",
+		"ui": "@xenon/web/common/components/ui",
+		"lib": "@xenon/web/common/lib",
+		"hooks": "@xenon/web/common/hooks"
+	},
+	"menuColor": "default",
+	"menuAccent": "subtle",
+	"registries": {}
 }

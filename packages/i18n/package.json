@@ -1,11 +1,11 @@
 {
-  "name": "@xenon/i18n",
-  "type": "module",
-  "exports": {
-    ".": "./src/index.ts"
-  },
-  "scripts": {},
-  "dependencies": {},
-  "devDependencies": {},
-  "typescript": "^6.0.0"
+	"name": "@xenon/i18n",
+	"type": "module",
+	"exports": {
+		".": "./src/index.ts"
+	},
+	"scripts": {},
+	"dependencies": {},
+	"devDependencies": {},
+	"typescript": "^6.0.0"
 }

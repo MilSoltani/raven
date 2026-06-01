@@ -1,51 +1,47 @@
-import type { AuthUser } from '@xenon/api/exports'
 import { useQuery } from '@tanstack/react-query'
+import type { AuthUser } from '@xenon/api/exports'
 import { authClient } from '@xenon/api/exports'
 import { authKeys } from '../auth.keys'
 import { refreshSession } from './use-refresh'
 
 async function getMe(): Promise<AuthUser | null> {
-  const res = await authClient.me.$get({})
+	const res = await authClient.me.$get({})
 
-  if (res.ok) {
-    const data = await res.json()
-    if ('message' in data)
-      return null
-    return data
-  }
+	if (res.ok) {
+		const data = await res.json()
+		if ('message' in data) return null
+		return data
+	}
 
-  // only attempt refresh on 401
-  if (res.status === 401) {
-    const refreshed = await refreshSession()
+	// only attempt refresh on 401
+	if (res.status === 401) {
+		const refreshed = await refreshSession()
 
-    if (!refreshed)
-      return null
+		if (!refreshed) return null
 
-    const retry = await authClient.me.$get({})
+		const retry = await authClient.me.$get({})
 
-    if (!retry.ok)
-      return null
+		if (!retry.ok) return null
 
-    const data = await retry.json()
+		const data = await retry.json()
 
-    if ('message' in data)
-      return null
+		if ('message' in data) return null
 
-    return data
-  }
+		return data
+	}
 
-  return null
+	return null
 }
 
 export function useMe() {
-  return useQuery({
-    queryKey: authKeys.me(),
-    queryFn: getMe,
+	return useQuery({
+		queryKey: authKeys.me(),
+		queryFn: getMe,
 
-    retry: false,
+		retry: false,
 
-    staleTime: 1000 * 60 * 5,
+		staleTime: 1000 * 60 * 5,
 
-    refetchOnWindowFocus: false,
-  })
+		refetchOnWindowFocus: false,
+	})
 }

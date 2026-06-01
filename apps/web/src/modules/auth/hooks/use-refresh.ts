@@ -6,32 +6,29 @@ import { authKeys } from '../auth.keys'
 let refreshPromise: Promise<AuthUser | null> | null = null
 
 async function refreshRequest(): Promise<AuthUser | null> {
-  const res = await authClient.refresh.$post({})
+	const res = await authClient.refresh.$post({})
 
-  if (!res.ok)
-    return null
+	if (!res.ok) return null
 
-  const data = await res.json()
+	const data = await res.json()
 
-  if ('message' in data)
-    return null
+	if ('message' in data) return null
 
-  return data
+	return data
 }
 
 export async function refreshSession() {
-  if (refreshPromise)
-    return refreshPromise
+	if (refreshPromise) return refreshPromise
 
-  refreshPromise = refreshRequest().finally(() => {
-    refreshPromise = null
-  })
+	refreshPromise = refreshRequest().finally(() => {
+		refreshPromise = null
+	})
 
-  const user = await refreshPromise
+	const user = await refreshPromise
 
-  if (user) {
-    queryClient.setQueryData(authKeys.me(), user)
-  }
+	if (user) {
+		queryClient.setQueryData(authKeys.me(), user)
+	}
 
-  return user
+	return user
 }

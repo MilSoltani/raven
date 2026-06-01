@@ -1,24 +1,24 @@
 {
-  "users": {
-    "entity": {
-      "name": "Name",
-      "email": "Email",
-      "createdAt": "Created at",
-      "updatedAt": "Updated at"
-    },
-    "form": {
-      "create": "create",
-      "creating": "creating",
-      "update": "update",
-      "updating": "updating"
-    },
-    "ui": {
-      "loading": "Loading",
-      "loadingError": "Failed to load data",
-      "details": "Details",
-      "invalidUserId": "Invalid user ID",
-      "drawerDescription": "View and edit user details",
-      "openDrawerNotice": "Select a user to view details"
-    }
-  }
+	"users": {
+		"entity": {
+			"name": "Name",
+			"email": "Email",
+			"createdAt": "Created at",
+			"updatedAt": "Updated at"
+		},
+		"form": {
+			"create": "create",
+			"creating": "creating",
+			"update": "update",
+			"updating": "updating"
+		},
+		"ui": {
+			"loading": "Loading",
+			"loadingError": "Failed to load data",
+			"details": "Details",
+			"invalidUserId": "Invalid user ID",
+			"drawerDescription": "View and edit user details",
+			"openDrawerNotice": "Select a user to view details"
+		}
+	}
 }

@@ -1,24 +1,24 @@
 {
-  "users": {
-    "entity": {
-      "name": "Name",
-      "email": "E-Mail",
-      "createdAt": "Erstellt am",
-      "updatedAt": "Aktualisiert am"
-    },
-    "form": {
-      "create": "Erstellen",
-      "creating": "Wird erstellt",
-      "update": "Aktualisieren",
-      "updating": "Wird aktualisiert"
-    },
-    "ui": {
-      "loading": "Lädt",
-      "loadingError": "Fehler beim Laden",
-      "details": "Details",
-      "invalidUserId": "Ungültige Benutzer-ID",
-      "drawerDescription": "Benutzerdetails anzeigen und bearbeiten",
-      "openDrawerNotice": "Wählen Sie einen Benutzer aus"
-    }
-  }
+	"users": {
+		"entity": {
+			"name": "Name",
+			"email": "E-Mail",
+			"createdAt": "Erstellt am",
+			"updatedAt": "Aktualisiert am"
+		},
+		"form": {
+			"create": "Erstellen",
+			"creating": "Wird erstellt",
+			"update": "Aktualisieren",
+			"updating": "Wird aktualisiert"
+		},
+		"ui": {
+			"loading": "Lädt",
+			"loadingError": "Fehler beim Laden",
+			"details": "Details",
+			"invalidUserId": "Ungültige Benutzer-ID",
+			"drawerDescription": "Benutzerdetails anzeigen und bearbeiten",
+			"openDrawerNotice": "Wählen Sie einen Benutzer aus"
+		}
+	}
 }

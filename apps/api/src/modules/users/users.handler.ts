@@ -1,76 +1,66 @@
 import type { AppEnv } from '@xenon/api/common/types'
-import type { UsersService } from './users.service'
-import { } from '@hono/zod-validator'
 import { IdParamSchema } from '@xenon/api/common/types'
 import { zValidator } from '@xenon/api/common/zvalidator-wrapper'
-import { CreateUserPayloadSchema, CriteriaSchema, UpdateUserPayloadSchema } from '@xenon/api/exports'
+import {
+	CreateUserPayloadSchema,
+	CriteriaSchema,
+	UpdateUserPayloadSchema,
+} from '@xenon/api/exports'
 import { Hono } from 'hono'
+import type { UsersService } from './users.service'
 
 export function createUsersHandler(usersService: UsersService) {
-  return new Hono<AppEnv>()
+	return new Hono<AppEnv>()
 
-    .get(
-      '/',
-      zValidator('query', CriteriaSchema),
-      async (c) => {
-        const result = await usersService.getAll(c.var.query)
+		.get('/', zValidator('query', CriteriaSchema), async (c) => {
+			const result = await usersService.getAll(c.var.query)
 
-        return c.json({
-          items: result.data,
-          meta: result.meta,
-        }, 200)
-      },
-    )
+			return c.json(
+				{
+					items: result.data,
+					meta: result.meta,
+				},
+				200,
+			)
+		})
 
-    .get(
-      '/:id',
-      zValidator('param', IdParamSchema),
-      async (c) => {
-        const { id } = c.req.valid('param')
+		.get('/:id', zValidator('param', IdParamSchema), async (c) => {
+			const { id } = c.req.valid('param')
 
-        const result = await usersService.getById(id)
+			const result = await usersService.getById(id)
 
-        return c.json(result, 200)
-      },
-    )
+			return c.json(result, 200)
+		})
 
-    .post(
-      '/',
-      zValidator('json', CreateUserPayloadSchema),
-      async (c) => {
-        const json = c.req.valid('json')
+		.post('/', zValidator('json', CreateUserPayloadSchema), async (c) => {
+			const json = c.req.valid('json')
 
-        const result = await usersService.create(json)
+			const result = await usersService.create(json)
 
-        return c.json(result, 201)
-      },
-    )
+			return c.json(result, 201)
+		})
 
-    .put(
-      '/:id',
-      zValidator('param', IdParamSchema),
-      zValidator('json', UpdateUserPayloadSchema),
-      async (c) => {
-        const { id } = c.req.valid('param')
-        const json = c.req.valid('json')
+		.put(
+			'/:id',
+			zValidator('param', IdParamSchema),
+			zValidator('json', UpdateUserPayloadSchema),
+			async (c) => {
+				const { id } = c.req.valid('param')
+				const json = c.req.valid('json')
 
-        const result = await usersService.update(id, json)
+				const result = await usersService.update(id, json)
 
-        return c.json(result, 200)
-      },
-    )
+				return c.json(result, 200)
+			},
+		)
 
-    .delete(
-      '/:id',
-      zValidator('param', IdParamSchema),
-      async (c) => {
-        const { id } = c.req.valid('param')
+		.delete('/:id', zValidator('param', IdParamSchema), async (c) => {
+			const { id } = c.req.valid('param')
 
-        const result = await usersService.delete(id)
+			const result = await usersService.delete(id)
 
-        return c.json(result, 200)
-      },
-    )
+			return c.json(result, 200)
+		})
 }
 
 export type UsersHandler = ReturnType<typeof createUsersHandler>

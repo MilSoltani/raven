@@ -1,7 +1,7 @@
-import type z from 'zod'
 import { dirname, join } from 'node:path'
 import { loadEnvFile } from 'node:process'
 import { fileURLToPath } from 'node:url'
+import type z from 'zod'
 import { ConfigSchema } from './config.schema'
 
 const __filename = fileURLToPath(import.meta.url)

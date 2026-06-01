@@ -1,20 +1,14 @@
 {
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "target": "ES2023",
-    "ignoreDeprecations": "6.0",
-    "rootDir": ".",
-    "paths": {
-      "@xenon/i18n/*": [
-        "./*"
-      ]
-    },
-    "types": [
-      "node"
-    ],
-    "outDir": "dist"
-  },
-  "include": [
-    "src"
-  ]
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"target": "ES2023",
+		"ignoreDeprecations": "6.0",
+		"rootDir": ".",
+		"paths": {
+			"@xenon/i18n/*": ["./*"]
+		},
+		"types": ["node"],
+		"outDir": "dist"
+	},
+	"include": ["src"]
 }

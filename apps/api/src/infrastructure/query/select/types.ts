@@ -1,12 +1,12 @@
 export type AllowedRelations = Record<string, readonly string[]>
 
 export type SelectOptions = {
-  allowedColumns: string[]
-  allowedRelations: AllowedRelations
-  requiredColumns?: string[]
+	allowedColumns: string[]
+	allowedRelations: AllowedRelations
+	requiredColumns?: string[]
 }
 
 export type PrismaSelect = Record<
-  string,
-  true | { select: Record<string, true> }
+	string,
+	true | { select: Record<string, true> }
 >

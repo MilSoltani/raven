@@ -1,56 +1,33 @@
 {
-  "compilerOptions": {
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-    "target": "es2023",
-    "jsx": "react-jsx",
-    "lib": [
-      "ES2023",
-      "DOM"
-    ],
-    "moduleDetection": "force",
-    "module": "esnext",
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "paths": {
-      "@xenon/web": [
-        "./src/"
-      ],
-      "@xenon/web/*": [
-        "./src/*"
-      ],
-      "@xenon/api/*": [
-        "../api/src/*"
-      ],
-      "components/*": [
-        "./src/common/components/*"
-      ],
-      "ui/*": [
-        "./src/common/components/ui/*"
-      ],
-      "lib/*": [
-        "./src/common/lib/*"
-      ],
-      "hooks/*": [
-        "./src/common/hooks/*"
-      ],
-      "utils/*": [
-        "./src/common/utils/*"
-      ]
-    },
-    "types": [
-      "vite/client"
-    ],
-    "allowImportingTsExtensions": true,
-    "noFallthroughCasesInSwitch": true,
-    /* Linting */
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noEmit": true,
-    "verbatimModuleSyntax": true,
-    "erasableSyntaxOnly": true,
-    "skipLibCheck": true
-  },
-  "include": [
-    "src"
-  ]
+	"compilerOptions": {
+		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+		"target": "es2023",
+		"jsx": "react-jsx",
+		"lib": ["ES2023", "DOM"],
+		"moduleDetection": "force",
+		"module": "esnext",
+		/* Bundler mode */
+		"moduleResolution": "bundler",
+		"paths": {
+			"@xenon/web": ["./src/"],
+			"@xenon/web/*": ["./src/*"],
+			"@xenon/api/*": ["../api/src/*"],
+			"components/*": ["./src/common/components/*"],
+			"ui/*": ["./src/common/components/ui/*"],
+			"lib/*": ["./src/common/lib/*"],
+			"hooks/*": ["./src/common/hooks/*"],
+			"utils/*": ["./src/common/utils/*"]
+		},
+		"types": ["vite/client"],
+		"allowImportingTsExtensions": true,
+		"noFallthroughCasesInSwitch": true,
+		/* Linting */
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noEmit": true,
+		"verbatimModuleSyntax": true,
+		"erasableSyntaxOnly": true,
+		"skipLibCheck": true
+	},
+	"include": ["src"]
 }

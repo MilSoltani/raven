@@ -1,23 +1,17 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "paths": {
-      "@xenon/web": [
-        "./apps/web/src/"
-      ],
-      "@xenon/api": [
-        "./apps/api/src/"
-      ],
-      "@xenon/i18n": [
-        "./packages/i18n/src/"
-      ]
-    },
-    "strict": true,
-    "declaration": true,
-    "esModuleInterop": true,
-    "isolatedModules": true,
-    "skipLibCheck": true
-  }
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"paths": {
+			"@xenon/web": ["./apps/web/src/"],
+			"@xenon/api": ["./apps/api/src/"],
+			"@xenon/i18n": ["./packages/i18n/src/"]
+		},
+		"strict": true,
+		"declaration": true,
+		"esModuleInterop": true,
+		"isolatedModules": true,
+		"skipLibCheck": true
+	}
 }

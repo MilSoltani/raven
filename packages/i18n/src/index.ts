@@ -11,10 +11,10 @@ import frApi from './locales/fr/api.json'
 import frWeb from './locales/fr/web.json'
 
 export const resources = {
-  en: { api: enApi, web: enWeb },
-  de: { api: deApi, web: deWeb },
-  fr: { api: frApi, web: frWeb },
-  es: { api: esApi, web: esWeb },
+	en: { api: enApi, web: enWeb },
+	de: { api: deApi, web: deWeb },
+	fr: { api: frApi, web: frWeb },
+	es: { api: esApi, web: esWeb },
 } as const
 
 export default resources

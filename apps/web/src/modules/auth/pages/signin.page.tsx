@@ -1,5 +1,5 @@
-import type { SigninPayload } from '@xenon/api/exports'
 import { zodResolver } from '@hookform/resolvers/zod'
+import type { SigninPayload } from '@xenon/api/exports'
 import { SigninPayloadSchema } from '@xenon/api/exports'
 import { SigninForm } from '@xenon/web/modules/auth/pages/signin-form'
 import { useForm } from 'react-hook-form'
@@ -7,37 +7,37 @@ import { useNavigate } from 'react-router-dom'
 import { useSignin } from '../hooks/use-signin'
 
 export function SigninPage() {
-  const signin = useSignin()
-  const navigate = useNavigate()
+	const signin = useSignin()
+	const navigate = useNavigate()
 
-  const form = useForm<SigninPayload>({
-    resolver: zodResolver(SigninPayloadSchema),
-    mode: 'onBlur',
-    defaultValues: {
-      email: '',
-      password: '',
-    },
-  })
+	const form = useForm<SigninPayload>({
+		resolver: zodResolver(SigninPayloadSchema),
+		mode: 'onBlur',
+		defaultValues: {
+			email: '',
+			password: '',
+		},
+	})
 
-  const onSubmit = form.handleSubmit((data) => {
-    signin.mutate(data, {
-      onError: (err) => {
-        form.setError('root.serverError', {
-          message: err.message,
-        })
-      },
-      onSuccess: () => {
-        navigate('/')
-      },
-    })
-  })
+	const onSubmit = form.handleSubmit((data) => {
+		signin.mutate(data, {
+			onError: (err) => {
+				form.setError('root.serverError', {
+					message: err.message,
+				})
+			},
+			onSuccess: () => {
+				navigate('/')
+			},
+		})
+	})
 
-  return (
-    <SigninForm
-      register={form.register}
-      errors={form.formState.errors}
-      onSubmit={onSubmit}
-      isLoading={signin.isPending}
-    />
-  )
+	return (
+		<SigninForm
+			register={form.register}
+			errors={form.formState.errors}
+			onSubmit={onSubmit}
+			isLoading={signin.isPending}
+		/>
+	)
 }

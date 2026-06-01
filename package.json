@@ -1,20 +1,24 @@
 {
-  "name": "xenon",
-  "description": "Ticket System",
-  "author": "Milad Soltani",
-  "scripts": {
-    "dev:web": "cd apps/web && npm run dev",
-    "dev:api": "cd apps/api && npm run dev",
-    "debug:api": "cd apps/api && npm run debug",
-    "generate": "cd apps/api && prisma generate",
-    "migrate:dev": "cd apps/api && prisma migrate dev",
-    "migrate:reset": "cd apps/api && prisma migrate reset",
-    "studio": "cd apps/api && prisma studio",
-    "prepare": "husky"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "2.4.15",
-    "husky": "^9.1.7",
-    "nano-staged": "^1.0.2"
-  }
+	"name": "xenon",
+	"description": "Ticket System",
+	"author": "Milad Soltani",
+	"scripts": {
+		"dev:web": "cd apps/web && npm run dev",
+		"dev:api": "cd apps/api && npm run dev",
+		"debug:api": "cd apps/api && npm run debug",
+		"generate": "cd apps/api && prisma generate",
+		"migrate:dev": "cd apps/api && prisma migrate dev",
+		"migrate:reset": "cd apps/api && prisma migrate reset",
+		"studio": "cd apps/api && prisma studio",
+		"prepare": "husky",
+		"format": "biome format . --write",
+		"lint": "biome lint .",
+		"check": "biome check .",
+		"check:write": "biome check . --write"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.4.15",
+		"husky": "^9.1.7",
+		"nano-staged": "^1.0.2"
+	}
 }

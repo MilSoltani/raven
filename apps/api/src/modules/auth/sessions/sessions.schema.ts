@@ -1,32 +1,33 @@
 import z from 'zod'
 
 export const SessionSchema = z.object({
-  id: z.number('sessions.validation.idRequired')
-    .int('sessions.validation.idInvalid'),
+	id: z
+		.number('sessions.validation.idRequired')
+		.int('sessions.validation.idInvalid'),
 
-  userId: z.number('sessions.validation.userIdRequired')
-    .int('sessions.validation.userIdInvalid'),
+	userId: z
+		.number('sessions.validation.userIdRequired')
+		.int('sessions.validation.userIdInvalid'),
 
-  refreshTokenHash: z.string('sessions.validation.refreshTokenHashRequired'),
+	refreshTokenHash: z.string('sessions.validation.refreshTokenHashRequired'),
 
-  isRevoked: z.boolean('sessions.validation.isRevokedRequired'),
+	isRevoked: z.boolean('sessions.validation.isRevokedRequired'),
 
-  expiresAt: z.date(),
-  createdAt: z.date(),
+	expiresAt: z.date(),
+	createdAt: z.date(),
 })
 
 export const CreateSessionPayloadSchema = SessionSchema.omit({
-  id: true,
-  createdAt: true,
-  isRevoked: true,
+	id: true,
+	createdAt: true,
+	isRevoked: true,
 })
 
 export const UpdateSessionPayloadSchema = SessionSchema.pick({
-  refreshTokenHash: true,
-  isRevoked: true,
-  expiresAt: true,
-})
-  .partial()
+	refreshTokenHash: true,
+	isRevoked: true,
+	expiresAt: true,
+}).partial()
 
 export type Session = z.infer<typeof SessionSchema>
 export type CreateSessionPayload = z.infer<typeof CreateSessionPayloadSchema>

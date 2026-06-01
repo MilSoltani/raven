@@ -1,102 +1,102 @@
 {
-  "users": {
-    "response": {
-      "fetched": "Fetched successfully",
-      "created": "Created successfully",
-      "updated": "Updated successfully",
-      "deleted": "Deleted successfully"
-    },
-    "validation": {
-      "nameRequired": "Name is required",
-      "nameTooLong": "Name is too long",
-      "emailInvalid": "Invalid email address",
-      "createdAtInvalid": "Invalid created date",
-      "updatedAtInvalid": "Invalid updated date"
-    },
-    "errors": {
-      "notFound": "User not found",
-      "internalError": "Internal server error"
-    }
-  },
-  "sessions": {
-    "response": {
-      "created": "Created successfully",
-      "updated": "Updated successfully",
-      "deleted": "Deleted successfully"
-    },
-    "validation": {
-      "idRequired": "ID is required",
-      "idInvalid": "Invalid ID",
-      "userIdRequired": "User ID is required",
-      "userIdInvalid": "Invalid user ID",
-      "refreshTokenHashRequired": "Refresh token hash is required",
-      "isRevokedRequired": "Revoked status is required",
-      "expiresAtRequired": "Expiration date is required",
-      "createdAtRequired": "Creation date is required"
-    },
-    "errors": {
-      "notFound": "Session not found",
-      "revoked": "Session has been revoked",
-      "expired": "Session has expired",
-      "internalError": "Internal server error"
-    }
-  },
-  "tickets": {
-    "response": {
-      "signedIn": "Signed in successfully",
-      "refreshed": "Token refreshed successfully",
-      "signedOut": "Signed out successfully",
-      "me": "Profile retrieved successfully",
-      "signedUp": "Account created successfully"
-    },
-    "validation": {
-      "emailInvalid": "Invalid email address",
-      "emailRequired": "Email is required",
-      "passwordRequired": "Password is required",
-      "passwordTooShort": "Password is too short",
-      "passwordTooLong": "Password is too long",
-      "nameRequired": "Name is required",
-      "nameTooLong": "Name is too long"
-    },
-    "errors": {
-      "unauthenticated": "Not authenticated",
-      "invalidCredentials": "Invalid credentials",
-      "internalError": "Internal server error",
-      "invalidExpiredToken": "Token is invalid or expired"
-    }
-  },
-  "auth": {
-    "response": {
-      "signedIn": "Signed in successfully",
-      "refreshed": "Token refreshed successfully",
-      "signedOut": "Signed out successfully",
-      "me": "Profile retrieved successfully",
-      "signedUp": "Account created successfully"
-    },
-    "validation": {
-      "emailInvalid": "Invalid email address",
-      "emailRequired": "Email is required",
-      "passwordRequired": "Password is required",
-      "passwordTooShort": "Password is too short",
-      "passwordTooLong": "Password is too long",
-      "nameRequired": "Name is required",
-      "nameTooLong": "Name is too long"
-    },
-    "errors": {
-      "unauthenticated": "Not authenticated",
-      "invalidCredentials": "Invalid credentials",
-      "internalError": "Internal server error",
-      "invalidExpiredToken": "Token is invalid or expired"
-    }
-  },
-  "query": {
-    "errors": {
-      "operatorCombinationError": "Invalid operator combination",
-      "maxDepthExceeded": "Maximum query depth exceeded",
-      "maxLimitExceeded": "Maximum limit exceeded",
-      "nonNumberLimitPage": "Limit and page must be numbers",
-      "fieldNotAllowed": "Field not allowed in query",
-      "nonNumberPageLimit": "Page and limit must be numbers"
-    }
-  }
+	"users": {
+		"response": {
+			"fetched": "Fetched successfully",
+			"created": "Created successfully",
+			"updated": "Updated successfully",
+			"deleted": "Deleted successfully"
+		},
+		"validation": {
+			"nameRequired": "Name is required",
+			"nameTooLong": "Name is too long",
+			"emailInvalid": "Invalid email address",
+			"createdAtInvalid": "Invalid created date",
+			"updatedAtInvalid": "Invalid updated date"
+		},
+		"errors": {
+			"notFound": "User not found",
+			"internalError": "Internal server error"
+		}
+	},
+	"sessions": {
+		"response": {
+			"created": "Created successfully",
+			"updated": "Updated successfully",
+			"deleted": "Deleted successfully"
+		},
+		"validation": {
+			"idRequired": "ID is required",
+			"idInvalid": "Invalid ID",
+			"userIdRequired": "User ID is required",
+			"userIdInvalid": "Invalid user ID",
+			"refreshTokenHashRequired": "Refresh token hash is required",
+			"isRevokedRequired": "Revoked status is required",
+			"expiresAtRequired": "Expiration date is required",
+			"createdAtRequired": "Creation date is required"
+		},
+		"errors": {
+			"notFound": "Session not found",
+			"revoked": "Session has been revoked",
+			"expired": "Session has expired",
+			"internalError": "Internal server error"
+		}
+	},
+	"tickets": {
+		"response": {
+			"signedIn": "Signed in successfully",
+			"refreshed": "Token refreshed successfully",
+			"signedOut": "Signed out successfully",
+			"me": "Profile retrieved successfully",
+			"signedUp": "Account created successfully"
+		},
+		"validation": {
+			"emailInvalid": "Invalid email address",
+			"emailRequired": "Email is required",
+			"passwordRequired": "Password is required",
+			"passwordTooShort": "Password is too short",
+			"passwordTooLong": "Password is too long",
+			"nameRequired": "Name is required",
+			"nameTooLong": "Name is too long"
+		},
+		"errors": {
+			"unauthenticated": "Not authenticated",
+			"invalidCredentials": "Invalid credentials",
+			"internalError": "Internal server error",
+			"invalidExpiredToken": "Token is invalid or expired"
+		}
+	},
+	"auth": {
+		"response": {
+			"signedIn": "Signed in successfully",
+			"refreshed": "Token refreshed successfully",
+			"signedOut": "Signed out successfully",
+			"me": "Profile retrieved successfully",
+			"signedUp": "Account created successfully"
+		},
+		"validation": {
+			"emailInvalid": "Invalid email address",
+			"emailRequired": "Email is required",
+			"passwordRequired": "Password is required",
+			"passwordTooShort": "Password is too short",
+			"passwordTooLong": "Password is too long",
+			"nameRequired": "Name is required",
+			"nameTooLong": "Name is too long"
+		},
+		"errors": {
+			"unauthenticated": "Not authenticated",
+			"invalidCredentials": "Invalid credentials",
+			"internalError": "Internal server error",
+			"invalidExpiredToken": "Token is invalid or expired"
+		}
+	},
+	"query": {
+		"errors": {
+			"operatorCombinationError": "Invalid operator combination",
+			"maxDepthExceeded": "Maximum query depth exceeded",
+			"maxLimitExceeded": "Maximum limit exceeded",
+			"nonNumberLimitPage": "Limit and page must be numbers",
+			"fieldNotAllowed": "Field not allowed in query",
+			"nonNumberPageLimit": "Page and limit must be numbers"
+		}
+	}
 }
