@@ -17,10 +17,6 @@
   "nano-staged": {
     "*.{js,ts,tsx,css}": "eslint --fix"
   },
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
   "dependencies": {
     "@eslint-react/eslint-plugin": "^3.0.0"
   },
