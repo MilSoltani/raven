@@ -9,7 +9,7 @@ import type {
 	Criteria,
 	UpdateUserPayload,
 } from '@xenon/api/exports'
-import { usersClient } from '@xenon/api/exports'
+import { UserSchema, usersClient } from '@xenon/api/exports'
 import { normalizeCriteria } from '@xenon/web/common/utils/criteria-normalizer'
 
 export const usersKeys = {
@@ -32,7 +32,12 @@ export function useUsers(query?: Criteria) {
 
 			if (!res.ok) throw await res.json()
 
-			return res.json()
+			const data = await res.json()
+
+			return {
+				...data,
+				items: data.items.map((u: unknown) => UserSchema.parse(u)),
+			}
 		},
 		placeholderData: keepPreviousData,
 	})
@@ -43,9 +48,12 @@ export function useUser(id: number, enabled: boolean = true) {
 		queryKey: usersKeys.detail(id),
 		queryFn: async () => {
 			const res = await usersClient[':id'].$get({ param: { id: String(id) } })
+
 			if (!res.ok) throw await res.json()
 
-			return res.json()
+			const data = await res.json()
+
+			return UserSchema.parse(data)
 		},
 		enabled: !!id && enabled,
 	})
@@ -57,9 +65,12 @@ export function useCreateUser() {
 	return useMutation({
 		mutationFn: async (data: CreateUserPayload) => {
 			const res = await usersClient.index.$post({ json: data })
+
 			if (!res.ok) throw await res.json()
 
-			return res.json()
+			const body = await res.json()
+
+			return UserSchema.parse(body)
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: usersKeys.lists() })
@@ -82,9 +93,12 @@ export function useUpdateUser() {
 				param: { id: String(id) },
 				json: data,
 			})
+
 			if (!res.ok) throw await res.json()
 
-			return res.json()
+			const body = await res.json()
+
+			return UserSchema.parse(body)
 		},
 		onSuccess: (updatedUser, variables) => {
 			queryClient.invalidateQueries({ queryKey: usersKeys.lists() })
@@ -104,7 +118,7 @@ export function useDeleteUser() {
 			})
 			if (!res.ok) throw await res.json()
 
-			return res.json()
+			return UserSchema.parse(res.json())
 		},
 		onSuccess: (_, id) => {
 			queryClient.invalidateQueries({ queryKey: usersKeys.lists() })

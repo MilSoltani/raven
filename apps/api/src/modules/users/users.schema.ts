@@ -14,8 +14,8 @@ export const UserSchema = z.object({
 		.min(5)
 		.max(255),
 
-	createdAt: z.date(),
-	updatedAt: z.date().nullable(),
+	createdAt: z.coerce.date(),
+	updatedAt: z.coerce.date().nullable(),
 })
 
 export const CreateUserPayloadSchema = UserSchema.omit({

@@ -5,7 +5,7 @@ export function normalizeCriteria(criteria: Criteria | undefined) {
 
 	return {
 		...criteria,
-		page: criteria.page,
-		limit: criteria.limit,
+		page: String(criteria.page),
+		limit: String(criteria.limit),
 	}
 }
