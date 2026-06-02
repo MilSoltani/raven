@@ -116,9 +116,11 @@ export function useDeleteUser() {
 			const res = await usersClient[':id'].$delete({
 				param: { id: String(id) },
 			})
+
 			if (!res.ok) throw await res.json()
 
-			return UserSchema.parse(res.json())
+			const body = await res.json()
+			return UserSchema.parse(body)
 		},
 		onSuccess: (_, id) => {
 			queryClient.invalidateQueries({ queryKey: usersKeys.lists() })

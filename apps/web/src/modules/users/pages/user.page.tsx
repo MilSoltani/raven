@@ -1,4 +1,5 @@
 import { UpdateUserPayloadSchema } from '@xenon/api/exports'
+import { translationKey } from '@xenon/i18n'
 import { Button } from '@xenon/web/common/components/ui/button'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
@@ -21,7 +22,7 @@ export function UserPage() {
 	if (isLoading) {
 		return (
 			<div>
-				{t('users.ui.loading')}
+				{t(translationKey('users.ui.loading'))}
 				...
 			</div>
 		)
@@ -30,7 +31,7 @@ export function UserPage() {
 	if (isError || !data) {
 		return (
 			<div>
-				{t('users.ui.loadingError')}:
+				{t(translationKey('users.ui.loadingError'))}:
 				{error instanceof Error ? error.message : ''}
 			</div>
 		)

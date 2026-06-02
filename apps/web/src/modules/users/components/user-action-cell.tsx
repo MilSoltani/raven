@@ -1,5 +1,6 @@
 import { IconLayoutSidebarRightExpandFilled } from '@tabler/icons-react'
 import { UpdateUserPayloadSchema } from '@xenon/api/exports'
+import { translationKey } from '@xenon/i18n'
 import { AppDrawer } from '@xenon/web/common/components/app.drawer'
 import { Button } from '@xenon/web/common/components/ui/button'
 import { useState } from 'react'
@@ -19,15 +20,15 @@ export function UserActionCell({ userId }: UserActionCellProps) {
 	const updateUser = useUpdateUser()
 
 	if (!userId || Number.isNaN(userId)) {
-		return <div>{t('users.ui.invalidUserId')}</div>
+		return <div>{t(translationKey('users.ui.invalidUserId'))}</div>
 	}
 
 	return (
 		<AppDrawer
 			open={isOpen}
 			onOpenChange={setIsOpen}
-			drawerTitle="User Details"
-			drawerDescription={t('users.ui.drawerDescription')}
+			drawerTitle={t(translationKey('users.ui.details'))}
+			drawerDescription={t(translationKey('users.ui.drawerDescription'))}
 			pageLinkUrl={data ? `/users/${data.id}` : undefined}
 			triggerButton={
 				<Button

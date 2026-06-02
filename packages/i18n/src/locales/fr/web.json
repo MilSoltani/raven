@@ -7,18 +7,21 @@
 			"updatedAt": "Mis à jour le"
 		},
 		"form": {
-			"create": "Créer",
-			"creating": "Création en cours",
-			"update": "Mettre à jour",
-			"updating": "Mise à jour en cours"
+			"create": "créer",
+			"creating": "création en cours",
+			"update": "mettre à jour",
+			"updating": "mise à jour en cours",
+			"delete": "supprimer",
+			"deleteDialogTitle": "Êtes-vous sûr ?",
+			"deleteDialogDescription": "La suppression est irréversible. Cela supprimera définitivement les utilisateurs sélectionnés."
 		},
 		"ui": {
 			"loading": "Chargement",
-			"loadingError": "Erreur de chargement",
+			"loadingError": "Échec du chargement des données",
 			"details": "Détails",
 			"invalidUserId": "ID utilisateur invalide",
-			"drawerDescription": "Afficher et modifier les détails de l'utilisateur",
-			"openDrawerNotice": "Sélectionnez un utilisateur"
+			"drawerDescription": "Voir et modifier les détails de l'utilisateur",
+			"openDrawerNotice": "Sélectionnez un utilisateur pour voir les détails"
 		}
 	}
 }

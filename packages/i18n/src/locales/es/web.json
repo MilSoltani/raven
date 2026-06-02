@@ -7,18 +7,21 @@
 			"updatedAt": "Actualizado el"
 		},
 		"form": {
-			"create": "Crear",
-			"creating": "Creando",
-			"update": "Actualizar",
-			"updating": "Actualizando"
+			"create": "crear",
+			"creating": "creando",
+			"update": "actualizar",
+			"updating": "actualizando",
+			"delete": "eliminar",
+			"deleteDialogTitle": "¿Estás seguro?",
+			"deleteDialogDescription": "La eliminación no se puede deshacer. Esto eliminará permanentemente a los usuarios seleccionados."
 		},
 		"ui": {
 			"loading": "Cargando",
-			"loadingError": "Error al cargar",
+			"loadingError": "Error al cargar los datos",
 			"details": "Detalles",
-			"invalidUserId": "ID de usuario inválido",
+			"invalidUserId": "ID de usuario no válido",
 			"drawerDescription": "Ver y editar detalles del usuario",
-			"openDrawerNotice": "Seleccione un usuario"
+			"openDrawerNotice": "Selecciona un usuario para ver los detalles"
 		}
 	}
 }

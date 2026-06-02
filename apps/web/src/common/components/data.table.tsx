@@ -1,4 +1,8 @@
-import type { ColumnDef, SortingState } from '@tanstack/react-table'
+import type {
+	ColumnDef,
+	RowSelectionState,
+	SortingState,
+} from '@tanstack/react-table'
 import {
 	flexRender,
 	getCoreRowModel,
@@ -36,6 +40,8 @@ type DataTableProps<TData, TValue> = {
 	sorting: SortingState
 	onPaginationChange: (pagination: PaginationState) => void
 	onSortingChange: (sorting: SortingState) => void
+	rowSelection?: RowSelectionState
+	onRowSelectionChange?: (rowSelection: RowSelectionState) => void
 }
 
 export function DataTable<TData, TValue>({
@@ -45,6 +51,8 @@ export function DataTable<TData, TValue>({
 	sorting,
 	onPaginationChange,
 	onSortingChange,
+	rowSelection,
+	onRowSelectionChange,
 }: DataTableProps<TData, TValue>) {
 	const table = useReactTable({
 		data,
@@ -52,13 +60,6 @@ export function DataTable<TData, TValue>({
 		manualPagination: true,
 		manualSorting: true,
 		pageCount: pagination.totalPages,
-		state: {
-			pagination: {
-				pageIndex: pagination.page - 1,
-				pageSize: pagination.pageSize,
-			},
-			sorting,
-		},
 		onPaginationChange: (updater) => {
 			const next =
 				typeof updater === 'function'
@@ -78,6 +79,24 @@ export function DataTable<TData, TValue>({
 			onSortingChange(next)
 		},
 		getCoreRowModel: getCoreRowModel(),
+		onRowSelectionChange: (updater) => {
+			if (onRowSelectionChange) {
+				const next =
+					typeof updater === 'function' ? updater(rowSelection ?? {}) : updater
+				onRowSelectionChange(next)
+			}
+		},
+		state: {
+			pagination: {
+				pageIndex: pagination.page - 1,
+				pageSize: pagination.pageSize,
+			},
+			sorting,
+			rowSelection: rowSelection ?? {},
+			columnVisibility: {
+				select: !!rowSelection,
+			},
+		},
 	})
 
 	return (
@@ -91,7 +110,7 @@ export function DataTable<TData, TValue>({
 									<TableHead
 										key={header.id}
 										className="font-bold"
-										style={{ width: header.getSize() }}
+										style={{ width: `${header.getSize()}px` }}
 									>
 										{header.isPlaceholder
 											? null
@@ -108,7 +127,14 @@ export function DataTable<TData, TValue>({
 					<TableBody>
 						{table.getRowModel().rows.length ? (
 							table.getRowModel().rows.map((row) => (
-								<TableRow key={row.id}>
+								<TableRow
+									key={row.id}
+									className={
+										row.getIsSelected()
+											? 'bg-muted/60 hover:bg-muted/80 data-[state=selected]:bg-muted/70'
+											: 'hover:bg-muted/40'
+									}
+								>
 									{row.getVisibleCells().map((cell) => (
 										<TableCell
 											key={cell.id}
@@ -137,12 +163,16 @@ export function DataTable<TData, TValue>({
 			</div>
 
 			<div className="mt-1 flex items-center justify-between gap-4">
+				<div className="flex-1 text-muted-foreground text-xs">
+					{table.getFilteredSelectedRowModel().rows.length} row(s) selected.
+				</div>
+
 				<Field orientation="horizontal" className="w-fit">
 					<FieldLabel
 						htmlFor="select-rows-per-page"
 						className="text-muted-foreground text-xs"
 					>
-						Rows per page
+						Per page
 					</FieldLabel>
 
 					<Select
@@ -158,7 +188,10 @@ export function DataTable<TData, TValue>({
 							})
 						}}
 					>
-						<SelectTrigger className="w-20" id="select-rows-per-page">
+						<SelectTrigger
+							className="w-20 me-10 text-xs"
+							id="select-rows-per-page"
+						>
 							<SelectValue />
 						</SelectTrigger>
 

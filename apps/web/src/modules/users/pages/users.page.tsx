@@ -1,9 +1,12 @@
-import { IconPlus } from '@tabler/icons-react'
+import { IconPlus, IconTrash } from '@tabler/icons-react'
 import type { SortingState } from '@tanstack/react-table'
 import type { Criteria } from '@xenon/api/exports'
 import { CreateUserPayloadSchema } from '@xenon/api/exports'
+import { translationKey } from '@xenon/i18n'
+import { AppDialog } from '@xenon/web/common/components/app.dialog'
 import { AppDrawer } from '@xenon/web/common/components/app.drawer'
 import { DataTable } from '@xenon/web/common/components/data.table'
+import { AlertDialogAction } from '@xenon/web/common/components/ui/alert-dialog'
 import { Button } from '@xenon/web/common/components/ui/button'
 import {
 	sortingToSort,
@@ -12,12 +15,12 @@ import {
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { UsersForm } from '../components/users.form'
-import { useCreateUser, useUsers } from '../hooks/users.hooks'
+import { useCreateUser, useDeleteUser, useUsers } from '../hooks/users.hooks'
 import { useUserColumns } from '../users.columns'
 
 export function UsersPage() {
 	const { t } = useTranslation('web')
-
+	const [rowSelection, setRowSelection] = useState({})
 	const [drawerOpen, setDrawerOpen] = useState(false)
 
 	const [criteria, setCriteria] = useState<Criteria>({
@@ -32,12 +35,13 @@ export function UsersPage() {
 	const { data, isLoading, isError, error } = useUsers(criteria)
 
 	const createUser = useCreateUser()
+	const deleteUser = useDeleteUser()
 	const columns = useUserColumns()
 
 	if (isLoading) {
 		return (
 			<div>
-				{t('users.ui.loading')}
+				{t(translationKey('users.ui.loading'))}
 				...
 			</div>
 		)
@@ -46,7 +50,7 @@ export function UsersPage() {
 	if (isError || !data) {
 		return (
 			<div>
-				{t('users.ui.loadingError')}:{error?.message}
+				{t(translationKey('users.ui.loadingError'))}:{error?.message}
 			</div>
 		)
 	}
@@ -66,37 +70,74 @@ export function UsersPage() {
 
 	return (
 		<div>
-			<AppDrawer
-				open={drawerOpen}
-				onOpenChange={setDrawerOpen}
-				drawerTitle="New User"
-				drawerDescription=""
-				drawerBody={
-					<UsersForm
-						mode="create"
-						user={{ name: '', email: '' }}
-						error={createUser.error?.message}
-						onSubmit={(data) => {
-							createUser.mutate(CreateUserPayloadSchema.parse(data), {
-								onSuccess: () => setDrawerOpen(false),
-							})
-						}}
-						footer={
-							<Button type="submit" disabled={createUser.isPending}>
-								{createUser.isPending
-									? t('users.form.creating')
-									: t('users.form.create')}
-							</Button>
-						}
-					/>
-				}
-				triggerButton={
-					<Button variant="outline">
-						<IconPlus className="h-4 w-4 me-2" />
-						{t('users.form.create')}
-					</Button>
-				}
-			/>
+			<div className="flex flex-row justify-end gap-4">
+				<AppDialog
+					triggerButton={
+						<Button
+							variant="destructive"
+							disabled={Object.entries(rowSelection).length === 0}
+						>
+							<IconTrash className="h-4 w-4 me-1" />
+							{t(translationKey('users.form.delete'))}
+						</Button>
+					}
+					title={t(translationKey('users.form.deleteDialogTitle'))}
+					description={t(translationKey('users.form.deleteDialogDescription'))}
+					dialogAction={
+						<AlertDialogAction
+							variant={'destructive'}
+							onClick={() => {
+								Object.entries(rowSelection).forEach(([key, isSelected]) => {
+									if (isSelected) {
+										const index = Number(key)
+										const userToDelete = items[index]
+
+										if (userToDelete) {
+											deleteUser.mutate(userToDelete.id)
+										}
+									}
+								})
+								setRowSelection({})
+							}}
+						>
+							<IconTrash className="h-4 w-4 me-1" />
+							{t(translationKey('users.form.delete'))}
+						</AlertDialogAction>
+					}
+				/>
+
+				<AppDrawer
+					open={drawerOpen}
+					onOpenChange={setDrawerOpen}
+					drawerTitle="New User"
+					drawerDescription=""
+					drawerBody={
+						<UsersForm
+							mode="create"
+							user={{ name: '', email: '' }}
+							error={createUser.error?.message}
+							onSubmit={(data) => {
+								createUser.mutate(CreateUserPayloadSchema.parse(data), {
+									onSuccess: () => setDrawerOpen(false),
+								})
+							}}
+							footer={
+								<Button type="submit" disabled={createUser.isPending}>
+									{createUser.isPending
+										? t('users.form.creating')
+										: t('users.form.create')}
+								</Button>
+							}
+						/>
+					}
+					triggerButton={
+						<Button variant="outline">
+							<IconPlus className="h-4 w-4 me-1" />
+							{t('users.form.create')}
+						</Button>
+					}
+				/>
+			</div>
 
 			<DataTable
 				columns={columns}
@@ -117,6 +158,8 @@ export function UsersPage() {
 						sort: sortingToSort(s),
 					}))
 				}
+				rowSelection={rowSelection}
+				onRowSelectionChange={setRowSelection}
 			/>
 		</div>
 	)

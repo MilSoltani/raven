@@ -7,18 +7,21 @@
 			"updatedAt": "Aktualisiert am"
 		},
 		"form": {
-			"create": "Erstellen",
-			"creating": "Wird erstellt",
-			"update": "Aktualisieren",
-			"updating": "Wird aktualisiert"
+			"create": "erstellen",
+			"creating": "wird erstellt",
+			"update": "aktualisieren",
+			"updating": "wird aktualisiert",
+			"delete": "löschen",
+			"deleteDialogTitle": "Bist du sicher?",
+			"deleteDialogDescription": "Das Löschen kann nicht rückgängig gemacht werden. Dadurch werden die ausgewählten Benutzer dauerhaft entfernt."
 		},
 		"ui": {
-			"loading": "Lädt",
-			"loadingError": "Fehler beim Laden",
+			"loading": "Laden",
+			"loadingError": "Fehler beim Laden der Daten",
 			"details": "Details",
 			"invalidUserId": "Ungültige Benutzer-ID",
 			"drawerDescription": "Benutzerdetails anzeigen und bearbeiten",
-			"openDrawerNotice": "Wählen Sie einen Benutzer aus"
+			"openDrawerNotice": "Wähle einen Benutzer aus, um Details anzuzeigen"
 		}
 	}
 }

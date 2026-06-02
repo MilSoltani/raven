@@ -10,7 +10,10 @@
 			"create": "create",
 			"creating": "creating",
 			"update": "update",
-			"updating": "updating"
+			"updating": "updating",
+			"delete": "delete",
+			"deleteDialogTitle": "Are you sure?",
+			"deleteDialogDescription": "Deleting cannot be undone. This will permanently delete the selected users."
 		},
 		"ui": {
 			"loading": "Loading",
