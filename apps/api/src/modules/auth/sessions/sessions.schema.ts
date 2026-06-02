@@ -1,17 +1,19 @@
+import { translationKey } from '@xenon/i18n'
 import z from 'zod'
 
 export const SessionSchema = z.object({
-	id: z
-		.number('sessions.validation.idRequired')
-		.int('sessions.validation.idInvalid'),
+	id: z.number().int().min(1, translationKey('sessions.validation.idInvalid')),
 
 	userId: z
-		.number('sessions.validation.userIdRequired')
-		.int('sessions.validation.userIdInvalid'),
+		.number()
+		.int()
+		.min(1, translationKey('sessions.validation.userIdInvalid')),
 
-	refreshTokenHash: z.string('sessions.validation.refreshTokenHashRequired'),
+	refreshTokenHash: z
+		.string()
+		.min(1, translationKey('sessions.validation.refreshTokenHashRequired')),
 
-	isRevoked: z.boolean('sessions.validation.isRevokedRequired'),
+	isRevoked: z.boolean(),
 
 	expiresAt: z.date(),
 	createdAt: z.date(),

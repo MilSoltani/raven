@@ -1,3 +1,4 @@
+import { translationKey } from '@xenon/i18n'
 import { HTTPException } from 'hono/http-exception'
 import type { PrismaSelect, SelectOptions } from './types'
 
@@ -51,7 +52,9 @@ export function createSelectTransformer<TSelect>(
 				continue
 			}
 
-			throw new HTTPException(400, { message: 'query.error.fieldNotAllowed' })
+			throw new HTTPException(400, {
+				message: translationKey('query.errors.fieldNotAllowed'),
+			})
 		}
 
 		for (const field of requiredColumns) {

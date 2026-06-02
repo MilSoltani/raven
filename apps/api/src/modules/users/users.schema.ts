@@ -1,17 +1,18 @@
+import { translationKey } from '@xenon/i18n'
 import z from 'zod'
 
 export const UserSchema = z.object({
 	id: z.number().int(),
 
 	name: z
-		.string('users.validation.nameRequired')
-		.min(1, 'users.validation.nameRequired')
-		.max(255, 'users.validation.nameTooLong'),
+		.string()
+		.min(1, translationKey('users.validation.nameRequired'))
+		.max(255, translationKey('users.validation.nameTooLong')),
 
 	email: z
-		.email('users.validation.emailInvalid')
-		.min(5, 'users.validation.emailInvalid')
-		.max(255, 'users.validation.emailInvalid'),
+		.email(translationKey('users.validation.emailInvalid'))
+		.min(5)
+		.max(255),
 
 	createdAt: z.date(),
 	updatedAt: z.date().nullable(),

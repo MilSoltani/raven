@@ -10,6 +10,7 @@ import type {
 	SelectTransformer,
 	SortTransformer,
 } from '@xenon/api/infrastructure/query'
+import { translationKey } from '@xenon/i18n'
 import { HTTPException } from 'hono/http-exception'
 import type { ParsedQs } from 'qs'
 import type { UsersRepository } from './users.repository'
@@ -44,7 +45,9 @@ export function createUsersService(
 			const result = await usersRepository.getById(id)
 
 			if (!result)
-				throw new HTTPException(404, { message: 'users.error.notFound' })
+				throw new HTTPException(404, {
+					message: translationKey('users.errors.notFound'),
+				})
 
 			return result
 		},
@@ -53,7 +56,9 @@ export function createUsersService(
 			const result = await usersRepository.create(data)
 
 			if (!result)
-				throw new HTTPException(500, { message: 'users.error.internalError' })
+				throw new HTTPException(500, {
+					message: translationKey('users.errors.internalError'),
+				})
 
 			return result
 		},
@@ -62,7 +67,9 @@ export function createUsersService(
 			const result = await usersRepository.update(id, data)
 
 			if (!result)
-				throw new HTTPException(404, { message: 'users.error.notFound' })
+				throw new HTTPException(404, {
+					message: translationKey('users.errors.notFound'),
+				})
 
 			return result
 		},
@@ -71,7 +78,9 @@ export function createUsersService(
 			const result = await usersRepository.delete(id)
 
 			if (!result)
-				throw new HTTPException(404, { message: 'users.error.notFound' })
+				throw new HTTPException(404, {
+					message: translationKey('users.errors.notFound'),
+				})
 
 			return result
 		},

@@ -1,3 +1,4 @@
+import { translationKey } from '@xenon/i18n'
 import { HTTPException } from 'hono/http-exception'
 import type { PaginationOptions, PrismaPagination } from './types'
 
@@ -18,7 +19,7 @@ export function createPaginationTransformer(
 
 			if (parsedLimit > maxLimit)
 				throw new HTTPException(400, {
-					message: 'query.error.maxLimitExceeded',
+					message: translationKey('query.errors.maxLimitExceeded'),
 				})
 
 			return {
@@ -37,7 +38,7 @@ export function createPaginationTransformer(
 
 		if (!Number.isInteger(n) || n < 1)
 			throw new HTTPException(400, {
-				message: 'query.error.nonNumberPageLimit',
+				message: translationKey('query.errors.nonNumberPageLimit'),
 			})
 
 		return n

@@ -1,36 +1,31 @@
+import { translationKey } from '@xenon/i18n'
 import z from 'zod'
 
 export const TicketStatusEnum = z.enum(
 	['OPEN', 'PENDING', 'WORKING', 'RESOLVED', 'CLOSED'],
-	'auth.validation.statusInvalid,',
+	translationKey('tickets.validation.statusInvalid'),
 )
 
 export const TicketPriorityEnum = z.enum(
 	['LOW', 'MEDIUM', 'HIGH', 'URGENT'],
-	'auth.validation.priorityInvalid',
+	translationKey('tickets.validation.priorityInvalid'),
 )
 
 export const TicketSchema = z.object({
-	id: z.number('auth.validation.idRequired').int('auth.validation.idInvalid'),
+	id: z.number().int(),
 
-	creatorId: z
-		.number('auth.validation.creatorIdRequired')
-		.int('auth.validation.creatorIdInvalid'),
+	creatorId: z.number().int(),
 
-	agentId: z
-		.number('auth.validation.agentIdInvalid')
-		.int('auth.validation.agentIdInvalid')
-		.nullable()
-		.optional(),
+	agentId: z.number().int().nullable().optional(),
 
 	subject: z
-		.string('auth.validation.subjectRequired')
-		.min(1, 'auth.validation.subjectRequired')
-		.max(512, 'auth.validation.subjectTooLong'),
+		.string()
+		.min(1, translationKey('tickets.validation.subjectRequired'))
+		.max(512, translationKey('tickets.validation.subjectTooLong')),
 
 	description: z
-		.string('auth.validation.descriptionRequired')
-		.min(1, 'auth.validation.descriptionRequired'),
+		.string()
+		.min(1, translationKey('tickets.validation.descriptionRequired')),
 
 	status: TicketStatusEnum,
 	priority: TicketPriorityEnum,

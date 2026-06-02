@@ -6,7 +6,8 @@ const emailSchema = z
 	.max(255, 'auth.validation.emailInvalid')
 
 const passwordSchema = z
-	.string('auth.validation.passwordRequired')
+	.string()
+	.min(1, 'auth.validation.passwordRequired')
 	.min(8, 'auth.validation.passwordTooShort')
 	.max(255, 'auth.validation.passwordTooLong')
 

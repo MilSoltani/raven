@@ -10,6 +10,7 @@ import type {
 	SelectTransformer,
 	SortTransformer,
 } from '@xenon/api/infrastructure/query'
+import { translationKey } from '@xenon/i18n'
 import { HTTPException } from 'hono/http-exception'
 import type { ParsedQs } from 'qs'
 import type { TicketsRepository } from './tickets.repository'
@@ -48,7 +49,9 @@ export function createTicketsService(
 			const result = await ticketsRepository.getById(id)
 
 			if (!result)
-				throw new HTTPException(404, { message: 'tickets.error.notFound' })
+				throw new HTTPException(404, {
+					message: translationKey('tickets.errors.notFound'),
+				})
 
 			return result
 		},
@@ -61,7 +64,7 @@ export function createTicketsService(
 
 			if (!result)
 				throw new HTTPException(500, {
-					message: 'tickets.error.internalError',
+					message: translationKey('tickets.errors.internalError'),
 				})
 
 			return result

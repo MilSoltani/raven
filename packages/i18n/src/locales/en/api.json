@@ -1,17 +1,9 @@
 {
 	"users": {
-		"response": {
-			"fetched": "Fetched successfully",
-			"created": "Created successfully",
-			"updated": "Updated successfully",
-			"deleted": "Deleted successfully"
-		},
 		"validation": {
 			"nameRequired": "Name is required",
-			"nameTooLong": "Name is too long",
-			"emailInvalid": "Invalid email address",
-			"createdAtInvalid": "Invalid created date",
-			"updatedAtInvalid": "Invalid updated date"
+			"nameTooLong": "Name must be at most 255 characters",
+			"emailInvalid": "Invalid email address"
 		},
 		"errors": {
 			"notFound": "User not found",
@@ -19,20 +11,10 @@
 		}
 	},
 	"sessions": {
-		"response": {
-			"created": "Created successfully",
-			"updated": "Updated successfully",
-			"deleted": "Deleted successfully"
-		},
 		"validation": {
-			"idRequired": "ID is required",
-			"idInvalid": "Invalid ID",
-			"userIdRequired": "User ID is required",
-			"userIdInvalid": "Invalid user ID",
-			"refreshTokenHashRequired": "Refresh token hash is required",
-			"isRevokedRequired": "Revoked status is required",
-			"expiresAtRequired": "Expiration date is required",
-			"createdAtRequired": "Creation date is required"
+			"idInvalid": "Invalid session id",
+			"userIdInvalid": "Invalid user id",
+			"refreshTokenHashRequired": "Refresh token is required"
 		},
 		"errors": {
 			"notFound": "Session not found",
@@ -42,45 +24,26 @@
 		}
 	},
 	"tickets": {
-		"response": {
-			"signedIn": "Signed in successfully",
-			"refreshed": "Token refreshed successfully",
-			"signedOut": "Signed out successfully",
-			"me": "Profile retrieved successfully",
-			"signedUp": "Account created successfully"
-		},
 		"validation": {
-			"emailInvalid": "Invalid email address",
-			"emailRequired": "Email is required",
-			"passwordRequired": "Password is required",
-			"passwordTooShort": "Password is too short",
-			"passwordTooLong": "Password is too long",
-			"nameRequired": "Name is required",
-			"nameTooLong": "Name is too long"
+			"statusInvalid": "Invalid ticket status",
+			"priorityInvalid": "Invalid ticket priority",
+			"subjectRequired": "Subject is required",
+			"subjectTooLong": "Subject must be at most 512 characters",
+			"descriptionRequired": "Description is required"
 		},
 		"errors": {
-			"unauthenticated": "Not authenticated",
-			"invalidCredentials": "Invalid credentials",
-			"internalError": "Internal server error",
-			"invalidExpiredToken": "Token is invalid or expired"
+			"notFound": "Not found",
+			"internalError": "Internal server error"
 		}
 	},
 	"auth": {
-		"response": {
-			"signedIn": "Signed in successfully",
-			"refreshed": "Token refreshed successfully",
-			"signedOut": "Signed out successfully",
-			"me": "Profile retrieved successfully",
-			"signedUp": "Account created successfully"
-		},
 		"validation": {
 			"emailInvalid": "Invalid email address",
-			"emailRequired": "Email is required",
 			"passwordRequired": "Password is required",
-			"passwordTooShort": "Password is too short",
-			"passwordTooLong": "Password is too long",
+			"passwordTooShort": "Password must be at least 8 characters",
+			"passwordTooLong": "Password must be at most 255 characters",
 			"nameRequired": "Name is required",
-			"nameTooLong": "Name is too long"
+			"nameTooLong": "Name must be at most 255 characters"
 		},
 		"errors": {
 			"unauthenticated": "Not authenticated",
@@ -94,7 +57,6 @@
 			"operatorCombinationError": "Invalid operator combination",
 			"maxDepthExceeded": "Maximum query depth exceeded",
 			"maxLimitExceeded": "Maximum limit exceeded",
-			"nonNumberLimitPage": "Limit and page must be numbers",
 			"fieldNotAllowed": "Field not allowed in query",
 			"nonNumberPageLimit": "Page and limit must be numbers"
 		}

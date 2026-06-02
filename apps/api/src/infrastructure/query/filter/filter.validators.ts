@@ -1,9 +1,10 @@
+import { translationKey } from '@xenon/i18n'
 import { HTTPException } from 'hono/http-exception'
 
 export function validateOperatorObject(obj: Record<string, unknown>) {
 	if (obj.eq !== undefined && Object.keys(obj).length > 1)
 		throw new HTTPException(400, {
-			message: 'query.error.operatorCombinationError',
+			message: translationKey('query.errors.operatorCombinationError'),
 		})
 }
 
@@ -20,5 +21,7 @@ export function isFilterCondition(obj: unknown) {
 		'lte',
 	]
 
-	return Object.keys(obj).every((key) => OPERATORS.includes(key))
+	return Object.keys(obj as Record<string, unknown>).every((key) =>
+		OPERATORS.includes(key),
+	)
 }

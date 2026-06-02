@@ -1,3 +1,4 @@
+import { translationKey } from '@xenon/i18n'
 import bcrypt from 'bcrypt'
 import { HTTPException } from 'hono/http-exception'
 import type { AuthRepository } from './auth.repository'
@@ -26,7 +27,9 @@ export function createAuthService(
 		})
 
 		if (!session)
-			throw new HTTPException(500, { message: 'auth.error.internalError' })
+			throw new HTTPException(500, {
+				message: translationKey('auth.errors.internalError'),
+			})
 
 		return session
 	}
@@ -36,7 +39,7 @@ export function createAuthService(
 
 		if (!ok)
 			throw new HTTPException(401, {
-				message: 'auth.error.invalidCredentials',
+				message: translationKey('auth.errors.invalidCredentials'),
 			})
 	}
 
@@ -45,12 +48,12 @@ export function createAuthService(
 
 		if (!authUserInternal)
 			throw new HTTPException(401, {
-				message: 'auth.error.invalidCredentials',
+				message: translationKey('auth.errors.invalidCredentials'),
 			})
 
 		if (!authUserInternal.password)
 			throw new HTTPException(401, {
-				message: 'auth.error.invalidCredentials',
+				message: translationKey('auth.errors.invalidCredentials'),
 			})
 
 		await verifyPassword(pass, authUserInternal.password)
@@ -80,7 +83,9 @@ export function createAuthService(
 		})
 
 		if (!user)
-			throw new HTTPException(500, { message: 'auth.error.internalError' })
+			throw new HTTPException(500, {
+				message: translationKey('auth.errors.internalError'),
+			})
 
 		const tokens = await issueTokens(user.id, user.email)
 		await persistSession(user.id, tokens.refreshToken)

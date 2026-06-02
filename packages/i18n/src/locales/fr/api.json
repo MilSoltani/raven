@@ -1,17 +1,9 @@
 {
 	"users": {
-		"response": {
-			"fetched": "Récupération réussie",
-			"created": "Création réussie",
-			"updated": "Mise à jour réussie",
-			"deleted": "Suppression réussie"
-		},
 		"validation": {
 			"nameRequired": "Le nom est requis",
-			"nameTooLong": "Le nom est trop long",
-			"emailInvalid": "Adresse e-mail invalide",
-			"createdAtInvalid": "Date de création invalide",
-			"updatedAtInvalid": "Date de mise à jour invalide"
+			"nameTooLong": "Le nom doit comporter au maximum 255 caractères",
+			"emailInvalid": "Adresse e-mail invalide"
 		},
 		"errors": {
 			"notFound": "Utilisateur introuvable",
@@ -19,82 +11,52 @@
 		}
 	},
 	"sessions": {
-		"response": {
-			"created": "Création réussie",
-			"updated": "Mise à jour réussie",
-			"deleted": "Suppression réussie"
-		},
 		"validation": {
-			"idRequired": "L'ID est requis",
-			"idInvalid": "ID invalide",
-			"userIdRequired": "L'ID utilisateur est requis",
+			"idInvalid": "ID de session invalide",
 			"userIdInvalid": "ID utilisateur invalide",
-			"refreshTokenHashRequired": "Le hash du token de rafraîchissement est requis",
-			"isRevokedRequired": "Le statut de révocation est requis",
-			"expiresAtRequired": "La date d'expiration est requise",
-			"createdAtRequired": "La date de création est requise"
+			"refreshTokenHashRequired": "Le jeton de rafraîchissement est requis"
 		},
 		"errors": {
 			"notFound": "Session introuvable",
-			"revoked": "Session révoquée",
-			"expired": "Session expirée",
+			"revoked": "La session a été révoquée",
+			"expired": "La session a expiré",
 			"internalError": "Erreur interne du serveur"
 		}
 	},
 	"tickets": {
-		"response": {
-			"signedIn": "Connexion réussie",
-			"refreshed": "Token rafraîchi avec succès",
-			"signedOut": "Déconnexion réussie",
-			"me": "Profil récupéré avec succès",
-			"signedUp": "Compte créé avec succès"
-		},
 		"validation": {
-			"emailInvalid": "Adresse e-mail invalide",
-			"emailRequired": "L'e-mail est requis",
-			"passwordRequired": "Le mot de passe est requis",
-			"passwordTooShort": "Mot de passe trop court",
-			"passwordTooLong": "Mot de passe trop long",
-			"nameRequired": "Le nom est requis",
-			"nameTooLong": "Le nom est trop long"
+			"statusInvalid": "Statut de ticket invalide",
+			"priorityInvalid": "Priorité de ticket invalide",
+			"subjectRequired": "Le sujet est requis",
+			"subjectTooLong": "Le sujet doit comporter au maximum 512 caractères",
+			"descriptionRequired": "La description est requise"
 		},
 		"errors": {
-			"unauthenticated": "Non authentifié",
-			"invalidCredentials": "Identifiants invalides",
-			"internalError": "Erreur interne du serveur",
-			"invalidExpiredToken": "Token invalide ou expiré"
+			"notFound": "Introuvable",
+			"internalError": "Erreur interne du serveur"
 		}
 	},
 	"auth": {
-		"response": {
-			"signedIn": "Connexion réussie",
-			"refreshed": "Token rafraîchi avec succès",
-			"signedOut": "Déconnexion réussie",
-			"me": "Profil récupéré avec succès",
-			"signedUp": "Compte créé avec succès"
-		},
 		"validation": {
 			"emailInvalid": "Adresse e-mail invalide",
-			"emailRequired": "L'e-mail est requis",
 			"passwordRequired": "Le mot de passe est requis",
-			"passwordTooShort": "Mot de passe trop court",
-			"passwordTooLong": "Mot de passe trop long",
+			"passwordTooShort": "Le mot de passe doit comporter au moins 8 caractères",
+			"passwordTooLong": "Le mot de passe doit comporter au maximum 255 caractères",
 			"nameRequired": "Le nom est requis",
-			"nameTooLong": "Le nom est trop long"
+			"nameTooLong": "Le nom doit comporter au maximum 255 caractères"
 		},
 		"errors": {
 			"unauthenticated": "Non authentifié",
 			"invalidCredentials": "Identifiants invalides",
 			"internalError": "Erreur interne du serveur",
-			"invalidExpiredToken": "Token invalide ou expiré"
+			"invalidExpiredToken": "Le jeton est invalide ou expiré"
 		}
 	},
 	"query": {
 		"errors": {
 			"operatorCombinationError": "Combinaison d'opérateurs invalide",
-			"maxDepthExceeded": "Profondeur maximale de la requête dépassée",
+			"maxDepthExceeded": "Profondeur maximale de requête dépassée",
 			"maxLimitExceeded": "Limite maximale dépassée",
-			"nonNumberLimitPage": "La limite et la page doivent être des nombres",
 			"fieldNotAllowed": "Champ non autorisé dans la requête",
 			"nonNumberPageLimit": "La page et la limite doivent être des nombres"
 		}

@@ -1,3 +1,4 @@
+import { translationKey } from '@xenon/i18n'
 import { HTTPException } from 'hono/http-exception'
 
 export function isPlainObject(
@@ -12,7 +13,9 @@ export function validatePath(
 	allowedPaths: string[],
 ) {
 	if (path.length > maxDepth)
-		throw new HTTPException(400, { message: 'query.error.maxDepthExceeded' })
+		throw new HTTPException(400, {
+			message: translationKey('query.errors.maxDepthExceeded'),
+		})
 
 	const normalized = path.join('.')
 
@@ -21,5 +24,7 @@ export function validatePath(
 	)
 
 	if (!isAllowed)
-		throw new HTTPException(400, { message: 'query.error.fieldNotAllowed' })
+		throw new HTTPException(400, {
+			message: translationKey('query.errors.fieldNotAllowed'),
+		})
 }

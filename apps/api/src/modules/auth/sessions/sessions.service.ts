@@ -1,3 +1,4 @@
+import { translationKey } from '@xenon/i18n'
 import { HTTPException } from 'hono/http-exception'
 import type { SessionsRepository } from './sessions.repository'
 import type { CreateSessionPayload } from './sessions.schema'
@@ -7,7 +8,9 @@ export function createSessionsService(sessionsRepository: SessionsRepository) {
 		const result = await sessionsRepository.findByHash(hash)
 
 		if (!result)
-			throw new HTTPException(404, { message: 'session.error.notFound' })
+			throw new HTTPException(404, {
+				message: translationKey('sessions.errors.notFound'),
+			})
 
 		return result
 	}
@@ -16,7 +19,9 @@ export function createSessionsService(sessionsRepository: SessionsRepository) {
 		const session = await sessionsRepository.create(data)
 
 		if (!session)
-			throw new HTTPException(500, { message: 'session.error.internalError' })
+			throw new HTTPException(500, {
+				message: translationKey('sessions.errors.internalError'),
+			})
 
 		return { session }
 	}
@@ -31,11 +36,15 @@ export function createSessionsService(sessionsRepository: SessionsRepository) {
 
 		if (!session || session.isRevoked) {
 			await sessionsRepository.revokeAllForUser(userId)
-			throw new HTTPException(401, { message: 'session.error.revoked' })
+			throw new HTTPException(401, {
+				message: translationKey('sessions.errors.revoked'),
+			})
 		}
 
 		if (session.expiresAt < new Date())
-			throw new HTTPException(401, { message: 'session.error.expired' })
+			throw new HTTPException(401, {
+				message: translationKey('sessions.errors.expired'),
+			})
 
 		const updatedSession = await sessionsRepository.update(session.id, {
 			refreshTokenHash: newRefreshTokenHash,
@@ -49,7 +58,9 @@ export function createSessionsService(sessionsRepository: SessionsRepository) {
 		const result = sessionsRepository.revoke(refreshTokenHash)
 
 		if (!result)
-			throw new HTTPException(404, { message: 'session.error.notFound' })
+			throw new HTTPException(404, {
+				message: translationKey('sessions.errors.notFound'),
+			})
 
 		return result
 	}

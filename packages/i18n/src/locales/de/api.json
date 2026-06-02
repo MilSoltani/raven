@@ -1,17 +1,9 @@
 {
 	"users": {
-		"response": {
-			"fetched": "Erfolgreich geladen",
-			"created": "Erfolgreich erstellt",
-			"updated": "Erfolgreich aktualisiert",
-			"deleted": "Erfolgreich gelöscht"
-		},
 		"validation": {
 			"nameRequired": "Name ist erforderlich",
-			"nameTooLong": "Name ist zu lang",
-			"emailInvalid": "Ungültige E-Mail-Adresse",
-			"createdAtInvalid": "Ungültiges Erstellungsdatum",
-			"updatedAtInvalid": "Ungültiges Aktualisierungsdatum"
+			"nameTooLong": "Name darf maximal 255 Zeichen lang sein",
+			"emailInvalid": "Ungültige E-Mail-Adresse"
 		},
 		"errors": {
 			"notFound": "Benutzer nicht gefunden",
@@ -19,20 +11,10 @@
 		}
 	},
 	"sessions": {
-		"response": {
-			"created": "Erfolgreich erstellt",
-			"updated": "Erfolgreich aktualisiert",
-			"deleted": "Erfolgreich gelöscht"
-		},
 		"validation": {
-			"idRequired": "ID ist erforderlich",
-			"idInvalid": "Ungültige ID",
-			"userIdRequired": "Benutzer-ID ist erforderlich",
+			"idInvalid": "Ungültige Sitzungs-ID",
 			"userIdInvalid": "Ungültige Benutzer-ID",
-			"refreshTokenHashRequired": "Refresh-Token-Hash ist erforderlich",
-			"isRevokedRequired": "Widerrufsstatus ist erforderlich",
-			"expiresAtRequired": "Ablaufdatum ist erforderlich",
-			"createdAtRequired": "Erstellungsdatum ist erforderlich"
+			"refreshTokenHashRequired": "Refresh-Token ist erforderlich"
 		},
 		"errors": {
 			"notFound": "Sitzung nicht gefunden",
@@ -42,45 +24,26 @@
 		}
 	},
 	"tickets": {
-		"response": {
-			"signedIn": "Erfolgreich angemeldet",
-			"refreshed": "Token erfolgreich aktualisiert",
-			"signedOut": "Erfolgreich abgemeldet",
-			"me": "Profil erfolgreich abgerufen",
-			"signedUp": "Konto erfolgreich erstellt"
-		},
 		"validation": {
-			"emailInvalid": "Ungültige E-Mail-Adresse",
-			"emailRequired": "E-Mail ist erforderlich",
-			"passwordRequired": "Passwort ist erforderlich",
-			"passwordTooShort": "Passwort ist zu kurz",
-			"passwordTooLong": "Passwort ist zu lang",
-			"nameRequired": "Name ist erforderlich",
-			"nameTooLong": "Name ist zu lang"
+			"statusInvalid": "Ungültiger Ticket-Status",
+			"priorityInvalid": "Ungültige Ticket-Priorität",
+			"subjectRequired": "Betreff ist erforderlich",
+			"subjectTooLong": "Betreff darf maximal 512 Zeichen lang sein",
+			"descriptionRequired": "Beschreibung ist erforderlich"
 		},
 		"errors": {
-			"unauthenticated": "Nicht authentifiziert",
-			"invalidCredentials": "Ungültige Anmeldedaten",
-			"internalError": "Interner Serverfehler",
-			"invalidExpiredToken": "Token ist ungültig oder abgelaufen"
+			"notFound": "Nicht gefunden",
+			"internalError": "Interner Serverfehler"
 		}
 	},
 	"auth": {
-		"response": {
-			"signedIn": "Erfolgreich angemeldet",
-			"refreshed": "Token erfolgreich aktualisiert",
-			"signedOut": "Erfolgreich abgemeldet",
-			"me": "Profil erfolgreich abgerufen",
-			"signedUp": "Konto erfolgreich erstellt"
-		},
 		"validation": {
 			"emailInvalid": "Ungültige E-Mail-Adresse",
-			"emailRequired": "E-Mail ist erforderlich",
 			"passwordRequired": "Passwort ist erforderlich",
-			"passwordTooShort": "Passwort ist zu kurz",
-			"passwordTooLong": "Passwort ist zu lang",
+			"passwordTooShort": "Passwort muss mindestens 8 Zeichen lang sein",
+			"passwordTooLong": "Passwort darf maximal 255 Zeichen lang sein",
 			"nameRequired": "Name ist erforderlich",
-			"nameTooLong": "Name ist zu lang"
+			"nameTooLong": "Name darf maximal 255 Zeichen lang sein"
 		},
 		"errors": {
 			"unauthenticated": "Nicht authentifiziert",
@@ -92,9 +55,8 @@
 	"query": {
 		"errors": {
 			"operatorCombinationError": "Ungültige Operator-Kombination",
-			"maxDepthExceeded": "Maximale Abfragentiefe überschritten",
+			"maxDepthExceeded": "Maximale Abfragetiefe überschritten",
 			"maxLimitExceeded": "Maximales Limit überschritten",
-			"nonNumberLimitPage": "Limit und Seite müssen Zahlen sein",
 			"fieldNotAllowed": "Feld in der Abfrage nicht erlaubt",
 			"nonNumberPageLimit": "Seite und Limit müssen Zahlen sein"
 		}

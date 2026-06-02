@@ -18,3 +18,5 @@ export const resources = {
 } as const
 
 export default resources
+
+export { translationKey } from './translation.keys'
