@@ -5,7 +5,8 @@
 		".": "./src/index.ts"
 	},
 	"scripts": {},
-	"dependencies": {},
-	"devDependencies": {},
+	"devDependencies": {
+		"@types/node": "^25.9.1"
+	},
 	"typescript": "^6.0.0"
 }
