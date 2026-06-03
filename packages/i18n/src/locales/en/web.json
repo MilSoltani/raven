@@ -19,9 +19,36 @@
 			"loading": "Loading",
 			"loadingError": "Failed to load data",
 			"details": "Details",
-			"invalidUserId": "Invalid user ID",
+			"invalidId": "Invalid ID",
 			"drawerDescription": "View and edit user details",
 			"openDrawerNotice": "Select a user to view details"
+		}
+	},
+	"tickets": {
+		"entity": {
+			"subject": "Subject",
+			"description": "Description",
+			"status": "Status",
+			"priority": "Priority",
+			"createdAt": "Created at",
+			"updatedAt": "Updated at"
+		},
+		"ui": {
+			"loading": "Loading",
+			"loadingError": "Failed to load data",
+			"details": "Details",
+			"invalidId": "Invalid ID",
+			"drawerDescription": "View and edit user details",
+			"openDrawerNotice": "Select a user to view details"
+		},
+		"form": {
+			"create": "create",
+			"creating": "creating",
+			"update": "update",
+			"updating": "updating",
+			"delete": "delete",
+			"deleteDialogTitle": "Are you sure?",
+			"deleteDialogDescription": "Deleting cannot be undone. This will permanently delete the selected tickets."
 		}
 	}
 }

@@ -20,7 +20,7 @@ export function UserActionCell({ userId }: UserActionCellProps) {
 	const updateUser = useUpdateUser()
 
 	if (!userId || Number.isNaN(userId)) {
-		return <div>{t(translationKey('users.ui.invalidUserId'))}</div>
+		return <div>{t(translationKey('users.ui.invalidId'))}</div>
 	}
 
 	return (

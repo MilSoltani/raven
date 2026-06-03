@@ -16,7 +16,7 @@ export function UserPage() {
 	const { t } = useTranslation('web')
 
 	if (!id || Number.isNaN(userId)) {
-		return <div>{t('users.ui.invalidUserId')}</div>
+		return <div>{t('users.ui.invalidId')}</div>
 	}
 
 	if (isLoading) {

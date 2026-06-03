@@ -53,7 +53,7 @@ export function createTicketsModule(prisma: PrismaClient) {
 			'status',
 			'priority',
 			'createdAt',
-			'updatedAt ',
+			'updatedAt',
 		],
 		allowedRelations: {
 			creator: ['id, name'],

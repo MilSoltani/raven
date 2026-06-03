@@ -3,8 +3,8 @@ import { AppLayout } from './common/components/app.layout'
 import { AppSidebar } from './common/components/app.sidebar'
 import { AuthGate, SigninPage, SignupPage } from './modules/auth'
 import { HomePage } from './modules/home'
-import { UsersPage } from './modules/users'
-import { UserPage } from './modules/users/pages/user.page'
+import { TicketPage, TicketsPage } from './modules/tickets'
+import { UserPage, UsersPage } from './modules/users'
 
 export const router = createBrowserRouter([
 	{
@@ -16,6 +16,14 @@ export const router = createBrowserRouter([
 					{
 						path: '/',
 						element: <HomePage />,
+					},
+					{
+						path: '/tickets',
+						element: <TicketsPage />,
+					},
+					{
+						path: '/tickets/:id',
+						element: <TicketPage />,
 					},
 					{
 						path: '/users',

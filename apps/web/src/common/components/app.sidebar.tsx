@@ -7,6 +7,9 @@ export function AppSidebar() {
 			<Link to="/" viewTransition>
 				Home
 			</Link>
+			<Link to="/tickets" viewTransition>
+				Tickets
+			</Link>
 			<Link to="/users" viewTransition>
 				Users
 			</Link>

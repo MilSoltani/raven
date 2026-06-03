@@ -1,7 +1,7 @@
 import { IconPlus, IconTrash } from '@tabler/icons-react'
 import type { SortingState } from '@tanstack/react-table'
 import type { Criteria } from '@xenon/api/exports'
-import { CreateUserPayloadSchema } from '@xenon/api/exports'
+import { CreateTicketSchema } from '@xenon/api/exports'
 import { translationKey } from '@xenon/i18n'
 import { AppDialog } from '@xenon/web/common/components/app.dialog'
 import { AppDrawer } from '@xenon/web/common/components/app.drawer'
@@ -14,34 +14,38 @@ import {
 } from '@xenon/web/common/utils/sorting-adapters'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useUserColumns } from '../components/users.columns'
-import { UsersForm } from '../components/users.form'
-import { useCreateUser, useDeleteUser, useUsers } from '../hooks/users.hooks'
+import { useTicketColumns } from '../components/tickets.columns'
+import { TicketsForm } from '../components/tickets.form'
+import {
+	useCreateTicket,
+	useDeleteTicket,
+	useTickets,
+} from '../hooks/tickets.hooks'
 
-export function UsersPage() {
+export function TicketsPage() {
 	const { t } = useTranslation('web')
 	const [rowSelection, setRowSelection] = useState({})
 	const [drawerOpen, setDrawerOpen] = useState(false)
 
 	const [criteria, setCriteria] = useState<Criteria>({
-		select: ['name', 'email', 'createdAt', 'updatedAt'],
+		select: ['subject', 'createdAt', 'updatedAt'],
 		page: 1,
 		limit: 10,
 		sort: {
-			name: 'asc',
+			subject: 'asc',
 		},
 	})
 
-	const { data, isLoading, isError, error } = useUsers(criteria)
+	const { data, isLoading, isError, error } = useTickets(criteria)
 
-	const createUser = useCreateUser()
-	const deleteUser = useDeleteUser()
-	const columns = useUserColumns()
+	const createTicket = useCreateTicket()
+	const deleteTicket = useDeleteTicket()
+	const columns = useTicketColumns()
 
 	if (isLoading) {
 		return (
 			<div>
-				{t(translationKey('users.ui.loading'))}
+				{t(translationKey('tickets.ui.loading'))}
 				...
 			</div>
 		)
@@ -50,7 +54,7 @@ export function UsersPage() {
 	if (isError || !data) {
 		return (
 			<div>
-				{t(translationKey('users.ui.loadingError'))}:{error?.message}
+				{t(translationKey('tickets.ui.loadingError'))}:{error?.message}
 			</div>
 		)
 	}
@@ -78,11 +82,13 @@ export function UsersPage() {
 							disabled={Object.entries(rowSelection).length === 0}
 						>
 							<IconTrash className="h-4 w-4 me-1" />
-							{t(translationKey('users.form.delete'))}
+							{t(translationKey('tickets.form.delete'))}
 						</Button>
 					}
-					title={t(translationKey('users.form.deleteDialogTitle'))}
-					description={t(translationKey('users.form.deleteDialogDescription'))}
+					title={t(translationKey('tickets.form.deleteDialogTitle'))}
+					description={t(
+						translationKey('tickets.form.deleteDialogDescription'),
+					)}
 					dialogAction={
 						<AlertDialogAction
 							variant={'destructive'}
@@ -90,10 +96,10 @@ export function UsersPage() {
 								Object.entries(rowSelection).forEach(([key, isSelected]) => {
 									if (isSelected) {
 										const index = Number(key)
-										const userToDelete = items[index]
+										const ticketToDelete = items[index]
 
-										if (userToDelete) {
-											deleteUser.mutate(userToDelete.id)
+										if (ticketToDelete) {
+											deleteTicket.mutate(ticketToDelete.id)
 										}
 									}
 								})
@@ -101,7 +107,7 @@ export function UsersPage() {
 							}}
 						>
 							<IconTrash className="h-4 w-4 me-1" />
-							{t(translationKey('users.form.delete'))}
+							{t(translationKey('tickets.form.delete'))}
 						</AlertDialogAction>
 					}
 				/>
@@ -109,23 +115,23 @@ export function UsersPage() {
 				<AppDrawer
 					open={drawerOpen}
 					onOpenChange={setDrawerOpen}
-					drawerTitle="New User"
+					drawerTitle="New Ticket"
 					drawerDescription=""
 					drawerBody={
-						<UsersForm
+						<TicketsForm
 							mode="create"
-							user={{ name: '', email: '' }}
-							error={createUser.error?.message}
+							ticket={{ subject: '' }}
+							error={createTicket.error?.message}
 							onSubmit={(data) => {
-								createUser.mutate(CreateUserPayloadSchema.parse(data), {
+								createTicket.mutate(CreateTicketSchema.parse(data), {
 									onSuccess: () => setDrawerOpen(false),
 								})
 							}}
 							footer={
-								<Button type="submit" disabled={createUser.isPending}>
-									{createUser.isPending
-										? t('users.form.creating')
-										: t('users.form.create')}
+								<Button type="submit" disabled={createTicket.isPending}>
+									{createTicket.isPending
+										? t('tickets.form.creating')
+										: t('tickets.form.create')}
 								</Button>
 							}
 						/>
@@ -133,7 +139,7 @@ export function UsersPage() {
 					triggerButton={
 						<Button variant="outline">
 							<IconPlus className="h-4 w-4 me-1" />
-							{t('users.form.create')}
+							{t('tickets.form.create')}
 						</Button>
 					}
 				/>
