@@ -28,7 +28,16 @@ export function TicketsPage() {
 	const [drawerOpen, setDrawerOpen] = useState(false)
 
 	const [criteria, setCriteria] = useState<Criteria>({
-		select: ['subject', 'createdAt', 'updatedAt'],
+		select: [
+			'subject',
+			'description',
+			'priority',
+			'status',
+			'creatorId',
+			'createdAt',
+			'updatedAt',
+			'creator',
+		],
 		page: 1,
 		limit: 10,
 		sort: {

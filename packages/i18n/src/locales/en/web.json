@@ -31,14 +31,16 @@
 			"status": "Status",
 			"priority": "Priority",
 			"createdAt": "Created at",
-			"updatedAt": "Updated at"
+			"updatedAt": "Updated at",
+			"creator": "Creator",
+			"agent": "Agent"
 		},
 		"ui": {
 			"loading": "Loading",
 			"loadingError": "Failed to load data",
 			"details": "Details",
 			"invalidId": "Invalid ID",
-			"drawerDescription": "View and edit user details",
+			"drawerDescription": "View and edit ticket details",
 			"openDrawerNotice": "Select a user to view details"
 		},
 		"form": {

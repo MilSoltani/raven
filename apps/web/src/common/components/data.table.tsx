@@ -102,7 +102,7 @@ export function DataTable<TData, TValue>({
 	return (
 		<div className="mt-1">
 			<div className="overflow-hidden rounded-md border">
-				<Table className="table-fixed">
+				<Table className="table-auto">
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow key={headerGroup.id}>

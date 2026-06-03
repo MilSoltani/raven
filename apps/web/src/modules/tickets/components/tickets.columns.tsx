@@ -38,7 +38,7 @@ export function useTicketColumns(): ColumnDef<Ticket>[] {
 			size: 20,
 		},
 		{
-			accessorKey: 'name',
+			accessorKey: 'subject',
 			header: ({ column }) => (
 				<Button
 					variant="ghost"
@@ -46,6 +46,58 @@ export function useTicketColumns(): ColumnDef<Ticket>[] {
 					className="font-bold px-0"
 				>
 					{t(translationKey('tickets.entity.subject'))}
+					<IconArrowsUpDown className="ml-2 h-4 w-4" />
+				</Button>
+			),
+		},
+		{
+			accessorKey: 'priority',
+			header: ({ column }) => (
+				<Button
+					variant="ghost"
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+					className="font-bold px-0"
+				>
+					{t(translationKey('tickets.entity.priority'))}
+					<IconArrowsUpDown className="ml-2 h-4 w-4" />
+				</Button>
+			),
+		},
+		{
+			accessorKey: 'status',
+			header: ({ column }) => (
+				<Button
+					variant="ghost"
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+					className="font-bold px-0"
+				>
+					{t(translationKey('tickets.entity.status'))}
+					<IconArrowsUpDown className="ml-2 h-4 w-4" />
+				</Button>
+			),
+		},
+		{
+			accessorKey: 'creator.name',
+			header: ({ column }) => (
+				<Button
+					variant="ghost"
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+					className="font-bold px-0"
+				>
+					{t(translationKey('tickets.entity.creator'))}
+					<IconArrowsUpDown className="ml-2 h-4 w-4" />
+				</Button>
+			),
+		},
+		{
+			accessorKey: 'agent.name',
+			header: ({ column }) => (
+				<Button
+					variant="ghost"
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+					className="font-bold px-0"
+				>
+					{t(translationKey('tickets.entity.agent'))}
 					<IconArrowsUpDown className="ml-2 h-4 w-4" />
 				</Button>
 			),

@@ -1,6 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { Ticket } from '@xenon/api/exports'
-import { CreateTicketSchema, UpdateTicketSchema } from '@xenon/api/exports'
+import {
+	CreateTicketSchema,
+	TicketPriorityEnum,
+	TicketStatusEnum,
+	UpdateTicketSchema,
+} from '@xenon/api/exports'
+import { translationKey } from '@xenon/i18n'
 import { Alert, AlertDescription } from '@xenon/web/common/components/ui/alert'
 import {
 	Field,
@@ -8,7 +14,17 @@ import {
 	FieldLabel,
 } from '@xenon/web/common/components/ui/field'
 import { Input } from '@xenon/web/common/components/ui/input'
-import { useForm } from 'react-hook-form'
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from '@xenon/web/common/components/ui/select'
+import { Textarea } from '@xenon/web/common/components/ui/textarea'
+import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
 type TicketsFormProps = {
@@ -33,6 +49,7 @@ export function TicketsForm({
 		register,
 		handleSubmit,
 		formState: { errors },
+		control,
 	} = useForm<Partial<Ticket>>({
 		resolver: zodResolver(resoverSchema),
 		defaultValues: ticket,
@@ -52,7 +69,9 @@ export function TicketsForm({
 
 				<FieldGroup>
 					<Field>
-						<FieldLabel>{t('tickets.entity.subject')}</FieldLabel>
+						<FieldLabel>
+							{t(translationKey('tickets.entity.subject'))}
+						</FieldLabel>
 						<Input {...register('subject')} />
 						{errors.subject?.message && (
 							<p className="text-red-500 text-sm mt-1">
@@ -61,16 +80,98 @@ export function TicketsForm({
 						)}
 					</Field>
 
+					<Field>
+						<FieldLabel>
+							{t(translationKey('tickets.entity.description'))}
+						</FieldLabel>
+						<Textarea rows={8} {...register('description')} />
+						{errors.description?.message && (
+							<p className="text-red-500 text-sm mt-1">
+								{errors.description.message}
+							</p>
+						)}
+					</Field>
+
+					<Field>
+						<FieldLabel>
+							{t(translationKey('tickets.entity.priority'))}
+						</FieldLabel>
+
+						<Controller
+							name="priority"
+							control={control}
+							render={({ field }) => (
+								<Select value={field.value} onValueChange={field.onChange}>
+									<SelectTrigger className="w-full max-w-48">
+										<SelectValue placeholder="Select" />
+									</SelectTrigger>
+
+									<SelectContent>
+										<SelectGroup>
+											<SelectLabel>
+												{t(translationKey('tickets.entity.priority'))}
+											</SelectLabel>
+
+											{TicketPriorityEnum.options.map((option) => (
+												<SelectItem key={option} value={option}>
+													{option}
+												</SelectItem>
+											))}
+										</SelectGroup>
+									</SelectContent>
+								</Select>
+							)}
+						/>
+					</Field>
+
 					{mode === 'edit' && (
 						<Field>
-							<FieldLabel>{t('tickets.entity.createdAt')}</FieldLabel>
+							<FieldLabel>
+								{t(translationKey('tickets.entity.status'))}
+							</FieldLabel>
+
+							<Controller
+								name="status"
+								control={control}
+								render={({ field }) => (
+									<Select value={field.value} onValueChange={field.onChange}>
+										<SelectTrigger className="w-full max-w-48">
+											<SelectValue placeholder="Select" />
+										</SelectTrigger>
+
+										<SelectContent>
+											<SelectGroup>
+												<SelectLabel>
+													{t(translationKey('tickets.entity.status'))}
+												</SelectLabel>
+
+												{TicketStatusEnum.options.map((option) => (
+													<SelectItem key={option} value={option}>
+														{option}
+													</SelectItem>
+												))}
+											</SelectGroup>
+										</SelectContent>
+									</Select>
+								)}
+							/>
+						</Field>
+					)}
+
+					{mode === 'edit' && (
+						<Field>
+							<FieldLabel>
+								{t(translationKey('tickets.entity.createdAt'))}
+							</FieldLabel>
 							<Input {...register('createdAt')} disabled />
 						</Field>
 					)}
 
 					{mode === 'edit' && (
 						<Field>
-							<FieldLabel>{t('tickets.entity.updatedAt')}</FieldLabel>
+							<FieldLabel>
+								{t(translationKey('tickets.entity.updatedAt'))}
+							</FieldLabel>
 							<Input {...register('updatedAt')} disabled />
 						</Field>
 					)}

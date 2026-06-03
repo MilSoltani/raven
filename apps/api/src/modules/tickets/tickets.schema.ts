@@ -1,3 +1,4 @@
+import { NestedUserSchema } from '@xenon/api/modules/users'
 import { translationKey } from '@xenon/i18n'
 import z from 'zod'
 
@@ -11,12 +12,16 @@ export const TicketPriorityEnum = z.enum(
 	translationKey('tickets.validation.priorityInvalid'),
 )
 
+// TODO: dto for backend, separated
+
 export const TicketSchema = z.object({
 	id: z.number().int(),
 
 	creatorId: z.number().int(),
+	creator: NestedUserSchema.nullable().optional(),
 
 	agentId: z.number().int().nullable().optional(),
+	agent: NestedUserSchema.nullable().optional(),
 
 	subject: z
 		.string()
@@ -30,8 +35,8 @@ export const TicketSchema = z.object({
 	status: TicketStatusEnum,
 	priority: TicketPriorityEnum,
 
-	createdAt: z.date(),
-	updatedAt: z.date().nullable(),
+	createdAt: z.coerce.date(),
+	updatedAt: z.coerce.date().nullable(),
 })
 
 export const CreateTicketSchema = TicketSchema.omit({

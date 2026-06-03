@@ -30,6 +30,7 @@ export function TicketActionCell({ ticketId }: TicketActionCellProps) {
 			drawerTitle={t(translationKey('tickets.ui.details'))}
 			drawerDescription={t(translationKey('tickets.ui.drawerDescription'))}
 			pageLinkUrl={data ? `/tickets/${data.id}` : undefined}
+			width={'w-[600px]'}
 			triggerButton={
 				<Button
 					variant="outline"
