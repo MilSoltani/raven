@@ -63,7 +63,6 @@ export function TicketsPage() {
 	const [creator, setCreator] = useState<string | undefined>()
 	const [agent, setAgent] = useState<string | undefined>()
 
-	// TODO agent.name and creator.name filters dont work
 	const criteria = React.useMemo<Criteria>(
 		() => ({
 			select: [
@@ -86,11 +85,15 @@ export function TicketsPage() {
 				id: {
 					equals: id,
 				},
-				'creator.name': {
-					contains: creator,
+				creator: {
+					name: {
+						contains: creator,
+					},
 				},
-				'agent.name': {
-					contains: agent,
+				agent: {
+					name: {
+						contains: agent,
+					},
 				},
 				status: {
 					in: statusFilter,

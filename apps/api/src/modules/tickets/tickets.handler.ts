@@ -13,6 +13,7 @@ export function createTicketsHandler(ticketsService: TicketsService) {
 	return new Hono<AppEnv>()
 
 		.get('/', zValidator('query', CriteriaSchema), async (c) => {
+			console.log(c.var.query)
 			const result = await ticketsService.getAll(c.var.query)
 
 			return c.json(

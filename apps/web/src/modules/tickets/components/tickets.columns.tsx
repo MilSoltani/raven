@@ -77,7 +77,8 @@ export function useTicketColumns(): ColumnDef<Ticket>[] {
 			),
 		},
 		{
-			accessorKey: 'creator.name',
+			id: 'creatorName',
+			accessorFn: (row) => row.creator?.name ?? '',
 			header: ({ column }) => (
 				<Button
 					variant="ghost"
@@ -90,7 +91,8 @@ export function useTicketColumns(): ColumnDef<Ticket>[] {
 			),
 		},
 		{
-			accessorKey: 'agent.name',
+			id: 'agentName',
+			accessorFn: (row) => row.agent?.name ?? '',
 			header: ({ column }) => (
 				<Button
 					variant="ghost"
