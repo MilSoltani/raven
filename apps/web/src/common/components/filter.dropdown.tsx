@@ -31,12 +31,12 @@ export function FilterDropdown<T extends string>({
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button variant="outline" size="sm">
+				<Button variant="outline" className="w-full">
 					<span>{label}</span>
 					<IconChevronDown />
 				</Button>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent align="start" className="w-28">
+			<DropdownMenuContent align="start">
 				{options.map((option) => (
 					<DropdownMenuCheckboxItem
 						key={option}

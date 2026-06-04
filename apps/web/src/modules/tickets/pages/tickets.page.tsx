@@ -1,4 +1,9 @@
-import { IconPlus, IconTrash } from '@tabler/icons-react'
+import {
+	IconFilter,
+	IconFilterOff,
+	IconPlus,
+	IconTrash,
+} from '@tabler/icons-react'
 import type { SortingState } from '@tanstack/react-table'
 import type { Criteria, TicketPriority, TicketStatus } from '@xenon/api/exports'
 import {
@@ -13,6 +18,13 @@ import { DataTable } from '@xenon/web/common/components/data.table'
 import { FilterDropdown } from '@xenon/web/common/components/filter.dropdown'
 import { AlertDialogAction } from '@xenon/web/common/components/ui/alert-dialog'
 import { Button } from '@xenon/web/common/components/ui/button'
+import {
+	Command,
+	CommandDialog,
+	CommandGroup,
+	CommandList,
+	CommandSeparator,
+} from '@xenon/web/common/components/ui/command'
 import { Input } from '@xenon/web/common/components/ui/input'
 import {
 	sortingToSort,
@@ -33,6 +45,8 @@ export function TicketsPage() {
 	const { t } = useTranslation('web')
 	const [rowSelection, setRowSelection] = useState({})
 	const [drawerOpen, setDrawerOpen] = useState(false)
+	const [filtersOpen, setFiltersOpen] = useState(false)
+
 	const [statusFilter, setStatusFilter] = useState<TicketStatus[]>([
 		'OPEN',
 		'WORKING',
@@ -44,8 +58,12 @@ export function TicketsPage() {
 	const [page, setPage] = useState(1)
 	const [limit, setLimit] = useState(10)
 	const [sort, setSort] = useState<Criteria['sort']>({ subject: 'asc' })
-	const [search, setSearch] = useState<string | undefined>()
+	const [subject, setSubject] = useState<string | undefined>()
+	const [id, setId] = useState<string | undefined>()
+	const [creator, setCreator] = useState<string | undefined>()
+	const [agent, setAgent] = useState<string | undefined>()
 
+	// TODO agent.name and creator.name filters dont work
 	const criteria = React.useMemo<Criteria>(
 		() => ({
 			select: [
@@ -62,6 +80,18 @@ export function TicketsPage() {
 			limit,
 			sort,
 			filter: {
+				subject: {
+					contains: subject,
+				},
+				id: {
+					equals: id,
+				},
+				'creator.name': {
+					contains: creator,
+				},
+				'agent.name': {
+					contains: agent,
+				},
 				status: {
 					in: statusFilter,
 				},
@@ -70,7 +100,17 @@ export function TicketsPage() {
 				},
 			},
 		}),
-		[statusFilter, priorityFilter, page, limit, sort],
+		[
+			subject,
+			id,
+			creator,
+			agent,
+			statusFilter,
+			priorityFilter,
+			page,
+			limit,
+			sort,
+		],
 	)
 
 	const { data, isLoading, isError, error } = useTickets(criteria)
@@ -109,102 +149,180 @@ export function TicketsPage() {
 
 	const sorting: SortingState = sortToSorting(criteria.sort)
 
+	const handleResetFilters = () => {
+		setId(undefined)
+		setSubject(undefined)
+		setCreator(undefined)
+		setAgent(undefined)
+		setStatusFilter(['OPEN', 'WORKING', 'PENDING']) // or your default layout
+		setPriorityFilter([])
+		setPage(1)
+
+		setFiltersOpen(false)
+	}
+
 	return (
 		<div>
-			<div className="flex flex-row gap-2">
-				<Input
-					id="search"
-					type="search"
-					placeholder="search"
-					value={search}
-					onChange={(e) => setSearch(e.target.value)}
-					className="w-[300px]"
-				/>
+			<div className="flex flex-row justify-between gap-4">
+				<div>
+					<Button
+						onClick={() => setFiltersOpen(true)}
+						variant="outline"
+						className="w-fit"
+					>
+						<IconFilter className="h-4 w-4 me-1" />
+						Filter the table
+					</Button>
 
-				<FilterDropdown
-					label="Status"
-					options={TicketStatusEnum.options}
-					selectedFilters={statusFilter}
-					onFilterChange={setStatusFilter}
-				/>
+					<CommandDialog open={filtersOpen} onOpenChange={setFiltersOpen}>
+						<Command>
+							<div className="px-1">
+								<div className="pt-2 flex flex-row gap-2">
+									<Input
+										id="id"
+										type="search"
+										placeholder="Id"
+										value={id || ''}
+										onChange={(e) => setId(e.target.value || undefined)}
+										className="w-1/4"
+									/>
 
-				<FilterDropdown
-					label="Priority"
-					options={TicketPriorityEnum.options}
-					selectedFilters={priorityFilter}
-					onFilterChange={setPriorityFilter}
-				/>
-			</div>
+									<Input
+										id="subject"
+										type="search"
+										placeholder="Subject"
+										value={subject || ''}
+										onChange={(e) => setSubject(e.target.value || undefined)}
+										className="w-3/4"
+									/>
+								</div>
 
-			<div className="flex flex-row justify-end gap-4">
-				<AppDialog
-					triggerButton={
-						<Button
-							variant="destructive"
-							disabled={Object.entries(rowSelection).length === 0}
-						>
-							<IconTrash className="h-4 w-4 me-1" />
-							{t(translationKey('tickets.form.delete'))}
-						</Button>
-					}
-					title={t(translationKey('tickets.form.deleteDialogTitle'))}
-					description={t(
-						translationKey('tickets.form.deleteDialogDescription'),
-					)}
-					dialogAction={
-						<AlertDialogAction
-							variant={'destructive'}
-							onClick={() => {
-								Object.entries(rowSelection).forEach(([key, isSelected]) => {
-									if (isSelected) {
-										const index = Number(key)
-										const ticketToDelete = items[index]
+								<div className="pt-2 flex flex-row gap-2">
+									<Input
+										id="creator.name"
+										type="search"
+										placeholder="Creator name"
+										value={creator || ''}
+										onChange={(e) => setCreator(e.target.value || undefined)}
+										className="w-full"
+									/>
+									<Input
+										id="agent.name"
+										type="search"
+										placeholder="Agent name"
+										value={agent || ''}
+										onChange={(e) => setAgent(e.target.value || undefined)}
+										className="w-full"
+									/>
+								</div>
+							</div>
+							<CommandList>
+								<div className="grid grid-cols-2 py-2">
+									<CommandGroup>
+										<FilterDropdown
+											label="Select Status"
+											options={TicketStatusEnum.options}
+											selectedFilters={statusFilter}
+											onFilterChange={setStatusFilter}
+										/>
+									</CommandGroup>
 
-										if (ticketToDelete) {
-											deleteTicket.mutate(ticketToDelete.id)
+									<CommandGroup>
+										<FilterDropdown
+											label="Select Priorities"
+											options={TicketPriorityEnum.options}
+											selectedFilters={priorityFilter}
+											onFilterChange={setPriorityFilter}
+										/>
+									</CommandGroup>
+								</div>
+
+								<CommandSeparator />
+
+								<div className="flex flex-row justify-end">
+									<Button
+										onClick={() => handleResetFilters()}
+										variant="secondary"
+									>
+										<IconFilterOff className="h-4 w-4 me-1" />
+										Reset Filters
+									</Button>
+								</div>
+							</CommandList>
+						</Command>
+					</CommandDialog>
+				</div>
+
+				<div className="flex flex-row justify-end gap-2">
+					<AppDialog
+						triggerButton={
+							<Button
+								variant="destructive"
+								disabled={Object.entries(rowSelection).length === 0}
+							>
+								<IconTrash className="h-4 w-4 me-1" />
+								{t(translationKey('tickets.form.delete'))}
+							</Button>
+						}
+						title={t(translationKey('tickets.form.deleteDialogTitle'))}
+						description={t(
+							translationKey('tickets.form.deleteDialogDescription'),
+						)}
+						dialogAction={
+							<AlertDialogAction
+								variant={'destructive'}
+								onClick={() => {
+									Object.entries(rowSelection).forEach(([key, isSelected]) => {
+										if (isSelected) {
+											const index = Number(key)
+											const ticketToDelete = items[index]
+
+											if (ticketToDelete) {
+												deleteTicket.mutate(ticketToDelete.id)
+											}
 										}
-									}
-								})
-								setRowSelection({})
-							}}
-						>
-							<IconTrash className="h-4 w-4 me-1" />
-							{t(translationKey('tickets.form.delete'))}
-						</AlertDialogAction>
-					}
-				/>
+									})
+									setRowSelection({})
+								}}
+							>
+								<IconTrash className="h-4 w-4 me-1" />
+								{t(translationKey('tickets.form.delete'))}
+							</AlertDialogAction>
+						}
+					/>
 
-				<AppDrawer
-					open={drawerOpen}
-					onOpenChange={setDrawerOpen}
-					drawerTitle="New Ticket"
-					drawerDescription=""
-					drawerBody={
-						<TicketsForm
-							mode="create"
-							ticket={{ subject: '' }}
-							error={createTicket.error?.message}
-							onSubmit={(data) => {
-								createTicket.mutate(CreateTicketSchema.parse(data), {
-									onSuccess: () => setDrawerOpen(false),
-								})
-							}}
-							footer={
-								<Button type="submit" disabled={createTicket.isPending}>
-									{createTicket.isPending
-										? t('tickets.form.creating')
-										: t('tickets.form.create')}
-								</Button>
-							}
-						/>
-					}
-					triggerButton={
-						<Button variant="outline">
-							<IconPlus className="h-4 w-4 me-1" />
-							{t('tickets.form.create')}
-						</Button>
-					}
-				/>
+					<AppDrawer
+						open={drawerOpen}
+						onOpenChange={setDrawerOpen}
+						drawerTitle="New Ticket"
+						drawerDescription=""
+						drawerBody={
+							<TicketsForm
+								mode="create"
+								ticket={{ subject: '' }}
+								error={createTicket.error?.message}
+								onSubmit={(data) => {
+									createTicket.mutate(CreateTicketSchema.parse(data), {
+										onSuccess: () => setDrawerOpen(false),
+									})
+								}}
+								footer={
+									<Button type="submit" disabled={createTicket.isPending}>
+										{createTicket.isPending
+											? t('tickets.form.creating')
+											: t('tickets.form.create')}
+									</Button>
+								}
+							/>
+						}
+						triggerButton={
+							<Button variant="outline">
+								<IconPlus className="h-4 w-4 me-1" />
+								{t('tickets.form.create')}
+							</Button>
+						}
+					/>
+				</div>
 			</div>
 
 			<DataTable

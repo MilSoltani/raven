@@ -17,6 +17,7 @@ import { createTicketsService } from './tickets.service'
 export function createTicketsModule(prisma: PrismaClient) {
 	const filterTransformer = createFilterTransformer<TicketWhereInput>({
 		allowedPaths: [
+			'id',
 			'subject',
 			'status',
 			'priority',
