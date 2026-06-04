@@ -1,17 +1,24 @@
 import { IconPlus, IconTrash } from '@tabler/icons-react'
 import type { SortingState } from '@tanstack/react-table'
-import type { Criteria } from '@xenon/api/exports'
-import { CreateTicketSchema } from '@xenon/api/exports'
+import type { Criteria, TicketPriority, TicketStatus } from '@xenon/api/exports'
+import {
+	CreateTicketSchema,
+	TicketPriorityEnum,
+	TicketStatusEnum,
+} from '@xenon/api/exports'
 import { translationKey } from '@xenon/i18n'
 import { AppDialog } from '@xenon/web/common/components/app.dialog'
 import { AppDrawer } from '@xenon/web/common/components/app.drawer'
 import { DataTable } from '@xenon/web/common/components/data.table'
+import { FilterDropdown } from '@xenon/web/common/components/filter.dropdown'
 import { AlertDialogAction } from '@xenon/web/common/components/ui/alert-dialog'
 import { Button } from '@xenon/web/common/components/ui/button'
+import { Input } from '@xenon/web/common/components/ui/input'
 import {
 	sortingToSort,
 	sortToSorting,
 } from '@xenon/web/common/utils/sorting-adapters'
+import * as React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTicketColumns } from '../components/tickets.columns'
@@ -26,24 +33,45 @@ export function TicketsPage() {
 	const { t } = useTranslation('web')
 	const [rowSelection, setRowSelection] = useState({})
 	const [drawerOpen, setDrawerOpen] = useState(false)
+	const [statusFilter, setStatusFilter] = useState<TicketStatus[]>([
+		'OPEN',
+		'WORKING',
+		'PENDING',
+	])
 
-	const [criteria, setCriteria] = useState<Criteria>({
-		select: [
-			'subject',
-			'description',
-			'priority',
-			'status',
-			'creatorId',
-			'createdAt',
-			'updatedAt',
-			'creator',
-		],
-		page: 1,
-		limit: 10,
-		sort: {
-			subject: 'asc',
-		},
-	})
+	const [priorityFilter, setPriorityFilter] = useState<TicketPriority[]>([])
+
+	const [page, setPage] = useState(1)
+	const [limit, setLimit] = useState(10)
+	const [sort, setSort] = useState<Criteria['sort']>({ subject: 'asc' })
+	const [search, setSearch] = useState<string | undefined>()
+
+	const criteria = React.useMemo<Criteria>(
+		() => ({
+			select: [
+				'subject',
+				'description',
+				'priority',
+				'status',
+				'creatorId',
+				'createdAt',
+				'updatedAt',
+				'creator',
+			],
+			page,
+			limit,
+			sort,
+			filter: {
+				status: {
+					in: statusFilter,
+				},
+				priority: {
+					in: priorityFilter,
+				},
+			},
+		}),
+		[statusFilter, priorityFilter, page, limit, sort],
+	)
 
 	const { data, isLoading, isError, error } = useTickets(criteria)
 
@@ -83,6 +111,31 @@ export function TicketsPage() {
 
 	return (
 		<div>
+			<div className="flex flex-row gap-2">
+				<Input
+					id="search"
+					type="search"
+					placeholder="search"
+					value={search}
+					onChange={(e) => setSearch(e.target.value)}
+					className="w-[300px]"
+				/>
+
+				<FilterDropdown
+					label="Status"
+					options={TicketStatusEnum.options}
+					selectedFilters={statusFilter}
+					onFilterChange={setStatusFilter}
+				/>
+
+				<FilterDropdown
+					label="Priority"
+					options={TicketPriorityEnum.options}
+					selectedFilters={priorityFilter}
+					onFilterChange={setPriorityFilter}
+				/>
+			</div>
+
 			<div className="flex flex-row justify-end gap-4">
 				<AppDialog
 					triggerButton={
@@ -159,20 +212,14 @@ export function TicketsPage() {
 				data={items}
 				pagination={safePagination}
 				sorting={sorting}
-				onPaginationChange={(p) =>
-					setCriteria((prev) => ({
-						...prev,
-						page: p.page,
-						limit: p.pageSize,
-					}))
-				}
-				onSortingChange={(s) =>
-					setCriteria((prev) => ({
-						...prev,
-						page: 1,
-						sort: sortingToSort(s),
-					}))
-				}
+				onPaginationChange={(p) => {
+					setPage(p.page)
+					setLimit(p.pageSize)
+				}}
+				onSortingChange={(s) => {
+					setPage(1)
+					setSort(sortingToSort(s))
+				}}
 				rowSelection={rowSelection}
 				onRowSelectionChange={setRowSelection}
 			/>
