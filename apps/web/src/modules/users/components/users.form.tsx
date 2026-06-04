@@ -4,6 +4,7 @@ import {
 	CreateUserPayloadSchema,
 	UpdateUserPayloadSchema,
 } from '@xenon/api/exports'
+import { translationKey } from '@xenon/i18n'
 import { Alert, AlertDescription } from '@xenon/web/common/components/ui/alert'
 import {
 	Field,
@@ -36,6 +37,7 @@ export function UsersForm({
 		register,
 		handleSubmit,
 		formState: { errors },
+		getValues,
 	} = useForm<Partial<User>>({
 		resolver: zodResolver(resoverSchema),
 		defaultValues: user,
@@ -55,7 +57,7 @@ export function UsersForm({
 
 				<FieldGroup>
 					<Field>
-						<FieldLabel>{t('users.entity.name')}</FieldLabel>
+						<FieldLabel>{t(translationKey('users.entity.name'))}</FieldLabel>
 						<Input {...register('name')} />
 						{errors.name?.message && (
 							<p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
@@ -63,7 +65,7 @@ export function UsersForm({
 					</Field>
 
 					<Field>
-						<FieldLabel>{t('users.entity.email')}</FieldLabel>
+						<FieldLabel>{t(translationKey('users.entity.email'))}</FieldLabel>
 						<Input {...register('email')} />
 						{errors.email?.message && (
 							<p className="text-red-500 text-sm mt-1">
@@ -73,17 +75,25 @@ export function UsersForm({
 					</Field>
 
 					{mode === 'edit' && (
-						<Field>
-							<FieldLabel>{t('users.entity.createdAt')}</FieldLabel>
-							<Input {...register('createdAt')} disabled />
-						</Field>
-					)}
+						<div className="flex flex-row gap-15">
+							<div>
+								<FieldLabel>
+									{t(translationKey('users.entity.createdAt'))}
+								</FieldLabel>
+								<div className="text-sm">
+									{getValues('createdAt')?.toLocaleDateString() ?? '—'}
+								</div>
+							</div>
 
-					{mode === 'edit' && (
-						<Field>
-							<FieldLabel>{t('users.entity.updatedAt')}</FieldLabel>
-							<Input {...register('updatedAt')} disabled />
-						</Field>
+							<div>
+								<FieldLabel>
+									{t(translationKey('users.entity.updatedAt'))}
+								</FieldLabel>
+								<div className="text-sm">
+									{getValues('updatedAt')?.toLocaleDateString() ?? '—'}
+								</div>
+							</div>
+						</div>
 					)}
 				</FieldGroup>
 

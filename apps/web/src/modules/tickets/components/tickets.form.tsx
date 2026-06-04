@@ -50,6 +50,7 @@ export function TicketsForm({
 		handleSubmit,
 		formState: { errors },
 		control,
+		getValues,
 	} = useForm<Partial<Ticket>>({
 		resolver: zodResolver(resoverSchema),
 		defaultValues: ticket,
@@ -159,21 +160,25 @@ export function TicketsForm({
 					)}
 
 					{mode === 'edit' && (
-						<Field>
-							<FieldLabel>
-								{t(translationKey('tickets.entity.createdAt'))}
-							</FieldLabel>
-							<Input {...register('createdAt')} disabled />
-						</Field>
-					)}
+						<div className="flex flex-row gap-15">
+							<div>
+								<FieldLabel>
+									{t(translationKey('tickets.entity.createdAt'))}
+								</FieldLabel>
+								<div className="text-sm">
+									{getValues('createdAt')?.toLocaleDateString() ?? '—'}
+								</div>
+							</div>
 
-					{mode === 'edit' && (
-						<Field>
-							<FieldLabel>
-								{t(translationKey('tickets.entity.updatedAt'))}
-							</FieldLabel>
-							<Input {...register('updatedAt')} disabled />
-						</Field>
+							<div>
+								<FieldLabel>
+									{t(translationKey('tickets.entity.updatedAt'))}
+								</FieldLabel>
+								<div className="text-sm">
+									{getValues('updatedAt')?.toLocaleDateString() ?? '—'}
+								</div>
+							</div>
+						</div>
 					)}
 				</FieldGroup>
 
