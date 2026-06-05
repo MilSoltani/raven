@@ -1,9 +1,4 @@
-import {
-	IconFilter,
-	IconFilterOff,
-	IconPlus,
-	IconTrash,
-} from '@tabler/icons-react'
+import { IconFilter, IconFilterOff, IconPlus } from '@tabler/icons-react'
 import type { SortingState } from '@tanstack/react-table'
 import type { Criteria, TicketPriority, TicketStatus } from '@xenon/api/exports'
 import {
@@ -12,11 +7,10 @@ import {
 	TicketStatusEnum,
 } from '@xenon/api/exports'
 import { translationKey } from '@xenon/i18n'
-import { AppDialog } from '@xenon/web/common/components/app.dialog'
 import { AppSheet } from '@xenon/web/common/components/app.sheet'
 import { DataTable } from '@xenon/web/common/components/data.table'
+import { DeleteDialog } from '@xenon/web/common/components/delete.dialog'
 import { FilterDropdown } from '@xenon/web/common/components/filter.dropdown'
-import { AlertDialogAction } from '@xenon/web/common/components/ui/alert-dialog'
 import { Button } from '@xenon/web/common/components/ui/button'
 import { Input } from '@xenon/web/common/components/ui/input'
 import {
@@ -150,16 +144,14 @@ export function TicketsPage() {
 
 	const sorting: SortingState = sortToSorting(criteria.sort)
 
-	const handleResetFilters = () => {
-		setId(undefined)
+	function handleResetFilters() {
+		setPage(1)
+		setLimit(10)
+		setSort({ subject: 'asc' })
 		setSubject(undefined)
+		setId(undefined)
 		setCreator(undefined)
 		setAgent(undefined)
-		setStatusFilter(['OPEN', 'WORKING', 'PENDING']) // or your default layout
-		setPriorityFilter([])
-		setPage(1)
-
-		setFiltersOpen(false)
 	}
 
 	return (
@@ -168,41 +160,27 @@ export function TicketsPage() {
 				<div></div>
 
 				<div className="flex flex-row justify-end gap-2">
-					<AppDialog
-						triggerButton={
-							<Button
-								variant="destructive"
-								disabled={Object.entries(rowSelection).length === 0}
-							>
-								<IconTrash className="h-4 w-4 me-1" />
-								{t(translationKey('tickets.form.delete'))}
-							</Button>
+					<DeleteDialog
+						selectedIds={Object.entries(rowSelection)
+							.filter(([, isSelected]) => isSelected)
+							.map(([key]) => Number(key))
+							.map((index) => items[index]?.id)
+							.filter(Boolean)}
+						disabled={
+							Object.entries(rowSelection)
+								.filter(([, isSelected]) => isSelected)
+								.map(([key]) => Number(key))
+								.map((index) => items[index]?.id)
+								.filter(Boolean).length === 0
 						}
 						title={t(translationKey('tickets.form.deleteDialogTitle'))}
 						description={t(
 							translationKey('tickets.form.deleteDialogDescription'),
 						)}
-						dialogAction={
-							<AlertDialogAction
-								variant={'destructive'}
-								onClick={() => {
-									Object.entries(rowSelection).forEach(([key, isSelected]) => {
-										if (isSelected) {
-											const index = Number(key)
-											const ticketToDelete = items[index]
-
-											if (ticketToDelete) {
-												deleteTicket.mutate(ticketToDelete.id)
-											}
-										}
-									})
-									setRowSelection({})
-								}}
-							>
-								<IconTrash className="h-4 w-4 me-1" />
-								{t(translationKey('tickets.form.delete'))}
-							</AlertDialogAction>
-						}
+						triggerLabel={t(translationKey('tickets.form.delete'))}
+						actionLabel={t(translationKey('tickets.form.delete'))}
+						onDelete={(id) => deleteTicket.mutate(id)}
+						onResetSelection={() => setRowSelection({})}
 					/>
 
 					<AppSheet
