@@ -1,7 +1,7 @@
 import { IconLayoutSidebarRightExpandFilled } from '@tabler/icons-react'
 import { UpdateUserPayloadSchema } from '@xenon/api/exports'
 import { translationKey } from '@xenon/i18n'
-import { AppDrawer } from '@xenon/web/common/components/app.drawer'
+import { AppSheet } from '@xenon/web/common/components/app.sheet'
 import { Button } from '@xenon/web/common/components/ui/button'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -24,11 +24,11 @@ export function UserActionCell({ userId }: UserActionCellProps) {
 	}
 
 	return (
-		<AppDrawer
+		<AppSheet
 			open={isOpen}
 			onOpenChange={setIsOpen}
-			drawerTitle={t(translationKey('users.ui.details'))}
-			drawerDescription={t(translationKey('users.ui.drawerDescription'))}
+			sheetTitle={t(translationKey('users.ui.details'))}
+			sheetDescription={t(translationKey('users.ui.sheetDescription'))}
 			pageLinkUrl={data ? `/users/${data.id}` : undefined}
 			triggerButton={
 				<Button
@@ -41,7 +41,7 @@ export function UserActionCell({ userId }: UserActionCellProps) {
 					<IconLayoutSidebarRightExpandFilled className="h-4 w-4" />
 				</Button>
 			}
-			drawerBody={
+			sheetBody={
 				isLoading ? (
 					<div>{t('users.ui.loading')}</div>
 				) : isError ? (
@@ -72,7 +72,7 @@ export function UserActionCell({ userId }: UserActionCellProps) {
 						}
 					/>
 				) : (
-					<div>{t('users.ui.openDrawerNotice')}</div>
+					<div>{t('users.ui.openSheetNotice')}</div>
 				)
 			}
 		/>

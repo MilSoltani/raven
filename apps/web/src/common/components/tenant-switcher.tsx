@@ -1,5 +1,3 @@
-'use client'
-
 import { IconPlus, IconSelector } from '@tabler/icons-react'
 
 import {

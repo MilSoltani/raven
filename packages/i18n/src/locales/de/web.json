@@ -20,8 +20,8 @@
 			"loadingError": "Fehler beim Laden der Daten",
 			"details": "Details",
 			"invalidUserId": "Ungültige Benutzer-ID",
-			"drawerDescription": "Benutzerdetails anzeigen und bearbeiten",
-			"openDrawerNotice": "Wähle einen Benutzer aus, um Details anzuzeigen"
+			"sheetDescription": "Benutzerdetails anzeigen und bearbeiten",
+			"openSheetNotice": "Wähle einen Benutzer aus, um Details anzuzeigen"
 		}
 	}
 }

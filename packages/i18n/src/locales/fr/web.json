@@ -20,8 +20,8 @@
 			"loadingError": "Échec du chargement des données",
 			"details": "Détails",
 			"invalidUserId": "ID utilisateur invalide",
-			"drawerDescription": "Voir et modifier les détails de l'utilisateur",
-			"openDrawerNotice": "Sélectionnez un utilisateur pour voir les détails"
+			"sheetDescription": "Voir et modifier les détails de l'utilisateur",
+			"openSheetNotice": "Sélectionnez un utilisateur pour voir les détails"
 		}
 	}
 }

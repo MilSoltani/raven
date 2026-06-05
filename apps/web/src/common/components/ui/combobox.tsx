@@ -1,5 +1,3 @@
-'use client'
-
 import { Combobox as ComboboxPrimitive } from '@base-ui/react'
 import { IconCheck, IconChevronDown, IconX } from '@tabler/icons-react'
 import { Button } from '@xenon/web/common/components/ui/button'

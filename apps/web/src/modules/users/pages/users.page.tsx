@@ -4,7 +4,7 @@ import type { Criteria } from '@xenon/api/exports'
 import { CreateUserPayloadSchema } from '@xenon/api/exports'
 import { translationKey } from '@xenon/i18n'
 import { AppDialog } from '@xenon/web/common/components/app.dialog'
-import { AppDrawer } from '@xenon/web/common/components/app.drawer'
+import { AppSheet } from '@xenon/web/common/components/app.sheet'
 import { DataTable } from '@xenon/web/common/components/data.table'
 import { AlertDialogAction } from '@xenon/web/common/components/ui/alert-dialog'
 import { Button } from '@xenon/web/common/components/ui/button'
@@ -21,7 +21,7 @@ import { useCreateUser, useDeleteUser, useUsers } from '../hooks/users.hooks'
 export function UsersPage() {
 	const { t } = useTranslation('web')
 	const [rowSelection, setRowSelection] = useState({})
-	const [drawerOpen, setDrawerOpen] = useState(false)
+	const [sheetOpen, setSheetOpen] = useState(false)
 
 	const [criteria, setCriteria] = useState<Criteria>({
 		select: ['name', 'email', 'createdAt', 'updatedAt'],
@@ -106,19 +106,19 @@ export function UsersPage() {
 					}
 				/>
 
-				<AppDrawer
-					open={drawerOpen}
-					onOpenChange={setDrawerOpen}
-					drawerTitle="New User"
-					drawerDescription=""
-					drawerBody={
+				<AppSheet
+					open={sheetOpen}
+					onOpenChange={setSheetOpen}
+					sheetTitle="New User"
+					sheetDescription=""
+					sheetBody={
 						<UsersForm
 							mode="create"
 							user={{ name: '', email: '' }}
 							error={createUser.error?.message}
 							onSubmit={(data) => {
 								createUser.mutate(CreateUserPayloadSchema.parse(data), {
-									onSuccess: () => setDrawerOpen(false),
+									onSuccess: () => setSheetOpen(false),
 								})
 							}}
 							footer={

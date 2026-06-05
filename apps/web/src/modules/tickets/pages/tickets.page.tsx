@@ -13,7 +13,7 @@ import {
 } from '@xenon/api/exports'
 import { translationKey } from '@xenon/i18n'
 import { AppDialog } from '@xenon/web/common/components/app.dialog'
-import { AppDrawer } from '@xenon/web/common/components/app.drawer'
+import { AppSheet } from '@xenon/web/common/components/app.sheet'
 import { DataTable } from '@xenon/web/common/components/data.table'
 import { FilterDropdown } from '@xenon/web/common/components/filter.dropdown'
 import { AlertDialogAction } from '@xenon/web/common/components/ui/alert-dialog'
@@ -44,7 +44,7 @@ import {
 export function TicketsPage() {
 	const { t } = useTranslation('web')
 	const [rowSelection, setRowSelection] = useState({})
-	const [drawerOpen, setDrawerOpen] = useState(false)
+	const [sheetOpen, setSheetOpen] = useState(false)
 	const [filtersOpen, setFiltersOpen] = useState(false)
 
 	const [statusFilter, setStatusFilter] = useState<TicketStatus[]>([
@@ -294,19 +294,19 @@ export function TicketsPage() {
 						}
 					/>
 
-					<AppDrawer
-						open={drawerOpen}
-						onOpenChange={setDrawerOpen}
-						drawerTitle="New Ticket"
-						drawerDescription=""
-						drawerBody={
+					<AppSheet
+						open={sheetOpen}
+						onOpenChange={setSheetOpen}
+						sheetTitle="New Ticket"
+						sheetDescription=""
+						sheetBody={
 							<TicketsForm
 								mode="create"
 								ticket={{ subject: '' }}
 								error={createTicket.error?.message}
 								onSubmit={(data) => {
 									createTicket.mutate(CreateTicketSchema.parse(data), {
-										onSuccess: () => setDrawerOpen(false),
+										onSuccess: () => setSheetOpen(false),
 									})
 								}}
 								footer={

@@ -20,8 +20,8 @@
 			"loadingError": "Failed to load data",
 			"details": "Details",
 			"invalidId": "Invalid ID",
-			"drawerDescription": "View and edit user details",
-			"openDrawerNotice": "Select a user to view details"
+			"sheetDescription": "View and edit user details",
+			"openSheetNotice": "Select a user to view details"
 		}
 	},
 	"tickets": {
@@ -40,8 +40,8 @@
 			"loadingError": "Failed to load data",
 			"details": "Details",
 			"invalidId": "Invalid ID",
-			"drawerDescription": "View and edit ticket details",
-			"openDrawerNotice": "Select a user to view details"
+			"sheetDescription": "View and edit ticket details",
+			"openSheetNotice": "Select a user to view details"
 		},
 		"form": {
 			"create": "create",

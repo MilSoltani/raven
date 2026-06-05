@@ -1,12 +1,7 @@
-'use client'
-
 import {
 	IconBook,
-	IconChartPie,
 	IconCommand,
-	IconFrame,
 	IconLayoutRows,
-	IconMap,
 	IconSettings,
 	IconTicket,
 	IconUsers,
