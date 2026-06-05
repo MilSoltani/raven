@@ -18,14 +18,12 @@ import { DataTable } from '@xenon/web/common/components/data.table'
 import { FilterDropdown } from '@xenon/web/common/components/filter.dropdown'
 import { AlertDialogAction } from '@xenon/web/common/components/ui/alert-dialog'
 import { Button } from '@xenon/web/common/components/ui/button'
-import {
-	Command,
-	CommandDialog,
-	CommandGroup,
-	CommandList,
-	CommandSeparator,
-} from '@xenon/web/common/components/ui/command'
 import { Input } from '@xenon/web/common/components/ui/input'
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from '@xenon/web/common/components/ui/popover'
 import {
 	sortingToSort,
 	sortToSorting,
@@ -167,94 +165,7 @@ export function TicketsPage() {
 	return (
 		<div>
 			<div className="flex flex-row justify-between gap-4">
-				<div>
-					<Button
-						onClick={() => setFiltersOpen(true)}
-						variant="outline"
-						className="w-fit"
-					>
-						<IconFilter className="h-4 w-4 me-1" />
-						Filter the table
-					</Button>
-
-					<CommandDialog open={filtersOpen} onOpenChange={setFiltersOpen}>
-						<Command>
-							<div className="px-1">
-								<div className="pt-2 flex flex-row gap-2">
-									<Input
-										id="id"
-										type="search"
-										placeholder="Id"
-										value={id || ''}
-										onChange={(e) => setId(e.target.value || undefined)}
-										className="w-1/4"
-									/>
-
-									<Input
-										id="subject"
-										type="search"
-										placeholder="Subject"
-										value={subject || ''}
-										onChange={(e) => setSubject(e.target.value || undefined)}
-										className="w-3/4"
-									/>
-								</div>
-
-								<div className="pt-2 flex flex-row gap-2">
-									<Input
-										id="creator.name"
-										type="search"
-										placeholder="Creator name"
-										value={creator || ''}
-										onChange={(e) => setCreator(e.target.value || undefined)}
-										className="w-full"
-									/>
-									<Input
-										id="agent.name"
-										type="search"
-										placeholder="Agent name"
-										value={agent || ''}
-										onChange={(e) => setAgent(e.target.value || undefined)}
-										className="w-full"
-									/>
-								</div>
-							</div>
-							<CommandList>
-								<div className="grid grid-cols-2 py-2">
-									<CommandGroup>
-										<FilterDropdown
-											label="Select Status"
-											options={TicketStatusEnum.options}
-											selectedFilters={statusFilter}
-											onFilterChange={setStatusFilter}
-										/>
-									</CommandGroup>
-
-									<CommandGroup>
-										<FilterDropdown
-											label="Select Priorities"
-											options={TicketPriorityEnum.options}
-											selectedFilters={priorityFilter}
-											onFilterChange={setPriorityFilter}
-										/>
-									</CommandGroup>
-								</div>
-
-								<CommandSeparator />
-
-								<div className="flex flex-row justify-end">
-									<Button
-										onClick={() => handleResetFilters()}
-										variant="secondary"
-									>
-										<IconFilterOff className="h-4 w-4 me-1" />
-										Reset Filters
-									</Button>
-								</div>
-							</CommandList>
-						</Command>
-					</CommandDialog>
-				</div>
+				<div></div>
 
 				<div className="flex flex-row justify-end gap-2">
 					<AppDialog
@@ -325,6 +236,77 @@ export function TicketsPage() {
 							</Button>
 						}
 					/>
+
+					<Popover open={filtersOpen} onOpenChange={setFiltersOpen}>
+						<PopoverTrigger asChild>
+							<Button variant="outline">
+								<IconFilter className="h-4 w-4 me-1" />
+								Filter the table
+							</Button>
+						</PopoverTrigger>
+						<PopoverContent align="end" className="w-100">
+							<div className="grid gap-4">
+								<div className="grid gap-2">
+									<div className="grid grid-cols-2 items-center gap-2">
+										<Input
+											id="id"
+											type="search"
+											placeholder="Id"
+											value={id || ''}
+											onChange={(e) => setId(e.target.value || undefined)}
+											className="w-fill"
+										/>
+
+										<Input
+											id="subject"
+											type="search"
+											placeholder="Subject"
+											value={subject || ''}
+											onChange={(e) => setSubject(e.target.value || undefined)}
+											className="w-fill"
+										/>
+									</div>
+									<div className="grid grid-cols-2 items-center gap-2">
+										<Input
+											id="creator.name"
+											type="search"
+											placeholder="Creator name"
+											value={creator || ''}
+											onChange={(e) => setCreator(e.target.value || undefined)}
+											className="w-full"
+										/>
+										<Input
+											id="agent.name"
+											type="search"
+											placeholder="Agent name"
+											value={agent || ''}
+											onChange={(e) => setAgent(e.target.value || undefined)}
+											className="w-full"
+										/>
+									</div>
+									<div className="grid grid-cols-2 items-center gap-2">
+										<FilterDropdown
+											label="Select Status"
+											options={TicketStatusEnum.options}
+											selectedFilters={statusFilter}
+											onFilterChange={setStatusFilter}
+										/>
+										<FilterDropdown
+											label="Select Priorities"
+											options={TicketPriorityEnum.options}
+											selectedFilters={priorityFilter}
+											onFilterChange={setPriorityFilter}
+										/>
+									</div>
+								</div>
+							</div>
+
+							<Button onClick={() => handleResetFilters()} variant="secondary">
+								<IconFilterOff className="h-4 w-4 me-1" />
+								Reset Filters
+							</Button>
+						</PopoverContent>
+					</Popover>
 				</div>
 			</div>
 
