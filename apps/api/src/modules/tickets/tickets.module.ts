@@ -32,6 +32,7 @@ export function createTicketsModule(prisma: PrismaClient) {
 	const sortTransformer = createSortTransformer<TicketOrderByWithRelationInput>(
 		{
 			allowedPaths: [
+				'id',
 				'subject',
 				'status',
 				'priority',

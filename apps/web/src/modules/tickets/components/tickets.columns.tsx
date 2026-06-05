@@ -34,7 +34,16 @@ export function useTicketColumns(): ColumnDef<Ticket>[] {
 		},
 		{
 			accessorKey: 'id',
-			header: 'Id',
+			header: ({ column }) => (
+				<Button
+					variant="ghost"
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+					className="font-bold px-0"
+				>
+					Id
+					<IconArrowsUpDown className="ml-2 h-4 w-4" />
+				</Button>
+			),
 			size: 20,
 		},
 		{
