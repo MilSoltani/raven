@@ -1,6 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom'
 import { AppLayout } from './common/components/app.layout'
-import { AppSidebar } from './common/components/app.sidebar'
 import { AuthGate, SigninPage, SignupPage } from './modules/auth'
 import { HomePage } from './modules/home'
 import { TicketPage, TicketsPage } from './modules/tickets'
@@ -11,7 +10,7 @@ export const router = createBrowserRouter([
 		element: <AuthGate />,
 		children: [
 			{
-				element: <AppLayout sidebar={<AppSidebar />} />,
+				element: <AppLayout />,
 				children: [
 					{
 						path: '/',
