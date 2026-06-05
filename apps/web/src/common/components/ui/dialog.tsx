@@ -34,7 +34,6 @@ function DialogOverlay({
 	...props
 }: React.ComponentProps<typeof DialogPrimitive.Overlay>) {
 	return (
-		// TODO: what to do here? already removed 'supports-backdrop-filter:backdrop-blur-xs' from class names
 		<DialogPrimitive.Overlay
 			data-slot="dialog-overlay"
 			className={cn(
