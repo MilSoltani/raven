@@ -1,13 +1,8 @@
-import { IconFilter, IconFilterOff, IconPlus } from '@tabler/icons-react'
+import { IconFilter, IconFilterOff } from '@tabler/icons-react'
 import type { SortingState } from '@tanstack/react-table'
 import type { Criteria, TicketPriority, TicketStatus } from '@xenon/api/exports'
-import {
-	CreateTicketSchema,
-	TicketPriorityEnum,
-	TicketStatusEnum,
-} from '@xenon/api/exports'
+import { TicketPriorityEnum, TicketStatusEnum } from '@xenon/api/exports'
 import { translationKey } from '@xenon/i18n'
-import { AppSheet } from '@xenon/web/common/components/app.sheet'
 import { DataTable } from '@xenon/web/common/components/data.table'
 import { DeleteDialog } from '@xenon/web/common/components/delete.dialog'
 import { FilterDropdown } from '@xenon/web/common/components/filter.dropdown'
@@ -25,18 +20,13 @@ import {
 import * as React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CreateTicket } from '../components/CreateTicket'
 import { useTicketColumns } from '../components/tickets.columns'
-import { TicketsForm } from '../components/tickets.form'
-import {
-	useCreateTicket,
-	useDeleteTicket,
-	useTickets,
-} from '../hooks/tickets.hooks'
+import { useDeleteTicket, useTickets } from '../hooks/tickets.hooks'
 
 export function TicketsPage() {
 	const { t } = useTranslation('web')
 	const [rowSelection, setRowSelection] = useState({})
-	const [sheetOpen, setSheetOpen] = useState(false)
 	const [filtersOpen, setFiltersOpen] = useState(false)
 
 	const [statusFilter, setStatusFilter] = useState<TicketStatus[]>([
@@ -110,7 +100,6 @@ export function TicketsPage() {
 
 	const { data, isLoading, isError, error } = useTickets(criteria)
 
-	const createTicket = useCreateTicket()
 	const deleteTicket = useDeleteTicket()
 	const columns = useTicketColumns()
 
@@ -183,37 +172,7 @@ export function TicketsPage() {
 						onResetSelection={() => setRowSelection({})}
 					/>
 
-					<AppSheet
-						open={sheetOpen}
-						onOpenChange={setSheetOpen}
-						sheetTitle="New Ticket"
-						sheetDescription=""
-						sheetBody={
-							<TicketsForm
-								mode="create"
-								ticket={{ subject: '' }}
-								error={createTicket.error?.message}
-								onSubmit={(data) => {
-									createTicket.mutate(CreateTicketSchema.parse(data), {
-										onSuccess: () => setSheetOpen(false),
-									})
-								}}
-								footer={
-									<Button type="submit" disabled={createTicket.isPending}>
-										{createTicket.isPending
-											? t('tickets.form.creating')
-											: t('tickets.form.create')}
-									</Button>
-								}
-							/>
-						}
-						triggerButton={
-							<Button variant="outline">
-								<IconPlus className="h-4 w-4 me-1" />
-								{t('tickets.form.create')}
-							</Button>
-						}
-					/>
+					<CreateTicket />
 
 					<Popover open={filtersOpen} onOpenChange={setFiltersOpen}>
 						<PopoverTrigger asChild>
